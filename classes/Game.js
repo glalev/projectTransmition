@@ -11,6 +11,8 @@ module.exports = class Game extends EventEmitter{
 
 		this.players = [];
 		this.instruments = Instruments;
+		this.loops = {};
+		this.availableInstruments = [];
 
 		this.level = 0;
 		this.perfectCount = 0;
@@ -19,12 +21,16 @@ module.exports = class Game extends EventEmitter{
 	}
 
 	init () {
+		this.availableInstruments = Object.keys(this.instruments);
 	}
 
 	update(_delta){
 		if(!this.players.length) return;
 		let delta = _delta/1000;
+
+		this.advanceBeats();
 		let data = this.getBeatData();
+		if(!Object.keys(data).length) return;
 		this.sendUpdateToPlayers(data);
 	}
 
@@ -33,6 +39,9 @@ module.exports = class Game extends EventEmitter{
 
 		let newPlayer = new GamePlayer(networkPlayer, this);
 		newPlayer.id = this.players.push(newPlayer);
+		let newInstrument = this.availableInstruments.pop();
+
+		newPlayer.instruments.push(newInstrument);
 		this.initializePlayerListeners(newPlayer);
 	}
 
@@ -53,17 +62,34 @@ module.exports = class Game extends EventEmitter{
 		player.sendUpdate(data);
 	}
 
-	getCompressedData(){ //This is to avoid sending unnecessary data to players, only strict stuff
-		this.compressedData.players = this._getCompressedPlayerData();
-		return this.compressedData;
+	advanceBeats(){
+		_.each(this.players, (player)=>{
+			_.each(player.instruments, (instrumentId)=>{
+				if(!this.loops[instrumentId] || !this.loops[instrumentId].length) this._getNewInstrumentLoop(instrumentId);
+				else this.loops[instrumentId].shift();
+			});
+		});
 	}
 
 	getBeatData(){
-		return;
+		let beats = {};
+		_.each(this.players, (player)=>{
+			_.each(player.instruments, (instrumentId)=>{
+				let beat = this.loops[instrumentId][0];
+				if(beat) beats[instrumentId] = beat;
+			});
+		});
+		return beats;
 	}
 
-	_getCompressedPlayerData(){ //todo: need more optimized method
-		return _.invoke( _.filter(this.players, (ply) => { return ply.hasChanged }), 'getCompressedData');
+	_getNewInstrumentLoop(instrumentId){
+		let loops = this.instruments[instrumentId][this.level];
+		let loop = loops[_.random(0,loops.length-1)];
+		this.loops[instrumentId] = _.clone(loop);
+	}
+
+	_getNewPlayerIntruments(){
+		return availableInstruments.shift();
 	}
 
 	_sendUpdateToPlayer(player, data){

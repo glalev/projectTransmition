@@ -9,7 +9,7 @@ module.exports = class GamePlayer extends EventEmitter{
 		this.networkPlayer = networkPlayer;
 		this.networkPlayer.currentGame = game;
 
-		this.instrumentLoops = [];
+		this.instruments = [];
 		this.loopIndex = 0;
 
 		this.init();
@@ -17,13 +17,6 @@ module.exports = class GamePlayer extends EventEmitter{
 
 	init () {
 		this.initializeGameListeners();
-	}
-
-	getCompressedData(){
-		this.hasChanged = false;
-		this.compressedData.x = this.x;
-		this.compressedData.y = this.y;
-		return this.compressedData;
 	}
 
 	sendSound(id){
@@ -54,16 +47,12 @@ module.exports = class GamePlayer extends EventEmitter{
 	_onKeyDown(key){
 		switch (key) {
 			case 'u':
-				this.direction.y = -1;
 				break;
 			case 'd':
-				this.direction.y = 1;
 				break;
 			case 'r':
-				this.direction.x = 1;
 				break;
 			case 'l':
-				this.direction.x = -1;
 				break;
 		}
 

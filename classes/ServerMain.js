@@ -7,7 +7,7 @@ let io = null;
 
 const Player = require("./NetworkPlayer.js");
 const Game = require("./Game.js");
-const maxFPS = (100/60);
+const maxFPS = 4;//(100/60);
 
 global._ = _;
 global.playerList = [];
