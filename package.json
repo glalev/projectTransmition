@@ -1,0 +1,14 @@
+{
+    "name": "gameServer_alpha",
+    "version": "0.0.1",
+    "description": "Test",
+    "dependencies": {
+        "eventemitter3": "latest",
+        "express": "latest",
+        "underscore": "latest",
+        "serve-static": "latest",
+        "socket.io": "latest",
+        "mainloop.js": "latest",
+        "mysql2": "latest"
+    }
+}
