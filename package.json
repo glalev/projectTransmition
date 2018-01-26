@@ -9,6 +9,17 @@
         "serve-static": "latest",
         "socket.io": "latest",
         "mainloop.js": "latest",
-        "mysql2": "latest"
-    }
+        "pixi.js": "latest",
+        "howler": "latest"
+    },
+    "devDependencies": {
+    "babel-cli": "latest",
+    "babel-plugin-lodash": "latest",
+    "babel-preset-es2015": "latest",
+    "babelify": "latest",
+    "grunt": "latest",
+    "grunt-browserify": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-contrib-watch": "latest"
+  }
 }
