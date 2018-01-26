@@ -46,10 +46,6 @@
                 });
             });
             systems.serverCommunication.on('gameDataUpdate', (data)=>{
-                _.each(data.players, (player)=>{
-                    let randomFrame = systems.game.rnd.integerInRange(0, 35);
-                    systems.game.add.sprite(player.x, player.y, 'veggies', randomFrame);
-                })
             });
         }
 

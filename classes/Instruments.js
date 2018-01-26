@@ -2,7 +2,7 @@ const Player = require("./NetworkPlayer.js");
 
 module.exports = { 
 
-bassDrum : [
+0 : [ //BASS DRUM
 [   //Easy loops
     [1,0,0,0,1,0,0,0,1,0,0,0,1],
     [0,0,1,0,0,0,1,0,0,0,1,0,0],
@@ -16,7 +16,7 @@ bassDrum : [
     [0,0,1,0,0,0,1,0,0,0,1,0,0],
 ]],
 
-snareDrum : [
+1 : [ //SNARE
 [   //Easy loops
     [1,0,0,0,1,0,0,0,1,0,0,0,1],
     [0,0,1,0,0,0,1,0,0,0,1,0,0],

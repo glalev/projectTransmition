@@ -9,17 +9,8 @@ module.exports = class GamePlayer extends EventEmitter{
 		this.networkPlayer = networkPlayer;
 		this.networkPlayer.currentGame = game;
 
-		this.x = 0;
-		this.y = 0;
-		this.hp = 100;
-
-		this.moveSpeed = 100;
-
-		this.compressedData = {id: this.uniqueId, x:0, y:0};
-
-		this.direction = {x: 0, y: 0};
-
-		this.hasChanged = false;
+		this.instrumentLoops = [];
+		this.loopIndex = 0;
 
 		this.init();
 	}
@@ -33,6 +24,10 @@ module.exports = class GamePlayer extends EventEmitter{
 		this.compressedData.x = this.x;
 		this.compressedData.y = this.y;
 		return this.compressedData;
+	}
+
+	sendSound(id){
+		this.networkPlayer.sendSoundData(id);
 	}
 
 	sendUpdate(data){
@@ -71,18 +66,11 @@ module.exports = class GamePlayer extends EventEmitter{
 				this.direction.x = -1;
 				break;
 		}
+
+		this.emit("playerSound", key);
 	}
 
 	_onKeyUp(key){
-		switch (key) {
-			case 'u':
-			case 'd':
-				this.direction.y = 0;
-				break;
-			case 'r':
-			case 'l':
-				this.direction.x = 0;
-				break;
-		}
+		return;
 	}
 }

@@ -10,7 +10,10 @@ module.exports = class Game extends EventEmitter{
 		this.uniqueId = _.uniqueId();
 
 		this.players = [];
-		this.instruments = Instruments
+		this.instruments = Instruments;
+
+		this.level = 0;
+		this.perfectCount = 0;
 
 		this.init();
 	}
@@ -19,7 +22,7 @@ module.exports = class Game extends EventEmitter{
 	}
 
 	update(_delta){
-		if(!data.players.length) return;
+		if(!this.players.length) return;
 		let delta = _delta/1000;
 		let data = this.getBeatData();
 		this.sendUpdateToPlayers(data);
@@ -56,7 +59,7 @@ module.exports = class Game extends EventEmitter{
 	}
 
 	getBeatData(){
-
+		return;
 	}
 
 	_getCompressedPlayerData(){ //todo: need more optimized method
