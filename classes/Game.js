@@ -46,6 +46,11 @@ module.exports = class Game extends EventEmitter{
 	}
 
 	onPlayerDisconnect(gamePlayer){
+
+		_.each(gamePlayer.instruments, (instrumentId)=>{
+			this.availableInstruments.push(instrumentId);
+		});
+
 		this.players.splice(gamePlayer.id, 1);
 		for(let i = gamePlayer.id; i < this.players.length; i++){
 			this.players[i].id--;
@@ -60,6 +65,20 @@ module.exports = class Game extends EventEmitter{
 
 	sendUpdate (player, data){
 		player.sendUpdate(data);
+	}
+
+	sendUpdate (player, data){
+		player.sendUpdate(data);
+	}
+
+	sendSoundToPlayers(originId, instrumentId, strength){
+		_.each(this.players, (player)=>{
+			if(player.uniqueId != originId) this.sendSound(player, instrumentId, strength);
+		});
+	}
+
+	sendSound(player, instrumentId, strength){
+		player.sendSound(instrumentId, strength);
 	}
 
 	advanceBeats(){
@@ -97,6 +116,12 @@ module.exports = class Game extends EventEmitter{
 	}
 
 	initializePlayerListeners (gamePlayer) {
+		gamePlayer.once('playerSound', (data)=>{
+			if(data.perfect) this.perfectCount++;
+			
+			this.sendSoundToPlayers(gamePlayer.uniqueId, data.instrumentId, data.strength || 1);
+		});
+
 		gamePlayer.once('disconnect', this.onPlayerDisconnect.bind(this,gamePlayer));
 	}
 }

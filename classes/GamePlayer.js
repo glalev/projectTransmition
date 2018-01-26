@@ -32,9 +32,11 @@ module.exports = class GamePlayer extends EventEmitter{
 			this.emit("disconnect");
 	    });
 
-		this.networkPlayer.on('keyDown', (key) => {
+		this.networkPlayer.on('keyDown', (data) => {
+
+			//FORMAT: {int id, float [0-1] str, bool prf};
 			//console.log('down', key);
-			this._onKeyDown(key);
+			this._onKeyDown(data);
 		});
 
 		this.networkPlayer.on('keyUp', (key) => {
@@ -44,19 +46,8 @@ module.exports = class GamePlayer extends EventEmitter{
 
 	}
 
-	_onKeyDown(key){
-		switch (key) {
-			case 'u':
-				break;
-			case 'd':
-				break;
-			case 'r':
-				break;
-			case 'l':
-				break;
-		}
-
-		this.emit("playerSound", key);
+	_onKeyDown(data){
+		this.emit("playerSound", {instrumentId: data.id, strength: data.str, perfect: data.prf});
 	}
 
 	_onKeyUp(key){
