@@ -17,6 +17,10 @@
       <script type="text/javascript" src="./js/app.js"></script>
 
     <script>
+        function init(){
+          window.app = new App(document.getElementById('container'));
+        }
+
         // let socket;
         // const globals = {};
         // const systems = {
@@ -64,9 +68,10 @@
     </script>
 
 </head>
-<!-- <body onload="init();"> -->
-<div class="main">
+<body onload="init();">
+<div id="container" class="main">
 
 </div>
+
 </body>
 </html>
