@@ -28,6 +28,10 @@ module.exports = class NetworkPlayer extends EventEmitter{
 		this.socket.emit("gameUpdate", data);
 	}
 
+	sendMessage (data){
+		this.socket.emit("message", data);
+	}
+
 	initializeSocketListeners () {
 		this.socket.on('_ping', () => {
 	      this.socket.emit('_pong');

@@ -16,6 +16,9 @@ module.exports = class Game extends EventEmitter{
 
 		this.level = 0;
 		this.perfectCount = 0;
+		this.counter = 0;
+
+		this.isPaused = false;
 
 		this.init();
 	}
@@ -26,7 +29,12 @@ module.exports = class Game extends EventEmitter{
 
 	update(_delta){
 		if(!this.players.length) return;
+		//if(this.players.length < 4) return;
+		if(this.isPaused) return;
+
 		let delta = _delta/1000;
+
+		this.counter++;
 
 		this.advanceBeats();
 		let data = this.getBeatData();
@@ -67,10 +75,6 @@ module.exports = class Game extends EventEmitter{
 		player.sendUpdate(data);
 	}
 
-	sendUpdate (player, data){
-		player.sendUpdate(data);
-	}
-
 	sendSoundToPlayers(originId, instrumentId, strength){
 		_.each(this.players, (player)=>{
 			if(player.uniqueId != originId) this.sendSound(player, instrumentId, strength);
@@ -81,10 +85,21 @@ module.exports = class Game extends EventEmitter{
 		player.sendSound(instrumentId, strength);
 	}
 
+	sendMessageToPlayers (data){
+		_.each(this.players, (player)=>{
+			this.sendMessage(player, data);
+		});
+	}
+
+	sendMessage (player, data){
+		player.sendMessage(data);
+	}
+
 	advanceBeats(){
 		_.each(this.players, (player)=>{
 			_.each(player.instruments, (instrumentId)=>{
-				if(!this.loops[instrumentId] || !this.loops[instrumentId].length) this._getNewInstrumentLoop(instrumentId);
+				if(!this.loops[instrumentId]) this._getFirstInstrumentLoop(instrumentId);
+				else if (!this.loops[instrumentId].length) this._getNewInstrumentLoop(instrumentId);
 				else this.loops[instrumentId].shift();
 			});
 		});
@@ -94,11 +109,19 @@ module.exports = class Game extends EventEmitter{
 		let beats = {};
 		_.each(this.players, (player)=>{
 			_.each(player.instruments, (instrumentId)=>{
+				if(!this.loops[instrumentId]) return;
+
 				let beat = this.loops[instrumentId][0];
 				if(beat) beats[instrumentId] = beat;
 			});
 		});
 		return beats;
+	}
+
+	_getFirstInstrumentLoop(instrumentId){
+		let breakPoint = this.counter % global.minBeat;
+		if(breakPoint > 0) return
+		this._getNewInstrumentLoop(instrumentId);
 	}
 
 	_getNewInstrumentLoop(instrumentId){
@@ -115,10 +138,24 @@ module.exports = class Game extends EventEmitter{
 		player.networkPlayer.sendGameData(data);
 	}
 
+	_onPerfectMatch(){
+		this.perfectCount++;
+
+		if(this.perfectCount > 150) { //Endgame
+			this.isPaused = true;
+			this.sendMessageToPlayers("GameOver");
+		} else if(this.perfectCount > 100) { //Level2
+			this.level = 2;
+		} else if(this.perfectCount > 50) { //Level1
+			this.level = 1;
+		}
+
+	}
+
 	initializePlayerListeners (gamePlayer) {
 		gamePlayer.once('playerSound', (data)=>{
-			if(data.perfect) this.perfectCount++;
-			
+			if(data.perfect) this._onPerfectMatch(); 
+
 			this.sendSoundToPlayers(gamePlayer.uniqueId, data.instrumentId, data.strength || 1);
 		});
 

@@ -13,6 +13,7 @@ global._ = _;
 global.playerList = [];
 global.gameList = [];
 global.mainLoop = require('mainloop.js');
+global.minBeat = 4;
 
 init();
 function init(){
@@ -32,8 +33,6 @@ function init(){
         .setEnd(frameEnd.bind(this));
 
     global.mainLoop.start();
-
-    initializeGame();
 };
 
 /***********************************************************************************************************************
@@ -68,15 +67,24 @@ function initializePlayerListeners(player, socket){
 function initializeGame(){
     let game = new Game();
     game.id = global.gameList.push(game) - 1;
+    global.gameList.push(game);
+    return game;
 };
 
 function findGameForPlayer(player){
-    global.gameList[0].joinPlayer(player);
+    let foundGame = false;
+    _.each(global.gameList, (game)=>{
+        if(game.players.length >= 4) return;
+        foundServer = true;
+        game.joinPlayer(player);
+    });
+    if(foundGame) return;
+
+    let foundGame = this.initializeGame();
+    foundGame.joinPlayer(player);
 };
 
-function frameStart(){
-
-};
+function frameStart(){ return; };
 
 function frameUpdate(delta){
     _.each(global.gameList,(game) => {
@@ -84,6 +92,4 @@ function frameUpdate(delta){
     })
 };
 
-function frameEnd(){
-
-};
+function frameEnd(){ return; };

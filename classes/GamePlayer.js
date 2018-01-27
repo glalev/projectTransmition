@@ -27,6 +27,10 @@ module.exports = class GamePlayer extends EventEmitter{
 		this.networkPlayer.sendGameData(data);
 	}
 
+	sendMessage(data){
+		this.networkPlayer.sendMessage(data);
+	}
+
 	initializeGameListeners () {
 	    this.networkPlayer.once('disconnect', () => {
 			this.emit("disconnect");
