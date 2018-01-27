@@ -40,6 +40,7 @@ class App {
 					loader.add(image.id, image.src);
       });
       //Assets.images[image.id] =
+      
       loader.load((loader, resources) => {
 
       		manifest.images.forEach(image => {

@@ -9,7 +9,7 @@ class Game extends PIXI.Container {
   constructor() {
     super();
     this._background = new PIXI.Sprite(Assets.images.bgImg);
-
+    this._foreground = new PIXI.Sprite(Assets.images.fgImg);
     window.Assets = Assets;
     this._input = new InputManager();
     this._input.on('keydown', ({ keyCode, symbol }) => {
@@ -24,7 +24,7 @@ class Game extends PIXI.Container {
     });
 
     this.centerBar = new CenterBar();
-    this.addChild(this._background, this.centerBar);
+    this.addChild(this._background, this.centerBar, this._foreground);
   }
 
   update() {
@@ -35,7 +35,8 @@ class Game extends PIXI.Container {
   initFields(fieldsData, mainField) {
     fieldsData.map(data => {
       let field = new Field(data);
-      this.addChild(field);
+      let index = this.children.length - 2;
+      this.addChildAt(field, index);
       this._playerField = this._fields[mainField];
     });
   }

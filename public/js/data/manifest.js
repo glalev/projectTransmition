@@ -17,7 +17,8 @@ module.exports = {
     { id: '151', name: 'GuitarEb', src: './assets/sounds/gtrEb.ogg' },
   ],
   images: [
-    { id: 'bgImg', name: 'BackgroundImage', src: './assets/Images/scene.jpg' },
+    { id: 'bgImg', name: 'background', src: './assets/Images/scene.jpg' },
+    { id: 'fgImg', name: 'foreground', src: './assets/Images/foreground.png' },
     { id: 'kTile', name: 'kTile', src: './assets/images/kTile.png' },
     { id: 'aTile', name: 'aTile', src: './assets/images/aTile.png' },
     { id: 'sTile', name: 'sTile', src: './assets/images/sTile.png' },
