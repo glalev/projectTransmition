@@ -7,15 +7,15 @@ class CenterBar extends PIXI.Container {
 
     this._background = new PIXI.Graphics();
     this._background.beginFill(0x999999);
-    this._background.drawRect(this.size[0], 
-      this.size[1], 
-      this.size[2], 
+    this._background.drawRect(this.size[0],
+      this.size[1],
+      this.size[2],
       this.size[3]);
 
     this._loadingBar = new PIXI.Graphics();
     this._loadingBar.beginFill(0x55555);
-    this._loadingBar.drawRect(0, 0, 
-      this.size[2], 
+    this._loadingBar.drawRect(0, 0,
+      this.size[2],
       this.size[3]);
 
     this._loadingBar.x = this.size[0];
@@ -25,7 +25,7 @@ class CenterBar extends PIXI.Container {
       this.createWave(0.1, 1, 30, 3),
       this.createWave(0.05, 3, 30, 2),
       this.createWave(0.2, 7, 50, 1)
-    ]; 
+    ];
 
     this.currentPercent = 0;
     this.finalPercent = 100;
@@ -57,7 +57,7 @@ class CenterBar extends PIXI.Container {
   update(){
     this._waves.forEach((wave)=>{
       this._drawWave(wave);
-    });    
+    });
   }
 
   createWave(deltaChange, frequency, segmentCount, lineSize){
@@ -88,7 +88,7 @@ class CenterBar extends PIXI.Container {
     for (let i = 0; i <= 1; i += increment ) {
       let interferenceValue = (Math.random() * this.interference);
       x = i;
-      y = Math.sin( counter + (wave.delta* (1-interferenceValue) + interferenceValue*Math.PI) / 2 + 0.5;
+      y = Math.sin( counter + (wave.delta* (1-interferenceValue) + interferenceValue*Math.PI) / 2 + 0.5);
 
       if(i==0){
             wave.moveTo(
