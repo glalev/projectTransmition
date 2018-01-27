@@ -8,12 +8,12 @@ let io = null;
 const GameLoop = require('node-gameloop');
 const Player = require("./NetworkPlayer.js");
 const Game = require("./Game.js");
-const maxFPS = (100/60); //100 BPM
+const fps = (200/60); //100 BPM
 
 global._ = _;
 global.playerList = [];
 global.gameList = [];
-global.minBeat = 4;
+global.minBeat = 32;
 
 init();
 function init(){
@@ -27,7 +27,7 @@ function init(){
 
     console.warn("#INIT END /////////////////////");
 
-    global.mainLoop = GameLoop.setGameLoop(frameUpdate, 1000/maxFPS);
+    global.mainLoop = GameLoop.setGameLoop(frameUpdate, 150);
 
 };
 

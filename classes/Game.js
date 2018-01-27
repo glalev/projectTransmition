@@ -49,9 +49,9 @@ module.exports = class Game extends EventEmitter{
 
 		let delta = _delta/1000;
 
+		let data = this.getBeatData();
 
 		this.advanceBeats();
-		let data = this.getBeatData();
 		if(!Object.keys(data).length) return;
 		data.level = this.level;
 		data.prfCount = this.perfectCount;
@@ -121,7 +121,7 @@ module.exports = class Game extends EventEmitter{
 		_.each(this.players, (player)=>{
 			_.each(player.instruments, (instrumentId)=>{
 				if(!this.loops[instrumentId]) this._getFirstInstrumentLoop(instrumentId);
-				else if (!this.loops[instrumentId].length) this._getNewInstrumentLoop(instrumentId);
+				else if (this.loops[instrumentId].length == 1) this._getNewInstrumentLoop(instrumentId);
 				else this.loops[instrumentId].shift();
 			});
 		});
