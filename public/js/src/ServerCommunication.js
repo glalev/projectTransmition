@@ -1,7 +1,7 @@
 const EventEmitter = require('eventemitter3');
-const io = require('socket.io-client')();
+const io = require('socket.io-client');
 
-class ServerCommunicator extends EventEmitter{
+class ServerCommunicator extends EventEmitter {
     constructor(userName, socket) {
         super();
         this.socket = undefined;
@@ -13,6 +13,7 @@ class ServerCommunicator extends EventEmitter{
 
     init () {
         this.connectToServer(()=>{
+            console.log('coooo');
             this.createServerListeners();
             this.emit("connected");
             this.getLatency();
@@ -48,7 +49,7 @@ class ServerCommunicator extends EventEmitter{
         console.info('Attempting to connect to server...')
 
         this.isConnecting = true;
-        this.socket = io.connect(location.host);
+        this.socket = io(location.host);
         this.socket.once('connect', ()=>{
             console.log('Connected to server...');
             this.isConnecting = false;
@@ -58,11 +59,16 @@ class ServerCommunicator extends EventEmitter{
     }
 
     createServerListeners () {
+        console.log('added listeners');
+
         this.socket.on('ready', (data) => {
             console.log('Login Succesful');
             this.emit('ready');
         });
 
+        this.socket.on('playSound', (data) => {
+            console.log('Play sound ', data);
+        });
         this.socket.on('gameUpdate', (data) => {
             console.log(data);
             this.emit('gameDataUpdate', data);
