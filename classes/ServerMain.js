@@ -65,16 +65,26 @@ function initializePlayerListeners(player, socket){
 };
 
 function initializeGame(){
+    console.log("Game created");
     let game = new Game();
     game.id = global.gameList.push(game) - 1;
     global.gameList.push(game);
+
+    game.once("destroy", ()=>{
+        console.log("Game destroyed");
+        global.gameList.splice(game.id, 1);
+        for(let i = game.id; i < global.gameList.length; i++){
+            global.gameList[i].id--;
+        };
+    });
+
     return game;
 };
 
 function findGameForPlayer(player){
     let foundGame = false;
     _.each(global.gameList, (game)=>{
-        if(game.players.length >= 4) return;
+        if(game.players.length >= 4 || foundGame) return;
         foundGame = true;
         game.joinPlayer(player);
     });
