@@ -1,19 +1,24 @@
 const PIXI = require('pixi.js');
 
 class Block extends PIXI.Container {
-  constructor({ keyCode, soundId, speed = 0.2 }) {
+  constructor({ keyCode, soundId, speed = 1 } = {}) {
     super();
 
-    this._keyCode = keyCOde;
-    this._soundId = soundId;
+    this.keyCode = keyCode;
+    this.soundId = soundId;
+
+    this._speed = speed;
 
     this._background = new PIXI.Graphics();
-    this._background.beginFill(0x777777);
-    this._background.drawRect(0, 0, 60, 60);
+    this._background.beginFill(0x999999);
+    this._background.drawRect(0, 0, 20, 20);
+
+    this.addChild(this._background);
   }
 
   update(){
-    this.y += this.speed;
+    this.y += this._speed;
+    //console.log(this.y);
   }
 }
 
