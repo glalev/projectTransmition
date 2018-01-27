@@ -1,9 +1,9 @@
 const EventEmitter = require('eventemitter3');
 const KEY_CODES = {
-  87: 'W',
-  81: 'Q',
-  69: 'E',
-  82: 'R',
+  65: 'A',
+  83: 'S',
+  75: 'K',
+  76: 'L',
   32: 'SPACE'
 }
 

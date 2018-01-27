@@ -25,12 +25,20 @@ class Game extends PIXI.Container {
     this._centerBar.update();
   }
 
-  initFields(fields, mainField) {
-    fields.map(data => {
+  initFields(fieldsData, mainField) {
+    fieldsData.map(data => {
       let field = new Field(data);
       this.addChild(field);
       this._playerField = this._fields[mainField];
     });
+  }
+
+  spawnSound(data){
+    let instrument = parseInt(Object.keys(data), 10);
+    let [ sound, player ] = data[instrument];
+  
+    this._fields[player].addBlock(instrument, sound);
+
   }
 
   get _fields () {

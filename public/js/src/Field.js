@@ -1,14 +1,15 @@
 const PIXI = require('pixi.js');
 const Block = require('./Block');
+const INPUTS = [ 65, 83, 75 , 76]; //todo
 
 class Field extends PIXI.Container {
-  constructor({ x, y, width, height, zone }) {
+  constructor({ x, y, width, height, zone, instruments }) {
     super();
     this.x = x;
     this.y = y;
 
-    this._blocks = [];
     this._zone = zone;
+    this._instruments = instruments;
 
     const background = new PIXI.Graphics();
     background.beginFill(0x777777);
@@ -26,23 +27,35 @@ class Field extends PIXI.Container {
   }
 
   update(){
-      this._blocks.forEach((block) => block.update());
+      this._blocks.forEach((block) => {
+        if(block.y === 400) { //todo
+          return this._killBlock(block);
+        }
+
+        block.update();
+      });
   }
 
-  addBlock(keyCode, soundId) {
+  addBlock(instrumentId, soundId) {
+    console.log('id  ' , instrumentId);
+    const keyCode = INPUTS[instrumentId % 4];
     const block = new Block({ keyCode, soundId });
     this._blocks.push(block);
     this.addChild(block);
   }
 
   checkInput(keyCode, symbol) {
-    let blocks = this._blocks.filter(block => block.keyCode === keyCode);
-    if(blocks.length === 0) return;
+    let block = this._blocks.filter(block => block.keyCode === keyCode)[0];
+    if(!block) return;
 
-    blocks.forEach(block => this._killBlock(block));
+    this._killBlock(block);
   }
 
+  get _blocks() {
+    return this.children.filter(child => child instanceof Block)
+  }
   _killBlock(block){
+    this.removeChild(block);
     const isInTheZone = this._isInTheZone(block);
   }
 
@@ -59,7 +72,7 @@ class Field extends PIXI.Container {
 
     let isPerfect = blockTop >= zoneTop && blockBottom <= zoneBottom;
     let deviation = isPerfect ? 0 : Math.max(Math.abs(blockTop - zoneTop), Math.abs(blockBottom - blockBottom));
-    
+
     return { in: true, deviation};
   }
 }

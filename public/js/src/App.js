@@ -56,14 +56,21 @@ class App {
   }
 
   _addServerListenres() {
-
-    this.comunicator.on('settings', (data) => {
-      this.game.initFields(fieldsData, data.id)
+    this.comunicator.on('settings', ({id, instruments}) => {
+      let data = fieldsData.map((field, i) => {
+        field.instruments = instruments[i]
+        return field;
+      })
+      this.game.initFields(data, id)
     });
-    
-    // this.comunicator.on('gameUpdate', (data) => {
-    //   Assets.sounds.bassG.play();
-    // });
+
+    this.comunicator.on('gameUpdate', (data) => {
+
+      this.game.spawnSound(data)
+      //console.log(data);
+      //Assets.sounds.bassG.play();
+      //console.log(data);
+    });
   }
 }
 
