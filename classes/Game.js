@@ -36,7 +36,7 @@ module.exports = class Game extends EventEmitter{
 	}
 
 	update(_delta){
-		if(!this.players.length) return this.destroy();
+		if(this._areWeEmpty()) return this.destroy();		
 		//if(this.players.length < 4) return;
 		this.counter++;
 
@@ -63,7 +63,15 @@ module.exports = class Game extends EventEmitter{
 		console.log(Date.now()+': '+networkPlayer.name+' joined a game...');
 
 		let newPlayer = new GamePlayer(networkPlayer, this);
-		newPlayer.id = this.players.push(newPlayer) - 1;
+
+		let playerSlot = 0;
+		while(this.players[playerSlot]){
+			playerSlot++;
+		}
+
+		this.players[playerSlot] = newPlayer;
+
+		newPlayer.id = playerSlot;
 
 		let newInstruments = this.playerInstruments[newPlayer.id];
 		newPlayer.instruments = newInstruments;
@@ -78,18 +86,21 @@ module.exports = class Game extends EventEmitter{
 	}
 
 	onPlayerDisconnect(gamePlayer){
-		this.players.splice(gamePlayer.id, 1);
-		for(let i = gamePlayer.id; i < this.players.length; i++){
-			this.players[i].id--;
-		};
+		_.each(gamePlayer.instruments, (instrumentId)=>{
+			if(this.loops[instrumentId]) this.loops[instrumentId] = null;
+		});
 
-		console.log("Player removed from game, remaining:",this.players.length);
 
-		if(!this.players.length) return this.destroy();
+		this.players[gamePlayer.id] = null;
+
+		console.log("Player removed from game,");
+
+		if(this._areWeEmpty()) return this.destroy();
 	}
 
 	sendProgressToPlayers (data){
 		_.each(this.players, (player)=>{
+			if(!player) return;
 			this.sendProgress(player, data);
 		});
 	}
@@ -100,6 +111,7 @@ module.exports = class Game extends EventEmitter{
 
 	sendUpdateToPlayers (data){
 		_.each(this.players, (player)=>{
+			if(!player) return;
 			this.sendUpdate(player, data);
 		});
 	}
@@ -110,6 +122,7 @@ module.exports = class Game extends EventEmitter{
 
 	sendSoundToPlayers (sourcePlayer, instrumentId, soundId, strength){
 		_.each(this.players, (player)=>{
+			if(!player) return;
 			if(player.uniqueId != sourcePlayer.uniqueId) this.sendSound(player, instrumentId, soundId, strength);
 		});
 	}
@@ -120,6 +133,7 @@ module.exports = class Game extends EventEmitter{
 
 	sendStartRhythmToPlayers (data){
 		_.each(this.players, (player)=>{
+			if(!player) return;
 			if(player.isInRhythm) return;
 			player.isInRhythm = true;
 			this.sendMessage(player, "startBackground");
@@ -128,6 +142,7 @@ module.exports = class Game extends EventEmitter{
 
 	sendMessageToPlayers (data){
 		_.each(this.players, (player)=>{
+			if(!player) return;
 			this.sendMessage(player, data);
 		});
 	}
@@ -138,6 +153,7 @@ module.exports = class Game extends EventEmitter{
 
 	advanceBeats(){
 		_.each(this.players, (player)=>{
+			if(!player) return;
 			_.each(player.instruments, (instrumentId)=>{
 				if(!this.loops[instrumentId]) this._getFirstInstrumentLoop(instrumentId);
 				else if (this.loops[instrumentId].length == 1) this._getNewInstrumentLoop(instrumentId);
@@ -149,6 +165,7 @@ module.exports = class Game extends EventEmitter{
 	getBeatData(){
 		let beats = {};
 		_.each(this.players, (player)=>{
+			if(!player) return;
 			_.each(player.instruments, (instrumentId)=>{
 				if(!this.loops[instrumentId]) return;
 
@@ -182,6 +199,10 @@ module.exports = class Game extends EventEmitter{
 
 	destroy(){
 		this.emit("destroy");
+	}
+
+	_areWeEmpty(){
+		return this.players.every(function(v) { return v === null; });
 	}
 
 	_getFirstInstrumentLoop(instrumentId){
