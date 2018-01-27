@@ -63,7 +63,7 @@ module.exports = class Game extends EventEmitter{
 
 		newPlayer.sendSettings({
 			id: newPlayer.id,
-			instruments: newPlayer.instruments
+			instruments: this.playerInstruments
 		});
 
 		this.initializePlayerListeners(newPlayer);
