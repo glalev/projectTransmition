@@ -1,9 +1,14 @@
 const PIXI = require('pixi.js');
+require('pixi-animate');
+const Assets = require('./Assets.js');
+const CheeringEffect = require('../lib/CheeringEffect.js').stage;
 
 class CenterBar extends PIXI.Container {
   constructor() {
     super();
     this.size = [325,200,635,70];
+
+    this.cheeringIsPlaying = false;
 
     this._background = new PIXI.Graphics();
     this._background.beginFill(0x999999);
@@ -27,6 +32,7 @@ class CenterBar extends PIXI.Container {
       this.createWave(0.2, 7, 50, 1)
     ];
 
+
     this.currentPercent = 0;
     this.finalPercent = 100;
     this.interference = 1;
@@ -40,7 +46,23 @@ class CenterBar extends PIXI.Container {
       this.addChild(wave);
     });
 
+    this._cheeringEffect = new CheeringEffect();
+    this._cheeringEffect.children[0].stop();
+    this.addChild(this._cheeringEffect);
+
     console.log(this);
+  }
+
+  playCheer(){
+    if(this.cheeringIsPlaying) return;
+    this.cheeringIsPlaying = true;
+    let fx = this._cheeringEffect.children[0];
+    fx.gotoAndPlay("show");
+    fx.text.gotoAndStop(Math.round(Math.random()*8));
+    fx.once("SHOW_END", ()=>{
+      this.cheeringIsPlaying = false;
+    });
+
   }
 
   increase(){
