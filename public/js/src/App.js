@@ -1,4 +1,3 @@
-
 const Game = require('./Game');
 const PIXI = require('pixi.js');
 const Assets = require('./Assets');
@@ -12,7 +11,7 @@ class App {
     this.stage = new PIXI.Container();
     this.renderer = PIXI.autoDetectRenderer( { width: 1280, height: 720 } );
     this.view = view;
-    window.Assets = Assets;
+
     this.view.appendChild(this.renderer.view);
     PIXI.ticker.shared.add(this.update, this);
 
@@ -40,7 +39,7 @@ class App {
 					loader.add(image.id, image.src);
       });
       //Assets.images[image.id] =
-      
+
       loader.load((loader, resources) => {
 
       		manifest.images.forEach(image => {
@@ -71,10 +70,9 @@ class App {
 
     this.comunicator.on('gameUpdate', (data) => {
       Object.keys(data).forEach((key)=>{
-        data[key][0] = key;
         this.game.spawnSound(data[key]);
       });
-      
+
     });
 
     this.comunicator.on('playSound', (data) => {

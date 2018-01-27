@@ -24,6 +24,7 @@ module.exports = {
     { id: 'kTile', name: 'kTile', src: './assets/images/kTile.png' },
     { id: 'aTile', name: 'aTile', src: './assets/images/aTile.png' },
     { id: 'sTile', name: 'sTile', src: './assets/images/sTile.png' },
-    { id: 'lTile', name: 'lTile', src: './assets/images/lTile.png' }
+    { id: 'lTile', name: 'lTile', src: './assets/images/lTile.png' },
+    { id: 'Button', name: 'Button', src: './assets/images/Button.shapes.txt' },
   ]
 }
