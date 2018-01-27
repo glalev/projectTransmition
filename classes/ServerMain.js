@@ -64,7 +64,6 @@ function initializeGame(){
     console.log("Game created");
     let game = new Game();
     game.id = global.gameList.push(game) - 1;
-    global.gameList.push(game);
 
     game.once("destroy", ()=>{
         console.log("Game destroyed");

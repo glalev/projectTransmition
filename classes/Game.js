@@ -20,7 +20,7 @@ module.exports = class Game extends EventEmitter{
 			[12,13,14,15]
 		];
 
-		this.levels = [25,50,75,100];
+		this.levels = [5,10,15,100];
 		this.level = 0;
 		this.perfectCount = 0;
 		this.counter = 0;
