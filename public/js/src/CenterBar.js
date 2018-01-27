@@ -83,12 +83,12 @@ class CenterBar extends PIXI.Container {
     let waveIncrease = Math.PI * 2 / segments;
 
     wave.delta += wave.deltaChange;
-    if(wave.delta>Math.PI*1) wave.delta = 1-wave.delta;
+    if(wave.delta>Math.PI*2) wave.delta -= Math.PI*2;
 
     for (let i = 0; i <= 1; i += increment ) {
       let interferenceValue = (Math.random() * this.interference);
       x = i;
-      y = Math.sin( counter + (wave.delta* (1-interferenceValue) + interferenceValue*Math.PI) / 2 + 0.5);
+      y = Math.sin( counter + wave.delta + interferenceValue*Math.PI) / 2 + 0.5);
 
       if(i==0){
             wave.moveTo(
