@@ -330,6 +330,7 @@
             })
             .addAction(function () {
                 this.stop();
+                this.emit('SHOW_END');
             }, 93);
     });
 
