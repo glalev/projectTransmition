@@ -11,10 +11,9 @@ class ServerCommunicator extends EventEmitter {
     }
 
     connect() {
-      console.log(33);
       return new Promise(resolve => {
         console.info('Attempting to connect to server...')
-        
+
         //this.isConnecting = true;
         this.socket = io(location.host);
         this.socket.once('connect', ()=>{
