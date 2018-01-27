@@ -60,7 +60,8 @@ class Field extends PIXI.Container {
   _killBlock(block, silent){
     this.removeChild(block);
     const isInTheZone = this._isInTheZone(block);
-    if(!silent && isInTheZone.in) Assets.sounds[block.soundId].play()
+    const volume = Math.max(0,1-(isInTheZone.deviation/100));
+    if(!silent && isInTheZone.in) Assets.sounds[block.soundId].volume(volume).play()
   }
 
   _isInTheZone(block) {

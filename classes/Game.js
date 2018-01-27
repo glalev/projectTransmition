@@ -48,13 +48,11 @@ module.exports = class Game extends EventEmitter{
 		}
 
 		let delta = _delta/1000;
-
 		let data = this.getBeatData();
 
 		this.advanceBeats();
 		if(!Object.keys(data).length) return;
-		data.level = this.level;
-		data.prfCount = this.perfectCount;
+
 		this.sendUpdateToPlayers(data);
 	}
 
@@ -85,6 +83,16 @@ module.exports = class Game extends EventEmitter{
 		console.log("Player removed from game, remaining:",this.players.length);
 
 		if(!this.players.length) return this.destroy();
+	}
+
+	sendProgressToPlayers (data){
+		_.each(this.players, (player)=>{
+			this.sendProgress(player, data);
+		});
+	}
+
+	sendProgress (player, data){
+		player.sendProgress(data);
 	}
 
 	sendUpdateToPlayers (data){
@@ -184,6 +192,8 @@ module.exports = class Game extends EventEmitter{
 	_onPerfectMatch(){
 		this.perfectCount++;
 		this.sendMessageToPlayers("perfectMatch");
+
+		this.sendProgressToPlayers({level: this.level, prfCount: this.perfectCount})
 
 		if(this.perfectCount > this.levels[4]) { //Endgame
 			this.pauseGame(-1);

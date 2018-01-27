@@ -28,6 +28,10 @@ module.exports = class NetworkPlayer extends EventEmitter{
 		this.socket.emit("settings", data);
 	}
 
+	sendProgress (data){
+		this.socket.emit("progress", data);
+	}
+
 	sendGameData (data){
 		this.socket.emit("gameUpdate", data);
 	}
@@ -45,12 +49,8 @@ module.exports = class NetworkPlayer extends EventEmitter{
 	        this.latency = latency;
 	    });
 
-		this.socket.on('keyDown', (key) => {
-			this.emit('keyDown', key);
-	    });
-
-		this.socket.on('keyUp', (key) => {
-			this.emit('keyUp', key);
+		this.socket.on('keyDown', (data) => {
+			this.emit('keyDown', data);
 	    });
 
 	    this.socket.on('disconnect', () => {

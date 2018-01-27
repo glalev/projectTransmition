@@ -34,12 +34,8 @@ class ServerCommunicator extends EventEmitter {
         this.socket.emit('loginData', {username: username});
     }
 
-    sendKeyDown (key) {
-        this.socket.emit('keyDown', key);
-    }
-
-    sendKeyUp (key) {
-        this.socket.emit('keyUp', key);
+    sendKeyDown (data) {
+        this.socket.emit('keyDown', data);
     }
 
     getLatency () {

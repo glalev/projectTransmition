@@ -27,6 +27,10 @@ module.exports = class GamePlayer extends EventEmitter{
 		this.networkPlayer.sendSettings(data);
 	}
 
+	sendProgress(data){
+		this.networkPlayer.sendProgress(data);
+	}
+
 	sendUpdate(data){
 		this.networkPlayer.sendGameData(data);
 	}
@@ -55,7 +59,6 @@ module.exports = class GamePlayer extends EventEmitter{
 	}
 
 	_onKeyDown(data){
-		let instrumentId = this.instruments[data.iId];
 		this.emit("playerSound", {instrumentId: data.iId, soundId: data.sId, strength: data.str, perfect: data.prf});
 	}
 
