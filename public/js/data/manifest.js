@@ -36,5 +36,6 @@ module.exports = {
     { id: 'word8', name: 'word8', src: './assets/images/word8.png' },
     { id: 'word9', name: 'word9', src: './assets/images/word9.png' },
     { id: 'whiteWordsEffect', name: 'whiteWordsEffect', src: './assets/images/whiteWordsEffect.png' },
+    { id: 'loadingBG', name: 'loadingBG', src: './assets/images/loadingBG.png' },
   ]
 }

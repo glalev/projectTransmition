@@ -6,7 +6,7 @@ const CheeringEffect = require('../lib/CheeringEffect.js').stage;
 class CenterBar extends PIXI.Container {
   constructor() {
     super();
-    this.size = [325,200,635,70];
+    this.size = [332,213,618,64];
 
     this.cheeringIsPlaying = false;
 
@@ -18,6 +18,11 @@ class CenterBar extends PIXI.Container {
 
     this._loadingBar.x = this.size[0];
     this._loadingBar.y = this.size[1];
+
+    this._background = new PIXI.Sprite(Assets.images.loadingBG);
+    this._background.x = this.size[0];
+    this._background.y = this.size[1];
+
 
     this._waves = [
       this.createWave(0.1, 1, 30, 3, 0x6AFF7A),
@@ -31,7 +36,7 @@ class CenterBar extends PIXI.Container {
 
     this.setPercent(0);
 
-    this.addChild(this._loadingBar);
+    this.addChild(this._background, this._loadingBar);
 
     this._waves.forEach((wave)=>{
       this.addChild(wave);
