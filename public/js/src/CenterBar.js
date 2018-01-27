@@ -10,13 +10,6 @@ class CenterBar extends PIXI.Container {
 
     this.cheeringIsPlaying = false;
 
-    this._background = new PIXI.Graphics();
-    this._background.beginFill(0x999999);
-    this._background.drawRect(this.size[0],
-      this.size[1],
-      this.size[2],
-      this.size[3]);
-
     this._loadingBar = new PIXI.Graphics();
     this._loadingBar.beginFill(0x55555);
     this._loadingBar.drawRect(0, 0,
@@ -27,11 +20,10 @@ class CenterBar extends PIXI.Container {
     this._loadingBar.y = this.size[1];
 
     this._waves = [
-      this.createWave(0.1, 1, 30, 3),
-      this.createWave(0.05, 3, 30, 2),
-      this.createWave(0.2, 7, 50, 1)
+      this.createWave(0.1, 1, 30, 3, 0x6AFF7A),
+      this.createWave(0.05, 3, 30, 2, 0xBDFFC4),
+      this.createWave(0.2, 7, 50, 1, 0x00FF1B)
     ];
-
 
     this.currentPercent = 0;
     this.finalPercent = 100;
@@ -39,7 +31,6 @@ class CenterBar extends PIXI.Container {
 
     this.setPercent(0);
 
-    this.addChild(this._background);
     this.addChild(this._loadingBar);
 
     this._waves.forEach((wave)=>{
@@ -82,7 +73,7 @@ class CenterBar extends PIXI.Container {
     });
   }
 
-  createWave(deltaChange, frequency, segmentCount, lineSize){
+  createWave(deltaChange, frequency, segmentCount, lineSize, color){
     let wave = new PIXI.Graphics();
 
     wave.delta = 0;
@@ -90,6 +81,7 @@ class CenterBar extends PIXI.Container {
     wave.frequency = frequency;
     wave.segmentCount = segmentCount;
     wave.lineSize = lineSize;
+    wave.color = color;
 
     return wave;
   }
@@ -97,7 +89,7 @@ class CenterBar extends PIXI.Container {
   _drawWave(wave){
     wave.clear();
     let x, y = 0;
-    wave.lineStyle(wave.lineSize, 0xffffff);
+    wave.lineStyle(wave.lineSize, wave.color);
 
     let counter = 0;
     let segments = wave.segmentCount;
