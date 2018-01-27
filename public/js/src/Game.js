@@ -14,9 +14,6 @@ class Game extends PIXI.Container {
     });
 
     this._centerBar = new CenterBar();
-
-
-    //this.addChild(this._playerField);
     this.addChild(this._centerBar);
   }
 
