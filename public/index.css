@@ -1,73 +1,16 @@
 body {
     background-color: black;
-    color: lime;
-    font-family: "Courier New", Courier, monospace;
+    background-image: url("./assets/images/stars.png");
 }
 
-.intro{
-    border-top: 1px groove green;
-    border-bottom: 1px groove green;
-}
+#container{
+  width: 1280px;
+  height: 720px;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 
-.textArea{
-    border-top: 1px groove green;
-    border-bottom: 1px groove green;
-}
-
-.input{
-    bottom: 0;
-    width: 99%;
-    position: absolute;
-    border-top: 1px double darkgreen;
-    border-bottom: 1px double darkgreen;
-}
-
-.row{
-    transition: all 0.5s ease;
-    color: lime;
-    background-color: #101010;
-
-    height: 25px;
-    max-height: 25px;
-
-    animation-name: new;
-    animation-duration: 0.25s;
-    animation-timing-function: ease-out;
-
-    /* Safari 4.0 - 8.0 */
-    -webkit-animation-name: new;
-    -webkit-animation-duration: 0.25s;
-    -webkit-animation-timing-function: ease-out;
-}
-
-@keyframes new {
-    from {
-        color: darkslategrey;
-        background-color: black;
-    }
-    to {
-        color: lime;
-        background-color: #101010;
-    }
-}
-
-.row.deleted {
-    color: darkslategrey;
-    background-color: black;
-}
-
-input[type=text], select {
-    width: 95%;
-    padding: 5px 20px;
-    margin: 0px 0;
-    display: inline-block;
-    border: 0px solid #ccc;
-    border-radius: 0px;
-    box-sizing: border-box;
-    color: lime;
-    background-color: transparent;
-}
-
-*:focus {
-    outline: 0;
 }

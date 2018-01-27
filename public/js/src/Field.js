@@ -62,14 +62,14 @@ class Field extends PIXI.Container {
       this.removeChild(block);
       if(silent) return resolve(false);
       const isInTheZone = this._isInTheZone(block);
-
+      console.log(isInTheZone);
       resolve(isInTheZone)
     });
   }
 
   _isInTheZone(block) {
-    const blockTop = block.y;
-    const blockBottom = block.y + block.height;
+    const blockTop = block.y + block.top;
+    const blockBottom = block.y + block.bottom;
     const toleranceTop = this._zone.start - this._zone.tolerance / 2;
     const toleranceBottom = this._zone.end + this._zone.tolerance / 2;
     const zoneTop = this._zone.start;

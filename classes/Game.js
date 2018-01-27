@@ -15,7 +15,7 @@ module.exports = class Game extends EventEmitter{
 
 		this.playerInstruments = [
 			[0,1,2,3],
-			[4,5,6,7], 
+			[4,5,6,7],
 			[8,9,10,11],
 			[12,13,14,15]
 		];
@@ -36,7 +36,7 @@ module.exports = class Game extends EventEmitter{
 	}
 
 	update(_delta){
-		if(!this.players.length) return this.destroy();		
+		if(!this.players.length) return this.destroy();
 		//if(this.players.length < 4) return;
 		this.counter++;
 
@@ -82,7 +82,7 @@ module.exports = class Game extends EventEmitter{
 		for(let i = gamePlayer.id; i < this.players.length; i++){
 			this.players[i].id--;
 		};
-		
+
 		console.log("Player removed from game, remaining:",this.players.length);
 
 		if(!this.players.length) return this.destroy();
@@ -172,7 +172,7 @@ module.exports = class Game extends EventEmitter{
 
 	initializePlayerListeners (gamePlayer) {
 		gamePlayer.on('playerSound', (data)=>{
-			if(data.perfect) this._onPerfectMatch(); 
+			if(data.perfect) this._onPerfectMatch();
 
 			this.sendSoundToPlayers(gamePlayer, data.instrumentId, data.soundId, data.strength || 1);
 		});

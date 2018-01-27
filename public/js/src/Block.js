@@ -10,6 +10,8 @@ class Block extends PIXI.Container {
     this.instrumentId = instrumentId;
     this.soundId = soundId;
     this._speed = speed;
+    this.top = 22;
+    this.bottom = 73
     this.x = x;
     this.y = y;
     const tile = KEY_CODES[keyCode] + 'Tile';
