@@ -1,11 +1,12 @@
 const PIXI = require('pixi.js');
 const KEY_CODES = {  65: 'A', 83: 'S',  75: 'K',  76: 'L'}; //todo get this from InputManager
-100 / 150
+
 class Block extends PIXI.Container {
-  constructor({ keyCode, soundId, x = 0, y = 0, speed = 4 } = {}) {
+  constructor({ keyCode, soundId,instrumentId, x = 0, y = 0, speed = 4 } = {}) {
     super();
 
     this.keyCode = keyCode;
+    this.instrumentId = instrumentId;
     this.soundId = soundId;
     this._speed = speed;
     this.x = x;
@@ -17,7 +18,6 @@ class Block extends PIXI.Container {
     background.drawRect(0, 0, 20, 20);
   //  console.log(text);
     this.addChild(background, text);
-    Assets.sounds[this.soundId].play()
   }
 
   update(){

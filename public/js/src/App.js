@@ -75,6 +75,11 @@ class App {
     this.comunicator.on('progressUpdate', (data) => {
       this.game.centerBar.setPercent(data.prfCount);
     });
+    this.game.on('playSound', (data) => {
+        console.log('data ', data);
+        this.comunicator.socket.emit('playSound', data); //todo no cool place to be
+    });
+
   }
 }
 

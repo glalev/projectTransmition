@@ -1,7 +1,5 @@
 const PIXI = require('pixi.js');
 const Block = require('./Block');
-
-const Assets = require('./Assets');
 const INPUTS = [ 65, 83, 75 , 76]; //todo
 
 class Field extends PIXI.Container {
@@ -25,6 +23,7 @@ class Field extends PIXI.Container {
     zoneBgTolerance.beginFill(0xaaaa00)
     zoneBgTolerance.y = zone.start - zone.tolerance / 2;
     zoneBgTolerance.drawRect(0, 0, width, (zone.end - zone.start) + zone.tolerance);
+
     this.addChild(background, zoneBgTolerance, zoneBg);
   }
 
@@ -42,26 +41,30 @@ class Field extends PIXI.Container {
     const index = instrumentId % 4;
     const keyCode = INPUTS[index];
 
-    const block = new Block({ keyCode, soundId: '' + instrumentId + soundId, x: index * 50, y: 0  });
+    const block = new Block({ keyCode, instrumentId, soundId, x: index * 50, y: 0  });
     this._blocks.push(block);
     this.addChild(block);
   }
 
   checkInput(keyCode, symbol) {
-    if(this._blocks[0].keyCode !== keyCode) return;
+    if(!this._blocks[0] || this._blocks[0].keyCode !== keyCode) return Promise.resolve(false);
 
 
-    this._killBlock(this._blocks[0]);
+    return this._killBlock(this._blocks[0]);
   }
 
   get _blocks() {
     return this.children.filter(child => child instanceof Block)
   }
+
   _killBlock(block, silent){
-    this.removeChild(block);
-    const isInTheZone = this._isInTheZone(block);
-    const volume = Math.max(0,1-(isInTheZone.deviation/100));
-    if(!silent && isInTheZone.in) Assets.sounds[block.soundId].volume(volume).play()
+    return new Promise(resolve => {
+      this.removeChild(block);
+      if(silent) return resolve(false);
+      const isInTheZone = this._isInTheZone(block);
+
+      resolve(isInTheZone)
+    });
   }
 
   _isInTheZone(block) {
@@ -72,13 +75,28 @@ class Field extends PIXI.Container {
     const zoneTop = this._zone.start;
     const zoneBottom = this._zone.end;
 
-    if(blockBottom < toleranceTop) return { in: false, deviation: toleranceTop - blockBottom }
-    if(blockTop > toleranceBottom) return { in: false, deviation: blockTop - toleranceBottom }
+    if(blockBottom < toleranceTop){
+      let level = this._getLevel(toleranceTop - blockBottom)
+      return  { in: false, level, isPerfect: false, soundId: block.soundId, instrumentId: block.instrumentId };
+    }
+    if(blockTop > toleranceBottom) {
+      let level = this._getLevel(blockTop - toleranceBottom)
+
+      return  { in: false, level, isPerfect: false, soundId: block.soundId, instrumentId: block.instrumentId };
+    }
 
     let isPerfect = blockTop >= zoneTop && blockBottom <= zoneBottom;
     let deviation = isPerfect ? 0 : Math.max(Math.abs(blockTop - zoneTop), Math.abs(blockBottom - blockBottom));
+    let level = this._getLevel(deviation)
 
-    return { in: true, deviation};
+    return { in: true, level, isPerfect, soundId: block.soundId, instrumentId: block.instrumentId, deviation };
+  }
+
+  _getLevel(deviation) {
+    if(deviation === 0) return 1;
+    if(deviation > 100) return 0.1// doto MAX deviation;
+
+    return (100 - deviation) / 100;
   }
 }
 
