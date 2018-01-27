@@ -36,7 +36,7 @@ class Game extends PIXI.Container {
   spawnSound(data){
     let instrument = parseInt(Object.keys(data), 10);
     let [ sound, player ] = data[instrument];
-  
+
     this._fields[player].addBlock(instrument, sound);
 
   }

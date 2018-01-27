@@ -1,5 +1,7 @@
 const PIXI = require('pixi.js');
 const Block = require('./Block');
+
+const Assets = require('./Assets');
 const INPUTS = [ 65, 83, 75 , 76]; //todo
 
 class Field extends PIXI.Container {
@@ -29,7 +31,7 @@ class Field extends PIXI.Container {
   update(){
       this._blocks.forEach((block) => {
         if(block.y === 400) { //todo
-          return this._killBlock(block);
+          return this._killBlock(block, true);
         }
 
         block.update();
@@ -37,26 +39,28 @@ class Field extends PIXI.Container {
   }
 
   addBlock(instrumentId, soundId) {
-    console.log('id  ' , instrumentId);
-    const keyCode = INPUTS[instrumentId % 4];
-    const block = new Block({ keyCode, soundId });
+    const index = instrumentId % 4;
+    const keyCode = INPUTS[index];
+
+    const block = new Block({ keyCode, soundId: '' + instrumentId + soundId, x: index * 50, y: 0  });
     this._blocks.push(block);
     this.addChild(block);
   }
 
   checkInput(keyCode, symbol) {
-    let block = this._blocks.filter(block => block.keyCode === keyCode)[0];
-    if(!block) return;
+    if(this._blocks[0].keyCode !== keyCode) return;
 
-    this._killBlock(block);
+
+    this._killBlock(this._blocks[0]);
   }
 
   get _blocks() {
     return this.children.filter(child => child instanceof Block)
   }
-  _killBlock(block){
+  _killBlock(block, silent){
     this.removeChild(block);
     const isInTheZone = this._isInTheZone(block);
+    if(!silent && isInTheZone.in) Assets.sounds[block.soundId].play()
   }
 
   _isInTheZone(block) {

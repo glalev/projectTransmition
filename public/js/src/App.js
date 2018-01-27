@@ -12,7 +12,7 @@ class App {
     this.stage = new PIXI.Container();
     this.renderer = PIXI.autoDetectRenderer( { width: 880, height: 600 , backgroundColor: 0x222222 } );
     this.view = view;
-
+    window.Assets = Assets;
     this.view.appendChild(this.renderer.view);
     PIXI.ticker.shared.add(this.update, this);
 
@@ -31,7 +31,7 @@ class App {
     return new Promise(resolve => {
       const loader = new PIXI.loaders.Loader();
       manifest.sounds.forEach( sound  => {
-        Assets.sounds[sound.name]= new Howl({ src: sound.src })
+        Assets.sounds[sound.id]= new Howl({ src: sound.src })
       });
       resolve();
     //   Object.keys(manifest).forEach(group => {
