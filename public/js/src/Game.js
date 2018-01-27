@@ -16,9 +16,8 @@ class Game extends PIXI.Container {
           if(!result) return;
 
           let level = result.deviation > 50 ? 1 : 0.5;
-          let id = '' + result.instrumentId + result.soundId;
 
-          Assets.sounds[id].volume(result.level).play();
+          this.playSound(result.instrumentId, level)
           this.emit('keyDown', { iId: result.instrumentId, sId: result.soundId, str: result.level, prf: result.isPerfect })
 
         });
@@ -46,6 +45,12 @@ class Game extends PIXI.Container {
     let [ sound, player ] = data[instrument];
 
     this._fields[player].addBlock(instrument, sound);
+  }
+
+  playSound(instrumentId, level){
+      let id = '' + instrumentId + '1';
+
+      Assets.sounds[id].volume(level).play();
   }
 
   get _fields () {

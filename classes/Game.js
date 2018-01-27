@@ -160,7 +160,7 @@ module.exports = class Game extends EventEmitter{
 	}
 
 	initializePlayerListeners (gamePlayer) {
-		gamePlayer.once('playerSound', (data)=>{
+		gamePlayer.on('playerSound', (data)=>{
 			if(data.perfect) this._onPerfectMatch(); 
 
 			this.sendSoundToPlayers(gamePlayer, data.instrumentId, data.soundId, data.strength || 1);

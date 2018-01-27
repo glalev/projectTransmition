@@ -72,6 +72,10 @@ class App {
       this.game.spawnSound(data);
     });
 
+    this.comunicator.on('playSound', (data) => {
+      this.game.playSound(data.instrumentId, data.str);
+    });
+
     this.comunicator.on('progressUpdate', (data) => {
       this.game.centerBar.setPercent(data.prfCount);
     });
