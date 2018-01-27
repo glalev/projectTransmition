@@ -90,9 +90,9 @@ module.exports = class Game extends EventEmitter{
 		player.sendUpdate(data);
 	}
 
-	sendSoundToPlayers (originId, instrumentId, soundId, strength){
+	sendSoundToPlayers (sourcePlayer, instrumentId, soundId, strength){
 		_.each(this.players, (player)=>{
-			if(player.uniqueId != originId) this.sendSound(player, instrumentId, soundId, strength);
+			if(player.uniqueId != sourcePlayer.uniqueId) this.sendSound(player, instrumentId, soundId, strength);
 		});
 	}
 
@@ -148,7 +148,7 @@ module.exports = class Game extends EventEmitter{
 		gamePlayer.once('playerSound', (data)=>{
 			if(data.perfect) this._onPerfectMatch(); 
 
-			this.sendSoundToPlayers(gamePlayer.uniqueId, data.soundId, data.instrumentId, data.strength || 1);
+			this.sendSoundToPlayers(gamePlayer, data.instrumentId, data.soundId, data.strength || 1);
 		});
 
 		gamePlayer.once('disconnect', this.onPlayerDisconnect.bind(this,gamePlayer));
