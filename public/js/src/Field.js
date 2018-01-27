@@ -47,10 +47,14 @@ class Field extends PIXI.Container {
   }
 
   checkInput(keyCode, symbol) {
-    if(!this._blocks[0] || this._blocks[0].keyCode !== keyCode) return Promise.resolve(false);
+    let blockIndex = this._blocks.findIndex((block)=>{
+      if(block.keyCode == keyCode) return true;
+      else return false;
+    }); 
 
+    if(blockIndex < 0) return Promise.resolve(false);
 
-    return this._killBlock(this._blocks[0]);
+    return this._killBlock(this._blocks[blockIndex]);
   }
 
   get _blocks() {
