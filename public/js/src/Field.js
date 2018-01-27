@@ -57,6 +57,17 @@ class Field extends PIXI.Container {
     return this._killBlock(this._blocks[blockIndex]);
   }
 
+  checkInstrumentId(instrumentId) {
+    let blockIndex = this._blocks.findIndex((block)=>{
+      if(block.instrumentId == instrumentId) return true;
+      else return false;
+    }); 
+
+    if(blockIndex < 0) return Promise.resolve(false);
+
+    return this._killBlock(this._blocks[blockIndex]);
+  }
+
   get _blocks() {
     return this.children.filter(child => child instanceof Block)
   }

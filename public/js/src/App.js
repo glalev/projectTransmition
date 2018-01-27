@@ -77,7 +77,7 @@ class App {
     });
 
     this.comunicator.on('playSound', (data) => {
-      this.game.playSound(data.instrumentId, data.str);
+      this.game.removeBlockOther(data.source, data.instrumentId, data.str);
     });
 
     this.comunicator.on('progressUpdate', (data) => {

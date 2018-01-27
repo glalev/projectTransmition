@@ -20,8 +20,8 @@ module.exports = class GamePlayer extends EventEmitter{
 		this.initializeGameListeners();
 	}
 
-	sendSound(instrumentId, soundId, strength){
-		this.networkPlayer.sendSoundData(instrumentId, soundId, strength);
+	sendSound(sourceId, instrumentId, soundId, strength){
+		this.networkPlayer.sendSoundData(sourceId, instrumentId, soundId, strength);
 	}
 
 	sendSettings(data){

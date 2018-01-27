@@ -9,7 +9,10 @@ class Game extends PIXI.Container {
   constructor() {
     super();
     this._background = new PIXI.Sprite(Assets.images.bgImg);
+    this._background.y = 0;
     this._foreground = new PIXI.Sprite(Assets.images.fgImg);
+    this._foreground.y = -180;
+
     window.Assets = Assets;
     this._input = new InputManager();
     this._input.on('keydown', ({ keyCode, symbol }) => {
@@ -54,6 +57,14 @@ class Game extends PIXI.Container {
       let id = '' + instrumentId + '1';
 
       Assets.sounds[id].volume(level).play();
+  }
+
+  removeBlockOther(source, instrumentId, level){
+      this._fields[source].checkInstrumentId(instrumentId)
+        .then(result => {
+          if(!result) return;
+         this.playSound(instrumentId, level)
+      });
   }
 
   get _fields () {

@@ -123,12 +123,12 @@ module.exports = class Game extends EventEmitter{
 	sendSoundToPlayers (sourcePlayer, instrumentId, soundId, strength){
 		_.each(this.players, (player)=>{
 			if(!player) return;
-			if(player.uniqueId != sourcePlayer.uniqueId) this.sendSound(player, instrumentId, soundId, strength);
+			if(player.uniqueId != sourcePlayer.uniqueId) this.sendSound(player, sourcePlayer.id, instrumentId, soundId, strength);
 		});
 	}
 
-	sendSound (player, instrumentId, soundId, strength){
-		player.sendSound(instrumentId, soundId, strength);
+	sendSound (player, source, instrumentId, soundId, strength){
+		player.sendSound(source, instrumentId, soundId, strength);
 	}
 
 	sendStartRhythmToPlayers (data){

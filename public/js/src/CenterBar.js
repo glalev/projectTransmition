@@ -41,6 +41,9 @@ class CenterBar extends PIXI.Container {
     this._cheeringEffect.children[0].stop();
     this.addChild(this._cheeringEffect);
 
+    this._cheeringEffect.transform.scale.x = 0.67;
+    this._cheeringEffect.transform.scale.y = 0.67;
+
     console.log(this);
   }
 
