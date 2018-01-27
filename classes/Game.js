@@ -70,8 +70,6 @@ module.exports = class Game extends EventEmitter{
 	}
 
 	onPlayerDisconnect(gamePlayer){
-		this.playerInstruments.push(gamePlayer.instruments);
-
 		this.players.splice(gamePlayer.id, 1);
 		for(let i = gamePlayer.id; i < this.players.length; i++){
 			this.players[i].id--;
