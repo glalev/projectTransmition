@@ -3,14 +3,17 @@
     "version": "0.0.1",
     "description": "Test",
     "dependencies": {
+        "bufferutil": "latest",
         "eventemitter3": "latest",
         "express": "latest",
-        "underscore": "latest",
-        "serve-static": "latest",
-        "socket.io": "latest",
+        "howler": "latest",
         "mainloop.js": "latest",
         "pixi.js": "latest",
-        "howler": "latest"
+        "serve-static": "latest",
+        "socket.io": "latest",
+        "socket.io-client": "^2.0.4",
+        "underscore": "latest",
+        "utf-8-validate": "latest"
     },
     "devDependencies": {
         "babel-cli": "^6.10.1",
