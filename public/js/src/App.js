@@ -70,7 +70,10 @@ class App {
     });
 
     this.comunicator.on('gameUpdate', (data) => {
-      this.game.spawnSound(data);
+      Object.keys(data).forEach((key)=>{
+        this.game.spawnSound(data[key]);
+      });
+      
     });
 
     this.comunicator.on('playSound', (data) => {

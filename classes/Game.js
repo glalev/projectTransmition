@@ -185,8 +185,7 @@ module.exports = class Game extends EventEmitter{
 	}
 
 	_getFirstInstrumentLoop(instrumentId){
-		let breakPoint = this.counter % global.minBeat;
-		if(breakPoint > 0) return
+		if(!(this.counter % global.minBeat)) return
 		this._getNewInstrumentLoop(instrumentId);
 	}
 
