@@ -19,7 +19,7 @@ class Game extends PIXI.Container {
           let id = '' + result.instrumentId + result.soundId;
 
           Assets.sounds[id].volume(result.level).play();
-          this.emit('playSound', { iId: result.instrumentId, sId: result.soundId, str: result.level, prf: result.isPerfect })
+          this.emit('keyDown', { iId: result.instrumentId, sId: result.soundId, str: result.level, prf: result.isPerfect })
 
         });
     });
@@ -31,6 +31,7 @@ class Game extends PIXI.Container {
   update() {
     this.children.forEach(child => child.update && child.update());
   }
+
 
   initFields(fieldsData, mainField) {
     fieldsData.map(data => {

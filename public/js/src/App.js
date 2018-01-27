@@ -39,7 +39,7 @@ class App {
       manifest.images.forEach( image  => {
 					loader.add(image.id, image.src);
       });
-      //Assets.images[image.id] = 
+      //Assets.images[image.id] =
       loader.load((loader, resources) => {
 
       		manifest.images.forEach( image => {
@@ -75,9 +75,8 @@ class App {
     this.comunicator.on('progressUpdate', (data) => {
       this.game.centerBar.setPercent(data.prfCount);
     });
-    this.game.on('playSound', (data) => {
-        console.log('data ', data);
-        this.comunicator.socket.emit('playSound', data); //todo no cool place to be
+    this.game.on('keyDown', (data) => {
+        this.comunicator.socket.emit('keyDown', data); //todo no cool place to be
     });
 
   }
