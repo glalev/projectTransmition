@@ -55,6 +55,7 @@ class App {
   }
   _addServerListenres() {
     this.comunicator.on('gameUpdate', (data) => {
+      console.warn(data);
       Assets.sounds.bassG.play()
     });
   }

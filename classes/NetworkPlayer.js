@@ -14,14 +14,18 @@ module.exports = class NetworkPlayer extends EventEmitter{
 		this.init();
 	}
 
-	init () {
+	init () {   
 		this.initializeSocketListeners();
 		this.socket.emit('ready');
 		this.emit('ready');
 	}
 
-	sendSoundData (id){
-		this.socket.emit("playSound", id);
+	sendSoundData (instrumentId, soundId, strength){
+		this.socket.emit("playSound", {instrumentId: instrumentId, soundId: soundId, str: strength});
+	}
+
+	sendSettings (data){
+		this.socket.emit("settings", data);
 	}
 
 	sendGameData (data){

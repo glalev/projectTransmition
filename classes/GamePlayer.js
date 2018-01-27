@@ -19,8 +19,12 @@ module.exports = class GamePlayer extends EventEmitter{
 		this.initializeGameListeners();
 	}
 
-	sendSound(id){
-		this.networkPlayer.sendSoundData(id);
+	sendSound(instrumentId, soundId, strength){
+		this.networkPlayer.sendSoundData(instrumentId, soundId, strength);
+	}
+
+	sendSettings(data){
+		this.networkPlayer.sendSettings(data);
 	}
 
 	sendUpdate(data){
@@ -51,7 +55,7 @@ module.exports = class GamePlayer extends EventEmitter{
 	}
 
 	_onKeyDown(data){
-		this.emit("playerSound", {instrumentId: data.id, strength: data.str, perfect: data.prf});
+		this.emit("playerSound", {instrumentId: data.iId, soundId: data.sId, strength: data.str, perfect: data.prf});
 	}
 
 	_onKeyUp(key){
