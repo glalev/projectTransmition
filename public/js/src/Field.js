@@ -1,5 +1,7 @@
 const PIXI = require('pixi.js');
+require('pixi-animate');
 const Block = require('./Block');
+const PlayTextFlash = require('../lib/PlayText.js').stage;
 const INPUTS = [ 65, 83, 75 , 76]; //todo
 
 class Field extends PIXI.Container {
@@ -10,11 +12,8 @@ class Field extends PIXI.Container {
 
     this._zone = zone;
     this._instruments = instruments;
-
-    // const background = new PIXI.Graphics();
-    // background.beginFill(0x777777);
-    // background.drawRect(0, 0, width, height);
-
+    this._playText = new PlayTextFlash();
+    this._isActive - false;
     const zoneBg = new PIXI.Graphics();
     zoneBg.beginFill(0x007700);
     zoneBg.y = zone.start
@@ -27,7 +26,16 @@ class Field extends PIXI.Container {
     zoneBgTolerance.drawRect(0, 0, width, (zone.end - zone.start) + zone.tolerance);
     zoneBgTolerance.alpha = 0.25;
 
-    this.addChild(zoneBgTolerance, zoneBg);
+    this.addChild(zoneBgTolerance, zoneBg, this._playText);
+  }
+
+  playReady() {
+    this._playText.instance.gotoAndPlay('show');
+  }
+
+  playGo() {
+    this._active = true;
+    this._playText.instance.gotoAndPlay('hide');
   }
 
   update(){
@@ -45,6 +53,7 @@ class Field extends PIXI.Container {
     const keyCode = INPUTS[index];
 
     const block = new Block({ keyCode, instrumentId, soundId, x: 20 + index * 80, y: 0  });
+    if(!this._active) this.playGo();
     this._blocks.push(block);
     this.addChild(block);
   }
@@ -53,7 +62,7 @@ class Field extends PIXI.Container {
     let blockIndex = this._blocks.findIndex((block)=>{
       if(block.keyCode == keyCode) return true;
       else return false;
-    }); 
+    });
 
     if(blockIndex < 0) return Promise.resolve(false);
 
@@ -64,7 +73,7 @@ class Field extends PIXI.Container {
     let blockIndex = this._blocks.findIndex((block)=>{
       if(block.instrumentId == instrumentId) return true;
       else return false;
-    }); 
+    });
 
     if(blockIndex < 0) return Promise.resolve(false);
 

@@ -46,6 +46,7 @@ class Game extends PIXI.Container {
       let index = this.children.length - 2;
       this.addChildAt(field, index);
       this._playerField = this._fields[mainField];
+      this._playerField.playReady();
     });
   }
 

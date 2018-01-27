@@ -35,7 +35,9 @@ module.exports = {
     { id: 'word8', name: 'word8', src: './assets/images/word8.png' },
     { id: 'word9', name: 'word9', src: './assets/images/word9.png' },
     { id: 'whiteWordsEffect', name: 'whiteWordsEffect', src: './assets/images/whiteWordsEffect.png' },
+    { id: 'whiteProgress', name: 'whiteProgress', src: './assets/images/whiteProgress.png' },
+    { id: 'PlayText', name: 'PlayText', src: './assets/images/PlayText.shapes.txt' },
     { id: 'loadingBG', name: 'loadingBG', src: './assets/images/loadingBG.png' },
-    { id: 'displays', name: 'displays', src: './assets/images/displays.png' },    
+    { id: 'displays', name: 'displays', src: './assets/images/displays.png' }, 
   ]
 }
