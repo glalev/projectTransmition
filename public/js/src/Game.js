@@ -8,7 +8,9 @@ class Game extends PIXI.Container {
 
   constructor() {
     super();
+    this._background = new PIXI.Sprite(Assets.images.bgImg);
 
+    window.Assets = Assets;
     this._input = new InputManager();
     this._input.on('keydown', ({ keyCode, symbol }) => {
       this._playerField.checkInput(keyCode, symbol)
@@ -22,7 +24,7 @@ class Game extends PIXI.Container {
     });
 
     this.centerBar = new CenterBar();
-    this.addChild(this.centerBar);
+    this.addChild(this._background, this.centerBar);
   }
 
   update() {

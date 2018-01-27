@@ -10,7 +10,7 @@ const { Howl } = require('howler');
 class App {
   constructor(view) {
     this.stage = new PIXI.Container();
-    this.renderer = PIXI.autoDetectRenderer( { width: 880, height: 600 , backgroundColor: 0x222222 } );
+    this.renderer = PIXI.autoDetectRenderer( { width: 1280, height: 720 } );
     this.view = view;
     window.Assets = Assets;
     this.view.appendChild(this.renderer.view);
@@ -42,8 +42,8 @@ class App {
       //Assets.images[image.id] =
       loader.load((loader, resources) => {
 
-      		manifest.images.forEach( image => {
-							Assets.images[image.id] = new PIXI.Sprite(resources[image.id].texture);
+      		manifest.images.forEach(image => {
+							Assets.images[image.id] = resources[image.id].texture;
 		      });
 
           console.log('loading complete');

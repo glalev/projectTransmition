@@ -41,7 +41,7 @@ class Field extends PIXI.Container {
     const index = instrumentId % 4;
     const keyCode = INPUTS[index];
 
-    const block = new Block({ keyCode, instrumentId, soundId, x: index * 50, y: 0  });
+    const block = new Block({ keyCode, instrumentId, soundId, x: index * 80, y: 0  });
     this._blocks.push(block);
     this.addChild(block);
   }
