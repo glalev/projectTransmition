@@ -5,14 +5,14 @@ const app = require('express')();
 const serveStatic = require('serve-static');
 let io = null;
 
+const GameLoop = require('node-gameloop');
 const Player = require("./NetworkPlayer.js");
 const Game = require("./Game.js");
-const maxFPS = (100/60);
+const maxFPS = (100/60); //100 BPM
 
 global._ = _;
 global.playerList = [];
 global.gameList = [];
-global.mainLoop = require('mainloop.js');
 global.minBeat = 4;
 
 init();
@@ -27,12 +27,8 @@ function init(){
 
     console.warn("#INIT END /////////////////////");
 
-    global.mainLoop.setMaxAllowedFPS(maxFPS);
-    global.mainLoop.setBegin(frameStart.bind(this))
-        .setUpdate(frameUpdate.bind(this))
-        .setEnd(frameEnd.bind(this));
+    global.mainLoop = GameLoop.setGameLoop(frameUpdate, 1000/maxFPS);
 
-    global.mainLoop.start();
 };
 
 /***********************************************************************************************************************
@@ -94,12 +90,8 @@ function findGameForPlayer(player){
     newGame.joinPlayer(player);
 };
 
-function frameStart(){ return; };
-
 function frameUpdate(delta){
     _.each(global.gameList,(game) => {
         game.update(delta);
     })
 };
-
-function frameEnd(){ return; };

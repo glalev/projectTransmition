@@ -7,7 +7,7 @@
         "eventemitter3": "latest",
         "express": "latest",
         "howler": "latest",
-        "mainloop.js": "latest",
+        "node-gameloop": "latest",
         "pixi.js": "latest",
         "serve-static": "latest",
         "socket.io": "latest",

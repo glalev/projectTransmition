@@ -39,7 +39,10 @@ module.exports = class Game extends EventEmitter{
 		this.counter++;
 
 		if(this.isPaused) {
-			if(this.unpauseCount == this.counter) this.isPaused = false;
+			if(this.unpauseCount == this.counter) {
+				this.isPaused = false;
+				this.sendMessageToPlayers("unpause");
+			}
 			else return;
 		}
 
@@ -49,6 +52,8 @@ module.exports = class Game extends EventEmitter{
 		this.advanceBeats();
 		let data = this.getBeatData();
 		if(!Object.keys(data).length) return;
+		data.level = this.level;
+		data.prfCount = this.perfectCount;
 		this.sendUpdateToPlayers(data);
 	}
 
@@ -176,14 +181,25 @@ module.exports = class Game extends EventEmitter{
 
 	_onPerfectMatch(){
 		this.perfectCount++;
+		this.sendMessageToPlayers("perfectMatch");
 
 		if(this.perfectCount > 150) { //Endgame
 			this.pauseGame(-1);
-			this.sendMessageToPlayers("GameOver");
-		} else if(this.perfectCount > 100) { //Level2
+			this.sendMessageToPlayers("gameOver");
+		} else if(this.perfectCount > 100) { //Level4
+			this.sendMessageToPlayers("pause3");
+			this.level = 4;
+			this.pauseGame(25);
+		} else if(this.perfectCount > 75) { //Level3
+			this.sendMessageToPlayers("pause2");
+			this.level = 3;
+			this.pauseGame(25);
+		} else if(this.perfectCount > 50) { //Level2
+			this.sendMessageToPlayers("pause1");
 			this.level = 2;
 			this.pauseGame(25);
-		} else if(this.perfectCount > 50) { //Level1
+		} else if(this.perfectCount > 25) { //Level1
+			this.sendMessageToPlayers("pause0");
 			this.level = 1;
 			this.pauseGame(25);
 		}

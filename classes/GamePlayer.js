@@ -55,6 +55,7 @@ module.exports = class GamePlayer extends EventEmitter{
 	}
 
 	_onKeyDown(data){
+		let instrumentId = this.instruments[data.iId];
 		this.emit("playerSound", {instrumentId: data.iId, soundId: data.sId, strength: data.str, perfect: data.prf});
 	}
 
