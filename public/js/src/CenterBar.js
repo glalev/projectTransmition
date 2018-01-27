@@ -3,7 +3,7 @@ const PIXI = require('pixi.js');
 class CenterBar extends PIXI.Container {
   constructor() {
     super();
-    this.size = [100,0,500,100];
+    this.size = [325,200,635,70];
 
     this._background = new PIXI.Graphics();
     this._background.beginFill(0x999999);
@@ -92,10 +92,11 @@ class CenterBar extends PIXI.Container {
 
       if(i==0){
             wave.moveTo(
-              this.size[0]+(x*this.size[2]),
+              this.size[0]-1,
               this.size[1]+(y*this.size[3])
             );
       }
+
       wave.lineTo(
         this.size[0]+(x*this.size[2]),
         this.size[1]+(y*this.size[3])

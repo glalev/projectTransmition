@@ -23,8 +23,10 @@ class Game extends PIXI.Container {
         });
     });
 
+    Assets.sounds['idleLoop'].loop(true).play();
+
     this.centerBar = new CenterBar();
-    this.addChild(this._background, this.centerBar, this._foreground);
+    this.addChild(this._background, this.centerBar, this._foreground, this.centerBar);
   }
 
   update() {

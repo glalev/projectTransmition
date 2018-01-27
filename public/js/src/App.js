@@ -99,6 +99,7 @@ class App {
   _onServerMessageReceived(message){
       switch (message) {
         case 'startBackground':
+          Assets.sounds['idleLoop'].fade(1,0,1000)
           Assets.sounds['bgLoop'].loop(true).play();
           break;
         default:
