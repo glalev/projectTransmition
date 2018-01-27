@@ -1,23 +1,21 @@
 const PIXI = require('pixi.js');
+const Field = require('./Field.js');
 
-class Game {
+class Game extends PIXI.Container {
 
-  constructor({ width, height, view }) {
-    this._stage = new PIXI.Container();
-    this._renderer = PIXI.autoDetectRenderer( { width, height, backgroundColor: 0x222222 } );
-    view.appendChild(this._renderer.view);
-    PIXI.ticker.shared.add(this.update, this);
+  constructor() {
+    super();
+    //this._stage = new PIXI.Container();
+    //this._renderer = PIXI.autoDetectRenderer( { width, height, backgroundColor: 0x222222 } );
+    this._playerField = new Field({x: 100, y: 100, width: 200, height: 400, zone: {start: 300, end: 350 } });
 
-    // this.g = new PIXI.Graphics();
-    // this.g.beginFill(0xffff00);
-    // this.g.drawRect(0,0,100,100);
-    // this._stage.addChild(this.g);
+
+    this.addChild(this._playerField);
   }
 
   update() {
-    this._renderer.render(this._stage);
+    this._playerField.update();
   }
-
 }
 
 module.exports = Game;
