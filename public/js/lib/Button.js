@@ -465,12 +465,15 @@
             }, 54)
             .addAction(function () {
                 this.stop();
+                this.emit('HIDE_END');
             }, 84)
             .addAction(function () {
                 this.stop();
+                this.emit('HIDE_END');
             }, 99)
             .addAction(function () {
                 this.stop();
+                this.emit('HIDE_END');
             }, 114);
     });
 
