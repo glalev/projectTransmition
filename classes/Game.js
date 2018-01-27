@@ -26,6 +26,7 @@ module.exports = class Game extends EventEmitter{
 		this.counter = 0;
 		this.unpauseCount = 0;
 
+		this.hasStarted = false;
 		this.isPaused = false;
 
 		this.init();
@@ -35,9 +36,11 @@ module.exports = class Game extends EventEmitter{
 	}
 
 	update(_delta){
-		if(!this.players.length) return this.destroy();
+		if(!this.players.length) return this.destroy();		
 		//if(this.players.length < 4) return;
 		this.counter++;
+
+		if(!(this.counter % global.minBeat)) this.sendStartRhythmToPlayers();
 
 		if(this.isPaused) {
 			if(this.unpauseCount == this.counter) {
@@ -113,6 +116,14 @@ module.exports = class Game extends EventEmitter{
 
 	sendSound (player, instrumentId, soundId, strength){
 		player.sendSound(instrumentId, soundId, strength);
+	}
+
+	sendStartRhythmToPlayers (data){
+		_.each(this.players, (player)=>{
+			if(player.isInRhythm) return;
+			player.isInRhythm = true;
+			this.sendMessage(player, "startBackground");
+		});
 	}
 
 	sendMessageToPlayers (data){

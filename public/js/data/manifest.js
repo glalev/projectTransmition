@@ -1,5 +1,6 @@
 module.exports = {
   sounds: [
+    { id: 'bgLoop', name: 'backgroundLoop', src: './assets/sounds/bgLoop.ogg' },
     { id: '01', name: 'kick', src: './assets/sounds/kick.ogg' },
     { id: '11', name: 'snare:', src: './assets/sounds/snare.ogg' },
     { id: '21', name: 'tom', src: './assets/sounds/tom.ogg' },

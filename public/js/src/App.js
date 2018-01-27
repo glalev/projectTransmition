@@ -80,10 +80,25 @@ class App {
     this.comunicator.on('progressUpdate', (data) => {
       this.game.centerBar.setPercent(data.prfCount);
     });
+
+    this.comunicator.on('message', (data) => {
+      console.log("Message received:", data);
+      this._onServerMessageReceived(data);
+    });
+
     this.game.on('keyDown', (data) => {
         this.comunicator.socket.emit('keyDown', data); //todo no cool place to be
     });
 
+  }
+
+  _onServerMessageReceived(message){
+      switch (message) {
+        case 'startBackground':
+          Assets.sounds['bgLoop'].loop(true).play();
+          break;
+        default:
+      }
   }
 }
 

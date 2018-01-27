@@ -11,6 +11,7 @@ module.exports = class GamePlayer extends EventEmitter{
 
 		this.instruments = [];
 		this.loopIndex = 0;
+		this.isInRhythm = false;
 
 		this.init();
 	}
