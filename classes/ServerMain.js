@@ -75,13 +75,13 @@ function findGameForPlayer(player){
     let foundGame = false;
     _.each(global.gameList, (game)=>{
         if(game.players.length >= 4) return;
-        foundServer = true;
+        foundGame = true;
         game.joinPlayer(player);
     });
     if(foundGame) return;
 
-    let foundGame = this.initializeGame();
-    foundGame.joinPlayer(player);
+    let newGame = initializeGame();
+    newGame.joinPlayer(player);
 };
 
 function frameStart(){ return; };
