@@ -65,11 +65,11 @@ class App {
     });
 
     this.comunicator.on('gameUpdate', (data) => {
+      this.game.spawnSound(data);
+    });
 
-      this.game.spawnSound(data)
-      //console.log(data);
-      //Assets.sounds.bassG.play();
-      //console.log(data);
+    this.comunicator.on('progressUpdate', (data) => {
+      this.game.centerBar.setPercent(data.prfCount);
     });
   }
 }

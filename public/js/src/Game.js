@@ -13,13 +13,12 @@ class Game extends PIXI.Container {
       this._playerField.checkInput(keyCode, symbol);
     });
 
-    this._centerBar = new CenterBar();
-    this.addChild(this._centerBar);
+    this.centerBar = new CenterBar();
+    this.addChild(this.centerBar);
   }
 
   update() {
     this.children.forEach(child => child.update && child.update());
-    this._centerBar.update();
   }
 
   initFields(fieldsData, mainField) {
@@ -35,7 +34,6 @@ class Game extends PIXI.Container {
     let [ sound, player ] = data[instrument];
 
     this._fields[player].addBlock(instrument, sound);
-
   }
 
   get _fields () {

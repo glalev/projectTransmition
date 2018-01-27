@@ -29,7 +29,7 @@ module.exports = class NetworkPlayer extends EventEmitter{
 	}
 
 	sendProgress (data){
-		this.socket.emit("progress", data);
+		this.socket.emit("progressUpdate", data);
 	}
 
 	sendGameData (data){
