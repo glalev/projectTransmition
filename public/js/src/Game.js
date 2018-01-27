@@ -7,7 +7,7 @@ class Game extends PIXI.Container {
 
   constructor() {
     super();
-    this._playerField = new Field({x: 100, y: 100, width: 200, height: 400, zone: {start: 300, end: 350, tolerance: 50 } });
+
     this._input = new InputManager();
     this._input.on('keydown', ({ keyCode, symbol }) => {
       this._playerField.checkInput(keyCode, symbol);
@@ -16,13 +16,25 @@ class Game extends PIXI.Container {
     this._centerBar = new CenterBar();
 
 
-    this.addChild(this._playerField);
+    //this.addChild(this._playerField);
     this.addChild(this._centerBar);
   }
 
   update() {
-    this._playerField.update();
+    this.children.forEach(child => child.update && child.update());
     this._centerBar.update();
+  }
+
+  initFields(fields, mainField) {
+    fields.map(data => {
+      let field = new Field(data);
+      this.addChild(field);
+      this._playerField = this._fields[mainField];
+    });
+  }
+
+  get _fields () {
+    return this.children.filter(child => child instanceof Field);
   }
 }
 

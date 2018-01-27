@@ -59,6 +59,7 @@ class Field extends PIXI.Container {
 
     let isPerfect = blockTop >= zoneTop && blockBottom <= zoneBottom;
     let deviation = isPerfect ? 0 : Math.max(Math.abs(blockTop - zoneTop), Math.abs(blockBottom - blockBottom));
+    
     return { in: true, deviation};
   }
 }

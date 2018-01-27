@@ -62,9 +62,7 @@ class ServerCommunicator extends EventEmitter {
             this.emit('ready');
         });
 
-        this.socket.on('settings', (data) => {
-            console.warn('Settings ', data);
-        });
+        this.socket.on('settings', (data) => this.emit('settings', data));
 
         this.socket.on('playSound', (data) => {
             console.log('Play sound ', data);

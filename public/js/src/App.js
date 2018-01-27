@@ -4,12 +4,13 @@ const PIXI = require('pixi.js');
 const Assets = require('./Assets');
 const ServerCommunication = require('./ServerCommunication');
 const manifest = require('../data/manifest');
+const fieldsData = require('../data/fields');
 const { Howl } = require('howler');
 
 class App {
   constructor(view) {
     this.stage = new PIXI.Container();
-    this.renderer = PIXI.autoDetectRenderer( { width: 800, height: 600 , backgroundColor: 0x222222 } );
+    this.renderer = PIXI.autoDetectRenderer( { width: 880, height: 600 , backgroundColor: 0x222222 } );
     this.view = view;
 
     this.view.appendChild(this.renderer.view);
@@ -53,10 +54,16 @@ class App {
     this.stage.children.forEach(child => child.update && child.update());
 
   }
+
   _addServerListenres() {
-    this.comunicator.on('gameUpdate', (data) => {
-      //Assets.sounds.bassG.play();
+
+    this.comunicator.on('settings', (data) => {
+      this.game.initFields(fieldsData, data.id)
     });
+    
+    // this.comunicator.on('gameUpdate', (data) => {
+    //   Assets.sounds.bassG.play();
+    // });
   }
 }
 
