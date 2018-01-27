@@ -15,9 +15,7 @@ class Game extends PIXI.Container {
         .then(result => {
           if(!result) return;
 
-          let level = result.deviation > 50 ? 1 : 0.5;
-
-          this.playSound(result.instrumentId, level)
+          this.playSound(result.instrumentId, result.level)
           this.emit('keyDown', { iId: result.instrumentId, sId: result.soundId, str: result.level, prf: result.isPerfect })
 
         });

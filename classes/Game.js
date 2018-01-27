@@ -198,19 +198,19 @@ module.exports = class Game extends EventEmitter{
 		if(this.perfectCount > this.levels[4]) { //Endgame
 			this.pauseGame(-1);
 			this.sendMessageToPlayers("gameOver");
-		} else if(this.perfectCount > this.levels[3]) { //Level4
+		} else if(this.perfectCount > this.levels[3] && this.level != 4) { //Level4
 			this.sendMessageToPlayers("pause3");
 			this.level = 4;
 			this.pauseGame(25);
-		} else if(this.perfectCount > this.levels[2]) { //Level3
+		} else if(this.perfectCount > this.levels[2] && this.level != 3) { //Level3
 			this.sendMessageToPlayers("pause2");
 			this.level = 3;
 			this.pauseGame(25);
-		} else if(this.perfectCount > this.levels[1]) { //Level2
+		} else if(this.perfectCount > this.levels[1] && this.level != 2) { //Level2
 			this.sendMessageToPlayers("pause1");
 			this.level = 2;
 			this.pauseGame(25);
-		} else if(this.perfectCount > this.levels[0]) { //Level1
+		} else if(this.perfectCount > this.levels[0] && this.level != 1) { //Level1
 			this.sendMessageToPlayers("pause0");
 			this.level = 1;
 			this.pauseGame(25);
