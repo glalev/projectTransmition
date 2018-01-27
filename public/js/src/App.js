@@ -29,23 +29,27 @@ class App {
 
   load() {
     return new Promise(resolve => {
-      const loader = new PIXI.loaders.Loader();
-      manifest.sounds.forEach( sound  => {
+    	manifest.sounds.forEach( sound  => {
         Assets.sounds[sound.id]= new Howl({ src: sound.src })
       });
-      resolve();
-    //   Object.keys(manifest).forEach(group => {
-    //     manifest[group].forEach(({ name, src }) => loader.add(name, src))
-    //     loader.load((loader, assets) => {
-    //         Object.keys(assets).forEach(name => {
-    //           if(assets[name].extension === "ogg"){
-    //             Assets.sounds[name] = new Howl(name);
-    //             console.log(Assets);
-    //           }
-    //         })
-    //         resolve(Assets);
-    //     });
-    //   });
+      console.log("Sounds loaded");
+
+      const loader = new PIXI.loaders.Loader();
+
+      manifest.images.forEach( image  => {
+					loader.add(image.id, image.src);
+      });
+      //Assets.images[image.id] = 
+      loader.load((loader, resources) => {
+
+      		manifest.images.forEach( image => {
+							Assets.images[image.id] = new PIXI.Sprite(resources[image.id].texture);
+		      });
+
+          console.log('loading complete');
+
+          resolve()
+      });
      });
   }
 

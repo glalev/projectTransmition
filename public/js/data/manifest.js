@@ -11,8 +11,16 @@ module.exports = {
     { id: '91', name: 'KeysBb', src: './assets/sounds/KeysBb.ogg' },
     { id: '101', name: 'KeysF', src: './assets/sounds/KeysF.ogg' },
     { id: '111', name: 'KeysEb', src: './assets/sounds/KeysEb.ogg' },
-    { id: '121', name: 'GuitarC', src: './assets/sounds/GuitarC.ogg' },
-    { id: '131', name: 'GuitarF', src: './assets/sounds/GuitarF.ogg' },
-    { id: '141', name: 'GuitarEb', src: './assets/sounds/GuitarEb.ogg' },
+    { id: '121', name: 'GuitarC', src: './assets/sounds/gtrC.ogg' },
+    { id: '131', name: 'GuitarF', src: './assets/sounds/gtrBb.ogg' },
+    { id: '141', name: 'GuitarEb', src: './assets/sounds/gtrF.ogg' },
+    { id: '151', name: 'GuitarEb', src: './assets/sounds/gtrEb.ogg' },
+  ],
+  images: [
+    { id: 'bgImg', name: 'BackgroundImage', src: './assets/Images/scene.jpg' },
+    { id: 'kTile', name: 'kTile', src: './assets/images/kTile.png' },
+    { id: 'aTile', name: 'aTile', src: './assets/images/aTile.png' },
+    { id: 'sTile', name: 'sTile', src: './assets/images/sTile.png' },
+    { id: 'lTile', name: 'lTile', src: './assets/images/lTile.png' }
   ]
 }
