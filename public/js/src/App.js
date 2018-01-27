@@ -70,6 +70,7 @@ class App {
 
     this.comunicator.on('gameUpdate', (data) => {
       Object.keys(data).forEach((key)=>{
+        data[key][0] = key;
         this.game.spawnSound(data[key]);
       });
 
