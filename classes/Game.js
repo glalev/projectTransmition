@@ -15,7 +15,7 @@ module.exports = class Game extends EventEmitter{
 
 		this.playerInstruments = [
 			[0,1,2,3],
-			[4,5,6,7],
+			[4,5,6,7], 
 			[8,9,10,11],
 			[12,13,14,15]
 		];
@@ -42,7 +42,6 @@ module.exports = class Game extends EventEmitter{
 			if(this.unpauseCount == this.counter) this.isPaused = false;
 			else return;
 		}
-
 
 		let delta = _delta/1000;
 
@@ -130,7 +129,13 @@ module.exports = class Game extends EventEmitter{
 				if(!this.loops[instrumentId]) return;
 
 				let beat = this.loops[instrumentId][0];
-				if(beat) beats[instrumentId] = beat;
+				if(beat) {
+					let playerOwner = _.findIndex(this.playerInstruments, (data)=>{ //TODO: better method!!!
+						return _.contains(data, instrumentId);
+					});
+					beat = [beat, playerOwner];
+					beats[instrumentId] = beat;
+				}
 			});
 		});
 		return beats;
