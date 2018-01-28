@@ -20,7 +20,7 @@ class ServerCommunicator extends EventEmitter {
             console.log('Connected to server...');
             //this.isConnecting = false;
             this.isConnected = true;
-
+            
             this.createServerListeners();
             this.getLatency();
             this.sendLoginData();

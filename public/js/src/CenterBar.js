@@ -57,6 +57,7 @@ class CenterBar extends PIXI.Container {
     if(this.cheeringIsPlaying) return;
     this.cheeringIsPlaying = true;
     let fx = this._cheeringEffect.children[0];
+    Assets.sounds["progressBarFx"].volume(0.5).play();
     fx.gotoAndPlay("show");
     fx.text.gotoAndStop(Math.round(Math.random()*8));
     fx.once("SHOW_END", ()=>{

@@ -51,8 +51,8 @@ class Game extends PIXI.Container {
         });
     });
 
-    Assets.sounds['idleLoop'].loop(true).play();
-
+    //Assets.sounds['idleLoop'].loop(true).play();
+    Assets.sounds.idleLoop.fade(0, 1, 2000);
     this.centerBar = new CenterBar();
     this.addChild(this._displays, this._display, this._foreground, this._buttons, this._buttonLights, this.characters, this.centerBar, this.sceneLights, this._video);
   }

@@ -28,10 +28,9 @@ class App {
       })
       .then(() => {
         this.stage.removeChild(this.splash)
-        return;
-        /*this.intro = new Video();
+        this.intro = new Video();
         this.stage.addChild(this.intro);
-        return this.intro.play('intro');*/
+        return this.intro.play('intro');
       })
       .then(() => this.stage.removeChild(this.intro))
       .then(() => this.comunicator.connect())
