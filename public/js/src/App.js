@@ -5,6 +5,7 @@ const ServerCommunication = require('./ServerCommunication');
 const manifest = require('../data/manifest');
 const fieldsData = require('../data/fields');
 const { Howl } = require('howler');
+const { gsap } = require('gsap');
 
 class App {
   constructor(view) {

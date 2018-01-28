@@ -19,7 +19,7 @@ class Block extends PIXI.Container {
     const background = new PIXI.Sprite(Assets.images[tile]);
     // background.beginFill(0x999999);
     // background.drawRect(0, 0, 20, 20);
-  //  console.log(text);
+    //  console.log(text);
     this.addChild(background);
   }
 

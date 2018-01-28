@@ -23,7 +23,6 @@ class CenterBar extends PIXI.Container {
     this._background.x = this.size[0];
     this._background.y = this.size[1];
 
-
     this._waves = [
       this.createWave(0.1, 1, 30, 3, 0x6AFF7A),
       this.createWave(0.05, 3, 30, 2, 0xBDFFC4),

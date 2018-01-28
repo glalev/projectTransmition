@@ -2,14 +2,17 @@ const PIXI = require('pixi.js');
 const InputManager = require('./InputManager.js');
 const Field = require('./Field.js');
 const CenterBar = require('./CenterBar.js');
+const Background = require('./Background.js');
 const Assets = require('./Assets.js');
 
 class Game extends PIXI.Container {
 
   constructor() {
     super();
-    this._background = new PIXI.Sprite(Assets.images.bgImg);
-    this._background.y = 0;
+    //this._background = new Background();
+    this._displays = new PIXI.Sprite(Assets.images.displays);
+    this._displays.y = 302;
+    this._displays.x = 8;
     this._foreground = new PIXI.Sprite(Assets.images.fgImg);
     this._foreground.y = -180;
 
@@ -29,7 +32,7 @@ class Game extends PIXI.Container {
     Assets.sounds['idleLoop'].loop(true).play();
 
     this.centerBar = new CenterBar();
-    this.addChild(this._background, this.centerBar, this._foreground, this.centerBar);
+    this.addChild(this._displays, this._foreground, this.centerBar);
   }
 
   update() {
