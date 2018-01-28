@@ -1,4 +1,7 @@
 module.exports = {
+  loading: [
+    { id: 'loadingBar', name: 'loadingBar', src: './assets/Images/loadingBar.png' }
+  ],
   sounds: [
     { id: 'bgLoop', name: 'backgroundLoop', src: './assets/sounds/bgLoop.ogg' },
     { id: 'idleLoop', name: 'idleLoop', src: './assets/sounds/idleLoop.ogg' },

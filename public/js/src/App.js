@@ -7,7 +7,7 @@ const Video = require('./Video');
 const manifest = require('../data/manifest');
 const fieldsData = require('../data/fields');
 const { Howl } = require('howler');
-const { gsap } = require('gsap');
+const { TweenMax, Power0 } = require('gsap');
 
 class App {
   constructor(view) {
@@ -20,8 +20,16 @@ class App {
 
 
     this.comunicator = new ServerCommunication();
+    let loading = PIXI.Sprite.fromImage('./assets/Images/loadingBar.png');
+    loading.pivot.x = 130;
+    loading.pivot.y = 130;
+    loading.x = 670;
+    loading.y = 360;
+    TweenMax.to(loading, 4, { rotation: 2 * -6.28319, ease: Power0.easeNone, repeat: -1 });
+    this.stage.addChild(loading)
     this.load()
       .then(() => {
+        this.stage.removeChildren();
         this.splash = new Splash()
         this.stage.addChild(this.splash);
         return this.splash.show();
@@ -45,7 +53,7 @@ class App {
   load() {
     return new Promise(resolve => {
     	manifest.sounds.forEach( sound  => {
-        Assets.sounds[sound.id]= new Howl({ src: sound.src })
+        Assets.sounds[sound.id] = new Howl({ src: sound.src })
       });
       console.log("Sounds loaded");
 
