@@ -21,7 +21,7 @@ module.exports = class Game extends EventEmitter{
 			[12,13,14,15]
 		];
 
-		this.levels = [5,10,15,30,100];
+		this.levels = [10,25,45,60,100];
 		this.level = 0;
 		this.perfectCount = 0;
 		this.counter = 0;
@@ -234,21 +234,18 @@ module.exports = class Game extends EventEmitter{
 			this.pauseGame(-1);
 			this.sendMessageToPlayers("gameOver");
 		} else if(this.perfectCount > this.levels[3] && this.level < 4) { //Level4
-			this.sendMessageToPlayers("pause3");
+			this.sendMessageToPlayers("pause1");
 			this.level = 4;
 			this.pauseGame(5);
 		} else if(this.perfectCount > this.levels[2] && this.level < 3) { //Level3
-			this.sendMessageToPlayers("pause2");
 			this.level = 3;
 			this.pauseGame(5);
 		} else if(this.perfectCount > this.levels[1] && this.level < 2) { //Level2
-			this.sendMessageToPlayers("pause1");
+			this.sendMessageToPlayers("pause0");
 			this.level = 2;
 			this.pauseGame(5);
 		} else if(this.perfectCount > this.levels[0] && this.level < 1) { //Level1
-			this.sendMessageToPlayers("pause0");
 			this.level = 1;
-			this.pauseGame(5);
 		}
 
 	}

@@ -142,6 +142,14 @@ class Game extends PIXI.Container {
       TweenLite.to(this.scale, 3, { x: 1, y: 1, ease: Power2.easeInOut, onComplete: resolve });
     })
   }
+
+  rumble(){
+    let dummy = {val:100};
+    TweenMax.to(dummy, 0.5, {dummy: 0, onUpdate: ()=>{
+      this.x = Math.random() * 10 * dummy.val;
+      this.y = Math.random() * 10 * dummy.val;
+    }})
+  }
 }
 
 module.exports = Game;

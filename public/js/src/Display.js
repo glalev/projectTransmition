@@ -14,15 +14,10 @@ class Display extends PIXI.Container {
     background.drawRect(0, 0, width, height);
 
     this.images = [
-        Assets.images.noise50,
-        Assets.images.noiseNormal,
-        Assets.images.noise50,
-        Assets.images.noiseNormal,
-        Assets.images.noise50,
-        Assets.images.noiseNormal,
-        Assets.images.pinkGuy,
-        Assets.images.pinkGuy,
-        Assets.images.pinkGuy,
+        Assets.images.CutScenes1,
+        Assets.images.CutScenes2,
+        Assets.images.CutScenes3,
+        Assets.images.CutScenes4
     ];
 
     this.addChild(background);
@@ -43,18 +38,35 @@ class Display extends PIXI.Container {
 
   playStatic(time){
     let dummy = {dummy: 0}
-    const bg = new PIXI.Sprite(this.images[textureIndex]);
-    TweenMax.to(dummy, time, {dummy:100, onUpdate:()=>{
-        const textureIndex = Math.round(Math.random() * (this.images.length-1));
-        const sprite = new PIXI.Sprite(this.images[textureIndex]);
-        sprite.width = this.w;
-        sprite.height = this.h;
+    const bg = new PIXI.Sprite(Assets.images.noiseNormal);
+    bg.width = this.w;
+    bg.height = this.h;
 
-        this.removeChildren();
-        this.addChild(sprite);
+    const middle = new PIXI.Sprite(Assets.images.CutScenes1);
+    middle.width = this.w;
+    middle.height = this.h;
+    middle.visible = false;
+
+    const top = new PIXI.Sprite(Assets.images.noise50);
+    top.width = this.w;
+    top.height = this.h;
+
+    TweenMax.to(dummy, time, {dummy:100, onUpdate:()=>{
+        top.x = (Math.random() - 0.5) * 15;
+        top.y = (Math.random() - 0.5) * 15;
+
+        middle.x = (Math.random() - 0.5) * 15;
+        middle.y = (Math.random() - 0.5) * 15;
+
+        middle.alpha = Math.random();
+        top.alpha = Math.random();
+        middle.texture = this.images[Math.floor(Math.random()*this.images.length)];
+        middle.visible = Math.random()>0.95;
     }, onComplete:()=>{
         this.removeChildren();
     }});
+
+    this.addChild(bg,middle,top);
   }
 }
 

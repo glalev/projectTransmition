@@ -55,7 +55,10 @@ module.exports = {
     { id: 'buttonPlatform', name: 'buttonPlatform', src: './assets/images/buttonPlatform.png' },
     { id: 'noise50', name: 'noise50', src: './assets/images/noise50.png' },
     { id: 'noiseNormal', name: 'noiseNormal', src: './assets/images/noiseNormal.png' },
-    { id: 'pinkGuy', name: 'buttonPlatform', src: './assets/images/pinkguy.png' },
+    { id: 'CutScenes1', name: 'CutScenes1', src: './assets/images/CutScenes1.png' },
+    { id: 'CutScenes2', name: 'CutScenes2', src: './assets/images/CutScenes2.png' },
+    { id: 'CutScenes3', name: 'CutScenes3', src: './assets/images/CutScenes3.png' },
+    { id: 'CutScenes4', name: 'CutScenes4', src: './assets/images/CutScenes4.png' },
   ],
   video: [
       { id: 'endingVideo', name: 'endingVideo', src: './assets/video/endingVideo.mp4' },

@@ -118,7 +118,7 @@ class Field extends PIXI.Container {
   };
 
   _failBlockAnim(block){
-    TweenMax.to(block, 0.5, {alpha:0, rotation: Math.PI * (Math.random()>0.5 ? -0.5 : 0.5), onComplete:()=>{
+    TweenMax.to(block, 0.5, {alpha:0, onComplete:()=>{
       this.removeChild(block);
     }}) 
   };
