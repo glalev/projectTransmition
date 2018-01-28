@@ -47,11 +47,11 @@ class Game extends PIXI.Container {
           this.characters.playButton(this.localPlayerId);
           this._buttonLights.flash();
           if(!result) return;
-
+        
+          if(result.level < 0.3) this._playerField.markMiss();
           this.playSound(result.instrumentId, result.level)
           this.playSound(result.instrumentId, result.level)
           this.emit('keyDown', { iId: result.instrumentId, sId: result.soundId, str: result.level, prf: result.isPerfect })
-
         });
     });
 

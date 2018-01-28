@@ -75,6 +75,9 @@ module.exports = {
     { id: 'instrument2', name: 'instrument2', src: './assets/images/piano.png' },
     { id: 'instrument3', name: 'instrument3', src: './assets/images/guitar.png' },
     { id: 'credits', name: 'credits', src: './assets/images/credits.png' },
+    { id: 'pointers', name: 'pointers', src: './assets/images/pointers.png' },
+    { id: 'pointersBg', name: 'pointersBg', src: './assets/images/pointersBg.png' },
+    { id: 'wrongScreen', name: 'wrongScreen', src: './assets/images/wrongScreen.png' },
   ],
   video: [
       { id: 'endingVideo', name: 'endingVideo', src: './assets/video/endingVideo.mp4' },

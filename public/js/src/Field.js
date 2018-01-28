@@ -2,6 +2,9 @@ const PIXI = require('pixi.js');
 require('pixi-animate');
 const Block = require('./Block');
 const PlayTextFlash = require('../lib/PlayText.js').stage;
+const Assets = require('./Assets');
+const { TimelineMax, Power2 } = require('gsap');
+
 const INPUTS = [ 65, 83, 75 , 76]; //todo
 
 class Field extends PIXI.Container {
@@ -15,6 +18,11 @@ class Field extends PIXI.Container {
     this._zone = zone;
     this._instruments = instruments;
     this._playText = new PlayTextFlash();
+    this._wrongScreen = new PIXI.Sprite(Assets.images.wrongScreen);
+    this._wrongScreen.width = this.w + 40;
+    this._wrongScreen.x = -40;
+
+    this._wrongScreen.alpha = 0;
     this._isActive - false;
     const background = new PIXI.Graphics();
     background.beginFill(0x777700);
@@ -32,7 +40,7 @@ class Field extends PIXI.Container {
     zoneBgTolerance.drawRect(0, 0, width, (zone.end - zone.start) + zone.tolerance);
     zoneBgTolerance.alpha = 0;
 
-    this.addChild(zoneBgTolerance, zoneBg, this._playText);
+    this.addChild(zoneBgTolerance, zoneBg, this._playText, this._wrongScreen);
   }
 
   playReady() {
@@ -89,6 +97,13 @@ class Field extends PIXI.Container {
     return this._killBlock(this._blocks[blockIndex]);
   }
 
+  markMiss() {
+    let tl = new TimelineMax();
+    this._wrongScreen.alpha = 1;
+    tl
+      .to(this._wrongScreen, 0.3, { alpha: 0,  ease: Power2.easeOut });
+  }
+
   get _blocks() {
     return this.children.filter(child => {return (child instanceof Block) && (child.isAlive)})
   }
@@ -98,7 +113,7 @@ class Field extends PIXI.Container {
       block.isAlive = false;
       if(silent) return resolve(false);
       const isInTheZone = this._isInTheZone(block);
-      console.log(isInTheZone);
+
       if(isInTheZone.isPerfect) {
         this._winBlockAnim(block);
       } else {
@@ -121,7 +136,7 @@ class Field extends PIXI.Container {
   _failBlockAnim(block){
     TweenMax.to(block, 0.5, {alpha:0, onComplete:()=>{
       this.removeChild(block);
-    }}) 
+    }})
   };
 
   _isInTheZone(block) {
@@ -131,19 +146,19 @@ class Field extends PIXI.Container {
     const toleranceBottom = this._zone.end + this._zone.tolerance / 2;
     const zoneTop = this._zone.start;
     const zoneBottom = this._zone.end;
+    let isIn = blockBottom < toleranceTop || blockTop > toleranceBottom;
+    let deviation, isPerfect = blockTop >= zoneTop && blockBottom <= zoneBottom;
+    if(isPerfect) {
+      deviation = 0
+    } else {
+        let centerBlock = block.y + block.top + (block.bottom - block.top) / 2;
+        let centerZone = this._zone.start + (this._zone.end - this._zone.start) / 2;
 
-    if(blockBottom < toleranceTop){
-      let level = this._getLevel(toleranceTop - blockBottom)
-      return  { in: false, level, isPerfect: false, soundId: block.soundId, instrumentId: block.instrumentId };
+        deviation = Math.abs(centerZone - centerBlock);
     }
-    if(blockTop > toleranceBottom) {
-      let level = this._getLevel(blockTop - toleranceBottom)
 
-      return  { in: false, level, isPerfect: false, soundId: block.soundId, instrumentId: block.instrumentId };
-    }
-
-    let isPerfect = blockTop >= zoneTop && blockBottom <= zoneBottom;
-    let deviation = isPerfect ? 0 : Math.max(Math.abs(blockTop - zoneTop), Math.abs(blockBottom - blockBottom));
+    console.log(deviation);
+    //let deviation = isPerfect ? 0 : // Math.max(Math.abs(blockTop - zoneTop), Math.abs(blockBottom - blockBottom));
     let level = this._getLevel(deviation)
 
     return { in: true, level, isPerfect, soundId: block.soundId, instrumentId: block.instrumentId, deviation };
@@ -151,9 +166,9 @@ class Field extends PIXI.Container {
 
   _getLevel(deviation) {
     if(deviation === 0) return 1;
-    if(deviation > 100) return 0.1// doto MAX deviation;
+    if(deviation > 140) return 0.1// doto MAX deviation;
 
-    return (100 - deviation) / 100;
+    return Math.max(0.1, 1 - deviation/160);
   }
 }
 
