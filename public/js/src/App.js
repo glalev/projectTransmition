@@ -3,7 +3,7 @@ const PIXI = require('pixi.js');
 const Assets = require('./Assets');
 const ServerCommunication = require('./ServerCommunication');
 const Splash = require('./Splash');
-const Intro = require('./Intro');
+const Video = require('./Video');
 const manifest = require('../data/manifest');
 const fieldsData = require('../data/fields');
 const { Howl } = require('howler');
@@ -21,18 +21,18 @@ class App {
 
     this.comunicator = new ServerCommunication();
     this.load()
-      .then(() => {
-        this.splash = new Splash()
-        this.stage.addChild(this.splash);
-        return this.splash.show();
-      })
+      // .then(() => {
+      //   this.splash = new Splash()
+      //   this.stage.addChild(this.splash);
+      //   return this.splash.show();
+      // })
       // .then(() => {
       //   this.stage.removeChild(this.splash)
       //   this.intro = new Intro();
       //   this.stage.addChild(this.intro);
       //   return this.intro.play();
       // })
-      .then(() => this.stage.removeChild(this.intro))
+      //.then(() => this.stage.removeChild(this.intro))
       .then(() => this.comunicator.connect())
       .then(()=> {
         this.game = new Game()

@@ -60,5 +60,6 @@ module.exports = {
   video: [
       { id: 'endingVideo', name: 'endingVideo', src: './assets/video/endingVideo.mp4' },
       { id: 'intro', name: 'intro', src: './assets/video/intro.mp4' },
+      { id: 'skit1', name: 'skit1', src: './assets/video/Skit1.mp4' },
   ]
 }

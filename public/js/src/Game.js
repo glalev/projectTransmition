@@ -6,6 +6,7 @@ const Characters = require('./Characters.js');
 const Assets = require('./Assets.js');
 const FlashingThing = require('./FlashingThing.js');
 const Display = require('./Display.js');
+const Video = require('./Video.js');
 const { Power2, TweenMax } = require('gsap').TweenMax;
 
 class Game extends PIXI.Container {
@@ -34,6 +35,7 @@ class Game extends PIXI.Container {
     this._fields = [];
 
     window.Assets = Assets;
+    this._video = new Video();
     this._display = new Display({ x: 280, y: -160 });
     this._input = new InputManager();
     this._input.on('keydown', ({ keyCode, symbol }) => {
@@ -52,7 +54,7 @@ class Game extends PIXI.Container {
     Assets.sounds['idleLoop'].loop(true).play();
 
     this.centerBar = new CenterBar();
-    this.addChild(this._displays, this._display, this._foreground, this._buttons, this._buttonLights, this._characters, this.centerBar, this.sceneLights);
+    this.addChild(this._displays, this._display, this._foreground, this._buttons, this._buttonLights, this._characters, this.centerBar, this.sceneLights, this._video);
   }
 
   update() {

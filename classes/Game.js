@@ -2,6 +2,7 @@ const _ = require('underscore');
 const EventEmitter = require('eventemitter3');
 const GamePlayer = require('./GamePlayer.js');
 const Instruments = require('./Instruments.js');
+const Video = require('./Video.js');
 
 module.exports = class Game extends EventEmitter{
 	constructor () {
@@ -38,7 +39,7 @@ module.exports = class Game extends EventEmitter{
 	}
 
 	update(_delta){
-		if(this._areWeEmpty()) return this.destroy();		
+		if(this._areWeEmpty()) return this.destroy();
 		//if(this.players.length < 4) return;
 		this.counter++;
 
