@@ -17,6 +17,7 @@ module.exports = {
     { id: '131', name: 'GuitarF', src: './assets/sounds/gtrBb.ogg' },
     { id: '141', name: 'GuitarEb', src: './assets/sounds/gtrF.ogg' },
     { id: '151', name: 'GuitarEb', src: './assets/sounds/gtrEb.ogg' },
+    { id: 'transition', name: 'transition', src: './assets/sounds/transition.ogg' },
   ],
   images: [
     { id: 'fgImg', name: 'foreground', src: './assets/Images/scene.png' },

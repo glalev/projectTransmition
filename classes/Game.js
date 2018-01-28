@@ -26,6 +26,8 @@ module.exports = class Game extends EventEmitter{
 		this.counter = 0;
 		this.unpauseCount = 0;
 
+		this.loopCounter = 0;
+
 		this.hasStarted = false;
 		this.isPaused = false;
 
@@ -40,7 +42,9 @@ module.exports = class Game extends EventEmitter{
 		//if(this.players.length < 4) return;
 		this.counter++;
 
-		if(!(this.counter % global.minBeat)) this.sendStartRhythmToPlayers();
+		this.loopCounter = this.counter % global.minBeat;
+
+		if(!(this.loopCounter)) this.sendStartRhythmToPlayers();
 
 		if(this.isPaused) {
 			if(this.unpauseCount == this.counter) {
@@ -155,12 +159,7 @@ module.exports = class Game extends EventEmitter{
 		_.each(this.players, (player)=>{
 			if(!player) return;
 			_.each(player.instruments, (instrumentId)=>{
-				if(!this.loops[instrumentId]) {
-					this._getFirstInstrumentLoop(instrumentId);
-					this.loops[instrumentId].shift();
-				}
-				else if (this.loops[instrumentId].length == 1) this._getNewInstrumentLoop(instrumentId);
-				else this.loops[instrumentId].shift();
+				if(!this.loops[instrumentId] || !this.loopCounter) this._getNewInstrumentLoop(instrumentId);
 			});
 		});
 	}
@@ -172,7 +171,7 @@ module.exports = class Game extends EventEmitter{
 			_.each(player.instruments, (instrumentId)=>{
 				if(!this.loops[instrumentId]) return;
 
-				let beat = this.loops[instrumentId][0];
+				let beat = this.loops[instrumentId][this.loopCounter];
 				if(beat) {
 					let playerOwner = _.findIndex(this.playerInstruments, (data)=>{ //TODO: better method!!!
 						return _.contains(data, instrumentId);

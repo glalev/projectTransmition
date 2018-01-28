@@ -105,6 +105,7 @@ class App {
         case 'startBackground':
           Assets.sounds['idleLoop'].fade(1,0,1000)
           Assets.sounds['bgLoop'].loop(true).play();
+          Assets.sounds['transition'].play();
           break;
         case 'perfectMatch':
           this.game.centerBar.playCheer();
