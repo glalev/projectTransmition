@@ -32,7 +32,7 @@ class CenterBar extends PIXI.Container {
     ];
 
     this.currentPercent = 0;
-    this.finalPercent = 100;
+    this.finalPercent = 400;
     this.interference = 1;
 
     this.setPercent(0);

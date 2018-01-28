@@ -8,7 +8,7 @@ let io = null;
 const GameLoop = require('node-gameloop');
 const Player = require("./NetworkPlayer.js");
 const Game = require("./Game.js");
-const fps = (100/60); //100 BPM
+const fps = (400/60); //100 BPM
 
 global._ = _;
 global.playerList = [];

@@ -99,6 +99,7 @@ class Game extends PIXI.Container {
   }
 
   pause(){
+    Assets.sounds["skit"].play();
     this.characters.playTiredAll();
     let timeline = new TimelineMax();
     timeline.addCallback(()=>{

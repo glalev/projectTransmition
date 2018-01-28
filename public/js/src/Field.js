@@ -24,13 +24,13 @@ class Field extends PIXI.Container {
     zoneBg.beginFill(0x007700);
     zoneBg.y = zone.start
     zoneBg.drawRect(0, 0, width, zone.end - zone.start);
-    zoneBg.alpha = 0.5;
+    zoneBg.alpha = 0;
 
     const zoneBgTolerance = new PIXI.Graphics();
     zoneBgTolerance.beginFill(0xaaaa00)
     zoneBgTolerance.y = zone.start - zone.tolerance / 2;
     zoneBgTolerance.drawRect(0, 0, width, (zone.end - zone.start) + zone.tolerance);
-    zoneBgTolerance.alpha = 0.5;
+    zoneBgTolerance.alpha = 0;
 
     this.addChild(zoneBgTolerance, zoneBg, this._playText);
   }
@@ -57,7 +57,7 @@ class Field extends PIXI.Container {
   addBlock(instrumentId, soundId) {
     const index = instrumentId % 4;
     const keyCode = INPUTS[index];
-    const x = ((this.w - 176) / 2) + (2-index)*30;
+    const x = ((this.w - 176) / 2) - (2-index)*30;
     const target = this._zone.start-35;
     const block = new Block({ keyCode, instrumentId, soundId, x: x, y: 0, target: target });
 
