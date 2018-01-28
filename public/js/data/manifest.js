@@ -69,6 +69,7 @@ module.exports = {
     { id: 'CutScenes2', name: 'CutScenes2', src: './assets/images/CutScenes2.png' },
     { id: 'CutScenes3', name: 'CutScenes3', src: './assets/images/CutScenes3.png' },
     { id: 'CutScenes4', name: 'CutScenes4', src: './assets/images/CutScenes4.png' },
+    { id: 'credits', name: 'credits', src: './assets/images/credits.png' },
   ],
   video: [
       { id: 'endingVideo', name: 'endingVideo', src: './assets/video/endingVideo.mp4' },
