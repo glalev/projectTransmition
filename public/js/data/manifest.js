@@ -43,6 +43,9 @@ module.exports = {
     { id: 'PlayText', name: 'PlayText', src: './assets/images/PlayText.shapes.txt' },
     { id: 'loadingBG', name: 'loadingBG', src: './assets/images/loadingBG.png' },
     { id: 'displays', name: 'displays', src: './assets/images/displays.png' },
+    { id: 'deskButtons', name: 'deskButtons', src: './assets/images/deskButtons.png' },
+    { id: 'deskButtonsLight', name: 'deskButtonsLight', src: './assets/images/deskButtonsLight.png' },
+    { id: 'sceneLights', name: 'sceneLights', src: './assets/images/sceneLights.png' },
   ],
   video: [
       { id: 'video', name: 'video', src: './assets/video/video.mp4' }, 

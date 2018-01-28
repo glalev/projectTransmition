@@ -20,14 +20,13 @@ class Block extends PIXI.Container {
     // background.beginFill(0x999999);
     // background.drawRect(0, 0, 20, 20);
     //  console.log(text);
+    TweenMax.fromTo(this.scale, 1, {x: 0.65, y: 0.65}, {x: 1, y: 1, ease: Power0.easeNone})
+
     this.addChild(background);
   }
 
   update(){
     this.y += this._speed;
-    if(this.y >= this.parent.height / 2){
-        this.scale.x = this.scale.y = this.scale.x + .0002
-    }
     //console.log(this.y);
   }
 }
