@@ -49,6 +49,7 @@ class Game extends PIXI.Container {
           if(!result) return;
 
           this.playSound(result.instrumentId, result.level)
+          this.playSound(result.instrumentId, result.level)
           this.emit('keyDown', { iId: result.instrumentId, sId: result.soundId, str: result.level, prf: result.isPerfect })
 
         });

@@ -239,7 +239,7 @@ module.exports = class Game extends EventEmitter{
 
 		this.sendProgressToPlayers({level: this.level, prfCount: this.perfectCount})
 
-		if(this.perfectCount > this.levels[4]) { //Endgame
+		if(this.perfectCount > this.levels[4] && !this.isOver) { //Endgame
 			this.pauseGame(-1);
 			this.isOver = true;
 			this.sendMessageToPlayers("gameOver");
