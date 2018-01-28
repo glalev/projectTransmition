@@ -93,15 +93,22 @@ class Game extends PIXI.Container {
   gameOver(){
     this.characters.playTiredAll();
     Assets.sounds['bgLoop'].fade(1, 0, 2000);
-    this.showDisplay()
+    setTimeout(() => {
+        this._video.fade(1, 0, 1)
+    }, 5500);
+    this._video.fade(0, 1, 1).play('skit1')
+      .then(() => this.showDisplay())
       .then(() => this._display.playVideo())
       .then(() => {
         this.returnFromDisplay();
-        Assets.sounds["gameOverLoop"].loop(true).fade(0, 1, 4000).play();
-        Assets.sounds["win"].play();
-        TweenMax.to(this, 4, { alpha: 0, ease: Power2.easeOut })
+		Assets.sounds["win"].play();
+        Assets.sounds["gameOverLoop"].play();
+        Assets.sounds["gameOverLoop"].loop(true).fade(0, 1, 4000);
+		let sprite = new PIXI.Sprite(Assets.images.credits);
+        sprite.alpha = 0;
+        this.addChild(sprite);
+        TweenMax.to(sprite, 3, { alpha: 1, ease: Power2.easeOut });
       });
-
   }
 
   pause(id){
