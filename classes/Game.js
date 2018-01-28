@@ -190,7 +190,6 @@ module.exports = class Game extends EventEmitter{
 				}
 			});
 		});
-		console.log(beats);
 		return beats;
 	}
 

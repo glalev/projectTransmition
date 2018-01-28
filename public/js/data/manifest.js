@@ -26,6 +26,8 @@ module.exports = {
     { id: 'playButton', name: 'playButton', src: './assets/sounds/playButton.ogg' },
     { id: 'noiseLoop1', name: 'noiseLoop1', src: './assets/sounds/noiseLoop1.ogg' },
     { id: 'noiseLoop2', name: 'noiseLoop2', src: './assets/sounds/noiseLoop2.ogg' },
+    { id: 'noiseLoop4', name: 'noiseLoop4', src: './assets/sounds/noiseLoop4.ogg' },
+    { id: 'splash', name: 'splash', src: './assets/sounds/splash.ogg' },
   ],
   images: [
     { id: 'fgImg', name: 'foreground', src: './assets/Images/scene.png' },

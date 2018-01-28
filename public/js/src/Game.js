@@ -51,7 +51,8 @@ class Game extends PIXI.Container {
         });
     });
 
-    //Assets.sounds['idleLoop'].loop(true).play();
+    Assets.sounds.playButton.volume(0.5).play();
+    Assets.sounds.idleLoop.loop(true).play();
     Assets.sounds.idleLoop.fade(0, 1, 2000);
     this.centerBar = new CenterBar();
     this.addChild(this._displays, this._display, this._foreground, this._buttons, this._buttonLights, this.characters, this.centerBar, this.sceneLights, this._video);
@@ -98,18 +99,19 @@ class Game extends PIXI.Container {
       });
   }
 
-  pause(){
+  pause(id){
     Assets.sounds["skit"].play();
     this.characters.playTiredAll();
     let timeline = new TimelineMax();
     timeline.addCallback(()=>{
-      Assets.sounds.bgLoop.fade(1, 0, 1000);
-      this._video.fade(0, 1, 1).play('skit1');
+      this._video.fade(0, 1, 1).play('skit'+id);
     },1);
     timeline.addCallback(()=>{
           this._video.fade(1, 0, 1)
     },4);
     timeline.addCallback(()=>{
+      if(!Assets.sounds.noiseLoop4.playing()) Assets.sounds.noiseLoop4.play();
+      Assets.sounds.noiseLoop4.loop(true).fade(0,1, 1000);
       this.showDisplay();
     },5);
     timeline.addCallback(()=>{
@@ -117,7 +119,7 @@ class Game extends PIXI.Container {
     },8);
     timeline.addCallback(()=>{
       this.returnFromDisplay();
-      Assets.sounds.bgLoop.fade(0, 1, 1000);
+      Assets.sounds.noiseLoop4.fade(1,0, 1000);
       this.characters.playIdleAll();
     }, 12);
     timeline.play();

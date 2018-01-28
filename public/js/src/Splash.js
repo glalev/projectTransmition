@@ -17,6 +17,7 @@ class Splash extends PIXI.Container {
       Assets.sounds.transition.play();
       Assets.sounds.bgLoop.fade(0, 1, 2000);
       Assets.sounds.bgLoop.play();
+      Assets.sounds.splash.play();
       Assets.sounds.bgLoop.loop(true);
       const mc = this._flash.splash;
       mc.gotoAndPlay('show');

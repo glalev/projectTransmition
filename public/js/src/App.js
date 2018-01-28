@@ -36,6 +36,7 @@ class App {
       })
       .then(() => {
         this.stage.removeChild(this.splash)
+        Assets.sounds.transition.volume(0.5).play();
         this.intro = new Video();
         this.stage.addChild(this.intro);
         return this.intro.play('intro');
@@ -127,7 +128,7 @@ class App {
       switch (message) {
         case 'startBackground':
           Assets.sounds['idleLoop'].fade(1,0,1000)
-          Assets.sounds['bgLoop'].loop(true).play();
+          Assets.sounds['bgLoop'].volume(1).loop(true);
           Assets.sounds['transition'].play();
           break;
         case 'perfectMatch':
@@ -137,10 +138,10 @@ class App {
           break;
 
         case 'pause0':
-          this.game.pause();
+          this.game.pause(1);
           break;
         case 'pause1':
-          this.game.pause();
+          this.game.pause(2);
           break;
         case 'gameOver':
           this.game.gameOver();
