@@ -60,13 +60,15 @@ class Game extends PIXI.Container {
 
   initFields(fieldsData, mainField) {
     this.localPlayerId = mainField;
+    
     fieldsData.map(data => {
       let field = new Field(data);
       let index = this.children.length - 2;
       this.addChildAt(field, index);
-      this._playerField = this._fields[mainField];
-      this._playerField.playReady();
     });
+
+    this._playerField = this._fields[mainField];
+    this._playerField.playReady();
   }
 
   spawnSound(data){
