@@ -109,7 +109,7 @@ class App {
           break;
         case 'perfectMatch':
           this.game.centerBar.playCheer();
-
+          this.game.sceneLights.flash();
           break;
         default:
 
