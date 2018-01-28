@@ -102,17 +102,18 @@ class Game extends PIXI.Container {
     this._characters.playTiredAll();
     let timeline = new TimelineMax();
     timeline.addCallback(()=>{
-      this.showDisplay();
+      this._video.fade(0, 1, 1).play('skit1');
     },1);
     timeline.addCallback(()=>{
-      
+          this._video.fade(1, 0, 1)
     },4);
     timeline.addCallback(()=>{
-      this.returnFromDisplay();
-    },7);
+      this.showDisplay();
+    },5);
     timeline.addCallback(()=>{
       this.returnFromDisplay();
-    },10);
+      this._characters.playIdleAll();
+    }, 10);
     timeline.play();
   }
 
@@ -137,8 +138,6 @@ class Game extends PIXI.Container {
 
   returnFromDisplay() {
     return new Promise(resolve => {
-      this.x = this.pivot.x = this.width / 2;
-
       TweenLite.to(this, 3, { y: 0, ease: Power2.easeInOut });
       TweenLite.to(this.scale, 3, { x: 1, y: 1, ease: Power2.easeInOut, onComplete: resolve });
     })
