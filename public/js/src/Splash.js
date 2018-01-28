@@ -23,6 +23,7 @@ class Splash extends PIXI.Container {
         mc.buttonContainer.button.interactive = true;
         mc.buttonContainer.button.once('click', ()=>{
           Assets.sounds.idleLoop.fade(1, 0, 2000);
+          //Assets.sounds.playButton.play();
           mc.gotoAndPlay('hide');
           mc.once('HIDE_END', resolve);
         });

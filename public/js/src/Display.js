@@ -15,7 +15,7 @@ class Display extends PIXI.Container {
     this.addChild(background);
   }
 
-  playVideo(video = 'video') {
+  playVideo(video = 'endingVideo') {
     const texture = PIXI.Texture.fromVideo(Assets.videos[video]);
     const sprite = new PIXI.Sprite(texture);
 
@@ -24,7 +24,6 @@ class Display extends PIXI.Container {
 
     this.removeChildren();
     this.addChild(sprite);
-
   }
 }
 

@@ -18,6 +18,7 @@ module.exports = {
     { id: '141', name: 'GuitarEb', src: './assets/sounds/gtrF.ogg' },
     { id: '151', name: 'GuitarEb', src: './assets/sounds/gtrEb.ogg' },
     { id: 'transition', name: 'transition', src: './assets/sounds/transition.ogg' },
+    { id: 'playButton', name: 'playButton', src: './assets/sounds/playButton.ogg' },
   ],
   images: [
     { id: 'fgImg', name: 'foreground', src: './assets/Images/scene.png' },
@@ -54,6 +55,7 @@ module.exports = {
     { id: 'buttonPlatform', name: 'buttonPlatform', src: './assets/images/buttonPlatform.png' },
   ],
   video: [
-      { id: 'video', name: 'video', src: './assets/video/video.mp4' },
+      { id: 'endingVideo', name: 'endingVideo', src: './assets/video/endingVideo.mp4' },
+      { id: 'intro', name: 'intro', src: './assets/video/intro.mp4' },
   ]
 }
