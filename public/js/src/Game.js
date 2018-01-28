@@ -104,9 +104,13 @@ class Game extends PIXI.Container {
     }, 5500);
     Assets.sounds.skit.play();
     this._video.fade(0, 1, 1).play('skit1')
-      .then(() => this.showDisplay())
-      .then(() => this._display.playVideo())
-      .then(() => {
+      .then(() => {        
+        Assets.sounds["noiseLoop4"].loop(true).play();
+        return this.showDisplay();
+      }).then(() => {
+        Assets.sounds["noiseLoop4"].stop();
+        return this._display.playVideo();
+      }).then(() => {
         this.returnFromDisplay();
         Assets.sounds["win"].play();
         Assets.sounds["win"].play();
@@ -145,7 +149,7 @@ class Game extends PIXI.Container {
           this.characters.playButton(source);
           this._buttonLights.flash();
           if(!result) return;
-         this.playSound(instrumentId, level)
+         this.playSound(instrumentId, Math.max(0,level-0.3));
       });
   }
 
