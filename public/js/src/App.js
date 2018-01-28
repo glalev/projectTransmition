@@ -47,7 +47,8 @@ class App {
 		      });
 
           manifest.video.forEach(video => {
-							Assets.videos[video.id] = PIXI.Texture.fromVideo(resources[video.id].url);
+							//Assets.videos[video.id] = PIXI.Texture.fromVideo(resources[video.id].url);
+            	Assets.videos[video.id] = resources[video.id].url;
 		      });
 
           console.log('loading complete');
@@ -107,7 +108,7 @@ class App {
           break;
         case 'perfectMatch':
           this.game.centerBar.playCheer();
-          this.game.sceneLights.flash();
+
           break;
         default:
 

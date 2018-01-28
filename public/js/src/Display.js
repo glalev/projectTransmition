@@ -10,20 +10,19 @@ class Display extends PIXI.Container {
     this.h = height;
     this._videos = {}
     const background = new PIXI.Graphics();
-    background.beginFill(0xff0000);
+    background.beginFill(0x223322);
     background.drawRect(0, 0, width, height)
     this.addChild(background);
   }
 
-  playVideo(video='video') {
-    const sprite = new PIXI.Sprite(Assets.videos[video]);
-    Assets.videos.video.baseTexture.source.load();
-    Assets.videos.video.baseTexture.source.play();
-
+  playVideo(video = 'video') {
+    const texture = PIXI.Texture.fromVideo(Assets.videos[video]);
+    const sprite = new PIXI.Sprite(texture);
 
     sprite.width = this.w;
     sprite.height = this.h
 
+    this.removeChildren();
     this.addChild(sprite);
 
   }
