@@ -11,10 +11,12 @@ class CenterBar extends PIXI.Container {
     this.cheeringIsPlaying = false;
 
     this._loadingBar = new PIXI.Graphics();
-    this._loadingBar.beginFill(0x32a83e);
+    this._loadingBar.beginFill(0x79ff23);
     this._loadingBar.drawRect(0, 0,
       this.size[2],
       this.size[3]);
+
+    this._loadingBar.alpha = 0.5;
 
     this._loadingBar.x = this.size[0];
     this._loadingBar.y = this.size[1];
@@ -72,6 +74,8 @@ class CenterBar extends PIXI.Container {
     this.currentPercent = amount;
     this.interference = 1-(this.currentPercent/this.finalPercent);
     this._loadingBar.transform.scale.x = (this.currentPercent/this.finalPercent);
+    
+    TweenMax.fromTo(this._loadingBar, 0.5, {alpha: 1}, {alpha:0.5})
   }
 
   update(){
