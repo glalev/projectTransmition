@@ -10,12 +10,12 @@ class Block extends PIXI.Container {
     this.instrumentId = instrumentId;
     this.soundId = soundId;
     this._speed = speed;
-    this.top = 22;
-    this.bottom = 73
+    this.top = 46;
+    this.bottom = 122;
     this.x = x;
     this.y = y;
+
     const tile = KEY_CODES[keyCode] + 'Tile';
-    // const text = new PIXI.Text(KEY_CODES[keyCode],  {fontFamily : 'Arial', fontSize: 24, fill : 0x000000, align : 'center'});
     const background = new PIXI.Sprite(Assets.images[tile]);
     // background.beginFill(0x999999);
     // background.drawRect(0, 0, 20, 20);

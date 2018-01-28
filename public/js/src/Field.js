@@ -9,11 +9,17 @@ class Field extends PIXI.Container {
     super();
     this.x = x;
     this.y = y;
+    this.w = width;
+    this.h = height;
 
     this._zone = zone;
     this._instruments = instruments;
     this._playText = new PlayTextFlash();
     this._isActive - false;
+    const background = new PIXI.Graphics();
+    background.beginFill(0x777700);
+    background.drawRect(0, 0, width, height);
+
     const zoneBg = new PIXI.Graphics();
     zoneBg.beginFill(0x007700);
     zoneBg.y = zone.start
@@ -51,8 +57,7 @@ class Field extends PIXI.Container {
   addBlock(instrumentId, soundId) {
     const index = instrumentId % 4;
     const keyCode = INPUTS[index];
-
-    const block = new Block({ keyCode, instrumentId, soundId, x: 20 + index * 80, y: 0  });
+    const block = new Block({ keyCode, instrumentId, soundId, x: (this.w - 176) / 2, y: 0  });
     if(!this._active) this.playGo();
     this._blocks.push(block);
     this.addChild(block);
