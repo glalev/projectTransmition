@@ -58,9 +58,9 @@ class Display extends PIXI.Container {
     top.height = this.h;
 
     TweenMax.to(dummy, time, {dummy:100, onUpdate:()=>{
-        Assets.sounds.noiseLoop1.loop(true);
+        Assets.sounds.noiseLoop1.loop(true).volume(0.5);
         Assets.sounds.noiseLoop1.play();
-        Assets.sounds.noiseLoop2.loop(true);
+        Assets.sounds.noiseLoop2.loop(true).volume(0.5);
         Assets.sounds.noiseLoop2.play();
         top.x = (Math.random() - 0.5) * 15;
         top.y = (Math.random() - 0.5) * 15;

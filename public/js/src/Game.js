@@ -115,25 +115,20 @@ class Game extends PIXI.Container {
     Assets.sounds["skit"].play();
     this.characters.playTiredAll();
     let timeline = new TimelineMax();
-    timeline.addCallback(()=>{
-      this._video.fade(0, 1, 1).play('skit'+id);
-    },1);
-    timeline.addCallback(()=>{
-          this._video.fade(1, 0, 1)
-    },4);
+
     timeline.addCallback(()=>{
       if(!Assets.sounds.noiseLoop4.playing()) Assets.sounds.noiseLoop4.play();
       Assets.sounds.noiseLoop4.loop(true).fade(0,1, 1000);
       this.showDisplay();
-    },5);
+    },1);
     timeline.addCallback(()=>{
       this._display.playStatic(Math.random() * 3 + 2);
-    },8);
+    },4);
     timeline.addCallback(()=>{
       this.returnFromDisplay();
       Assets.sounds.noiseLoop4.fade(1,0, 1000);
       this.characters.playIdleAll();
-    }, 12);
+    }, 8);
     timeline.play();
   }
 
