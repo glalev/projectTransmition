@@ -8,6 +8,7 @@ class Display extends PIXI.Container {
     this.y = y;
     this.w = width;
     this.h = height;
+    this._videos = {}
     const background = new PIXI.Graphics();
     background.beginFill(0xff0000);
     background.drawRect(0, 0, width, height)
@@ -16,13 +17,15 @@ class Display extends PIXI.Container {
 
   playVideo(video='video') {
     const sprite = new PIXI.Sprite(Assets.videos[video]);
-    //Assets.videos.video.baseTexture.source.stop();
+    Assets.videos.video.baseTexture.source.load();
+    Assets.videos.video.baseTexture.source.play();
 
 
     sprite.width = this.w;
     sprite.height = this.h
 
-    this.addChild(sprite)
+    this.addChild(sprite);
+
   }
 }
 
