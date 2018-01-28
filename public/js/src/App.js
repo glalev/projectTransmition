@@ -36,6 +36,7 @@ class App {
       })
       .then(() => {
         this.stage.removeChild(this.splash)
+        return;
         Assets.sounds.transition.volume(0.5).play();
         this.intro = new Video();
         this.stage.addChild(this.intro);

@@ -46,7 +46,8 @@ class Field extends PIXI.Container {
 
   update(){
       this._blocks.forEach((block) => {
-        if(block.y > 400) { //todo
+        if(block.y > 280) { //todo
+          block.alpha = 0.5;
           return this._killBlock(block, true);
         }
 
