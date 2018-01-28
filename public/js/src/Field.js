@@ -24,13 +24,13 @@ class Field extends PIXI.Container {
     zoneBg.beginFill(0x007700);
     zoneBg.y = zone.start
     zoneBg.drawRect(0, 0, width, zone.end - zone.start);
-    zoneBg.alpha = 0.25;
+    zoneBg.alpha = 0;
 
     const zoneBgTolerance = new PIXI.Graphics();
     zoneBgTolerance.beginFill(0xaaaa00)
     zoneBgTolerance.y = zone.start - zone.tolerance / 2;
     zoneBgTolerance.drawRect(0, 0, width, (zone.end - zone.start) + zone.tolerance);
-    zoneBgTolerance.alpha = 0.25;
+    zoneBgTolerance.alpha = 0;
 
     this.addChild(zoneBgTolerance, zoneBg, this._playText);
   }

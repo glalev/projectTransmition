@@ -36,15 +36,18 @@ class App {
 
       const loader = new PIXI.loaders.Loader();
 
-      manifest.images.forEach( image  => {
-					loader.add(image.id, image.src);
-      });
+      manifest.images.forEach( image  => loader.add(image.id, image.src));
+      manifest.video.forEach( image  => loader.add(image.id, image.src));
       //Assets.images[image.id] =
 
       loader.load((loader, resources) => {
 
       		manifest.images.forEach(image => {
 							Assets.images[image.id] = resources[image.id].texture;
+		      });
+
+          manifest.video.forEach(video => {
+							Assets.videos[video.id] = PIXI.Texture.fromVideo(resources[video.id].url);
 		      });
 
           console.log('loading complete');

@@ -42,6 +42,9 @@ module.exports = {
     { id: 'whiteProgress', name: 'whiteProgress', src: './assets/images/whiteProgress.png' },
     { id: 'PlayText', name: 'PlayText', src: './assets/images/PlayText.shapes.txt' },
     { id: 'loadingBG', name: 'loadingBG', src: './assets/images/loadingBG.png' },
-    { id: 'displays', name: 'displays', src: './assets/images/displays.png' }, 
+    { id: 'displays', name: 'displays', src: './assets/images/displays.png' },
+  ],
+  video: [
+      { id: 'video', name: 'video', src: './assets/video/video.mp4' }, 
   ]
 }

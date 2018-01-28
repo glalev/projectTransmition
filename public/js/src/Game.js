@@ -4,6 +4,8 @@ const Field = require('./Field.js');
 const CenterBar = require('./CenterBar.js');
 const Characters = require('./Characters.js');
 const Assets = require('./Assets.js');
+const Display = require('./Display.js');
+const { Power2, TweenMax } = require('gsap').TweenMax;
 
 class Game extends PIXI.Container {
 
@@ -20,6 +22,7 @@ class Game extends PIXI.Container {
     this._characters = new Characters();
 
     window.Assets = Assets;
+    this._display = new Display();
     this._input = new InputManager();
     this._input.on('keydown', ({ keyCode, symbol }) => {
       this._playerField.checkInput(keyCode, symbol)
@@ -75,6 +78,15 @@ class Game extends PIXI.Container {
           if(!result) return;
          this.playSound(instrumentId, level)
       });
+  }
+
+  showDisplay() {
+    return new Promise(resolve => {
+      this.x = this.pivot.x = this.width / 2;
+
+      TweenLite.to(this, 3, { y: 230, ease: Power2.easeInOut });
+      TweenLite.to(this.scale, 3, { x: 1.3, y: 1.3, ease: Power2.easeInOut, onComplete: resolve });
+    })
   }
 
   get _fields () {
