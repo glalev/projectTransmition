@@ -46,7 +46,7 @@ class Field extends PIXI.Container {
 
   update(){
       this._blocks.forEach((block) => {
-        if(block.y === 400) { //todo
+        if(block.y > 400) { //todo
           return this._killBlock(block, true);
         }
 
@@ -58,7 +58,8 @@ class Field extends PIXI.Container {
     const index = instrumentId % 4;
     const keyCode = INPUTS[index];
     const x = ((this.w - 176) / 2) + (2-index)*30;
-    const block = new Block({ keyCode, instrumentId, soundId, x: x, y: 0  });
+    const target = this._zone.start-35;
+    const block = new Block({ keyCode, instrumentId, soundId, x: x, y: 0, target: target });
 
     if(!this._active) this.playGo();
     this._blocks.push(block);

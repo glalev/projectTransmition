@@ -3,13 +3,13 @@ const KEY_CODES = {  65: 'a', 83: 's',  75: 'k',  76: 'l'}; //todo get this from
 const Assets = require('./Assets.js');
 
 class Block extends PIXI.Container {
-  constructor({ keyCode, soundId,instrumentId, x = 0, y = 0, speed = 4 } = {}) {
+  constructor({ keyCode, soundId,instrumentId, x = 0, y = 0, target = 100 } = {}) {
     super();
 
     this.keyCode = keyCode;
     this.instrumentId = instrumentId;
     this.soundId = soundId;
-    this._speed = speed;
+    this._target = target;
     this.top = 46;
     this.bottom = 122;
     this.x = x;
@@ -21,13 +21,22 @@ class Block extends PIXI.Container {
     // background.drawRect(0, 0, 20, 20);
     //  console.log(text);
     TweenMax.fromTo(this.scale, 1, {x: 0.65, y: 0.65}, {x: 1, y: 1, ease: Power0.easeNone})
+    TweenMax.to(this, 1.2, {y: this._target, ease: Power0.easeNone, onComplete: ()=>{
+        this.onTargetReached();
+    }})
 
     this.addChild(background);
   }
 
   update(){
-    this.y += this._speed;
     //console.log(this.y);
+  }
+
+  onTargetReached() {
+    TweenMax.to(this, 0.5, {y: 410, ease: Power0.easeNone, onComplete: ()=>{
+
+    }})
+
   }
 }
 
