@@ -26,12 +26,12 @@ class App {
         this.stage.addChild(this.splash);
         return this.splash.show();
       })
-      .then(() => {
-        this.stage.removeChild(this.splash)
-        this.intro = new Intro();
-        this.stage.addChild(this.intro);
-        return this.intro.play();
-      })
+      // .then(() => {
+      //   this.stage.removeChild(this.splash)
+      //   this.intro = new Intro();
+      //   this.stage.addChild(this.intro);
+      //   return this.intro.play();
+      // })
       .then(() => this.stage.removeChild(this.intro))
       .then(() => this.comunicator.connect())
       .then(()=> {
