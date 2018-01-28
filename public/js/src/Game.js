@@ -92,7 +92,11 @@ class Game extends PIXI.Container {
   gameOver(){
     this.characters.playTiredAll();
     Assets.sounds['bgLoop'].fade(1, 0, 2000);
-    this.showDisplay()
+    setTimeout(() => {
+        this._video.fade(1, 0, 1)
+    }, 5500);
+    this._video.fade(0, 1, 1).play('skit1')
+      .then(() => this.showDisplay())
       .then(() => this._display.playVideo())
       .then(() => {
         this.returnFromDisplay();
