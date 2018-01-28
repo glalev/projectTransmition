@@ -97,6 +97,7 @@ class Game extends PIXI.Container {
       .then(() => {
         this.returnFromDisplay();
         Assets.sounds["gameOverLoop"].play().loop(true).fade(0, 1, 4000);
+        Assets.sounds["win"].play();
         TweenMax.to(this, 4, { alpha: 0, ease: Power2.easeOut })
       });
 

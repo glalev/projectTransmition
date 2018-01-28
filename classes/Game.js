@@ -177,6 +177,7 @@ module.exports = class Game extends EventEmitter{
 		let beats = {};
 		_.each(this.players, (player)=>{
 			if(!player) return;
+			if(!player.isInRhythm) return;
 			_.each(player.instruments, (instrumentId)=>{
 				if(!this.loops[instrumentId]) return;
 

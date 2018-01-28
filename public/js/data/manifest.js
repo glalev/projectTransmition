@@ -24,6 +24,7 @@ module.exports = {
     { id: 'transition', name: 'transition', src: './assets/sounds/transition.ogg' },
     { id: 'progressBarFx', name: 'progressBarFx', src: './assets/sounds/progressBarFx.ogg' },
     { id: 'gameOverLoop', name: 'gameOverLoop', src: './assets/sounds/gameOverLoop.ogg' },
+    { id: 'win', name: 'win', src: './assets/sounds/win.ogg' },
     { id: 'playButton', name: 'playButton', src: './assets/sounds/playButton.ogg' },
     { id: 'noiseLoop1', name: 'noiseLoop1', src: './assets/sounds/noiseLoop1.ogg' },
     { id: 'noiseLoop2', name: 'noiseLoop2', src: './assets/sounds/noiseLoop2.ogg' },

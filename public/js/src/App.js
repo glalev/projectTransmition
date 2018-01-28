@@ -45,6 +45,7 @@ class App {
       .then(() => this.stage.removeChild(this.intro))
       .then(() => this.comunicator.connect())
       .then(()=> {
+        Assets.sounds.bgLoop.stop();
         this.game = new Game()
         this.stage.addChild(this.game)
       })
@@ -129,7 +130,7 @@ class App {
       switch (message) {
         case 'startBackground':
           Assets.sounds['idleLoop'].fade(1,0,1000)
-          Assets.sounds['bgLoop'].volume(1).loop(true);
+          Assets.sounds['bgLoop'].volume(1).loop(true).play();
           Assets.sounds['transition'].play();
           break;
         case 'perfectMatch':
