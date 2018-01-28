@@ -70,6 +70,10 @@ module.exports = {
     { id: 'CutScenes2', name: 'CutScenes2', src: './assets/images/CutScenes2.png' },
     { id: 'CutScenes3', name: 'CutScenes3', src: './assets/images/CutScenes3.png' },
     { id: 'CutScenes4', name: 'CutScenes4', src: './assets/images/CutScenes4.png' },
+    { id: 'instrument0', name: 'instrument0', src: './assets/images/drum.png' },
+    { id: 'instrument1', name: 'instrument1', src: './assets/images/bass.png' },
+    { id: 'instrument2', name: 'instrument2', src: './assets/images/piano.png' },
+    { id: 'instrument3', name: 'instrument3', src: './assets/images/guitar.png' },
     { id: 'credits', name: 'credits', src: './assets/images/credits.png' },
   ],
   video: [

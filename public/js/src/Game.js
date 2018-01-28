@@ -7,6 +7,7 @@ const Assets = require('./Assets.js');
 const FlashingThing = require('./FlashingThing.js');
 const Display = require('./Display.js');
 const Video = require('./Video.js');
+const Instruments = require('./Instruments.js');
 const { Power2, TweenMax } = require('gsap').TweenMax;
 
 class Game extends PIXI.Container {
@@ -32,6 +33,8 @@ class Game extends PIXI.Container {
 
     this.characters = new Characters();
 
+    this.instruments = new Instruments();
+
     this._fields = [];
 
     window.Assets = Assets;
@@ -55,7 +58,7 @@ class Game extends PIXI.Container {
     Assets.sounds.idleLoop.loop(true).play();
     Assets.sounds.idleLoop.fade(0, 1, 2000);
     this.centerBar = new CenterBar();
-    this.addChild(this._displays, this._display, this._foreground, this._buttons, this._buttonLights, this.characters, this.centerBar, this.sceneLights, this._video);
+    this.addChild(this._displays, this._display, this._foreground, this._buttons, this._buttonLights, this.characters, this.instruments, this.centerBar, this.sceneLights, this._video);
   }
 
   update() {
@@ -73,6 +76,8 @@ class Game extends PIXI.Container {
     });
     this.characters.showCharacter(mainField);
     this.characters.characters[mainField].alpha = 1;
+    this.instruments.instruments[mainField].alpha = 1;
+    this.instruments.fade();
     this._playerField = this._fields[mainField];
     this._playerField.playReady();
   }
@@ -102,7 +107,8 @@ class Game extends PIXI.Container {
       .then(() => this._display.playVideo())
       .then(() => {
         this.returnFromDisplay();
-		Assets.sounds["win"].play();
+        Assets.sounds["win"].play();
+        Assets.sounds["win"].play();
         Assets.sounds["gameOverLoop"].play();
         Assets.sounds["gameOverLoop"].loop(true).fade(0, 1, 4000);
 		let sprite = new PIXI.Sprite(Assets.images.credits);
