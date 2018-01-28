@@ -42,13 +42,18 @@ module.exports = {
     { id: 'whiteWordsEffect', name: 'whiteWordsEffect', src: './assets/images/whiteWordsEffect.png' },
     { id: 'whiteProgress', name: 'whiteProgress', src: './assets/images/whiteProgress.png' },
     { id: 'PlayText', name: 'PlayText', src: './assets/images/PlayText.shapes.txt' },
+    { id: 'SplashScreen', name: 'SplashScreen', src: './assets/images/SplashScreen.shapes.txt' },
     { id: 'loadingBG', name: 'loadingBG', src: './assets/images/loadingBG.png' },
     { id: 'displays', name: 'displays', src: './assets/images/displays.png' },
     { id: 'deskButtons', name: 'deskButtons', src: './assets/images/deskButtons.png' },
     { id: 'deskButtonsLight', name: 'deskButtonsLight', src: './assets/images/deskButtonsLight.png' },
     { id: 'sceneLights', name: 'sceneLights', src: './assets/images/sceneLights.png' },
+    { id: 'stars', name: 'stars', src: './assets/images/stars.png' },
+    { id: 'normal', name: 'normal', src: './assets/images/normal.png' },
+    { id: 'info', name: 'info', src: './assets/images/info.png' },
+    { id: 'buttonPlatform', name: 'buttonPlatform', src: './assets/images/buttonPlatform.png' },
   ],
   video: [
-      { id: 'video', name: 'video', src: './assets/video/video.mp4' }, 
+      { id: 'video', name: 'video', src: './assets/video/video.mp4' },
   ]
 }
