@@ -12,7 +12,7 @@ class Characters extends PIXI.Container {
       this.addCharacter(1200,750, true),
     ];
 
-    console.warn(this);
+    this.isTired = false;
 
     this.addChild(
       this.characters[0],
@@ -48,7 +48,7 @@ class Characters extends PIXI.Container {
       character.pivot.x = 412;
       character.pivot.y = 420;
       character.alpha = 0.5;
-      
+
       return character;
   }
 
@@ -63,6 +63,7 @@ class Characters extends PIXI.Container {
   }
 
   playIdleAll(){
+    this.isTired = false;
     this.characters.forEach((char, index)=>{
       this.playIdle(index);
     })
@@ -83,6 +84,7 @@ class Characters extends PIXI.Container {
   }
 
   playButton(index){
+    if(this.isTired) return;
     let character = this.characters[index];
 
     character.idleSprite.visible = false;
@@ -115,6 +117,7 @@ class Characters extends PIXI.Container {
   }
 
   playTiredAll(){
+    this.isTired = true;
     this.characters.forEach((char, index)=>{
       this.playTired(index);
     })

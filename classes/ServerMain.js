@@ -79,7 +79,7 @@ function initializeGame(){
 function findGameForPlayer(player){
     let foundGame = false;
     _.each(global.gameList, (game)=>{
-        if(game.hasStarted || game.players.length >= 4 || foundGame) return;
+        if(game.isOver || game.hasStarted || game.players.length >= 4 || foundGame) return;
         foundGame = true;
         game.joinPlayer(player);
     });

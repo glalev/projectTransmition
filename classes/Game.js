@@ -30,6 +30,7 @@ module.exports = class Game extends EventEmitter{
 		this.loopCounter = 0;
 
 		this.hasStarted = false;
+		this.isOver = false;
 		this.isPaused = false;
 
 		this.init();
@@ -240,6 +241,7 @@ module.exports = class Game extends EventEmitter{
 
 		if(this.perfectCount > this.levels[4]) { //Endgame
 			this.pauseGame(-1);
+			this.isOver = true;
 			this.sendMessageToPlayers("gameOver");
 		} else if(this.perfectCount > this.levels[3] && this.level < 4) { //Level4
 			this.sendMessageToPlayers("pause1");

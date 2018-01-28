@@ -96,6 +96,7 @@ class Game extends PIXI.Container {
     setTimeout(() => {
         this._video.fade(1, 0, 1)
     }, 5500);
+    Assets.sounds.skit.play();
     this._video.fade(0, 1, 1).play('skit1')
       .then(() => this.showDisplay())
       .then(() => this._display.playVideo())
