@@ -105,7 +105,7 @@ class Game extends PIXI.Container {
     Assets.sounds.skit.play();
     this._video.fade(0, 1, 1).play('skit1')
       .then(() => {        
-        Assets.sounds["noiseLoop4"].loop(true).play();
+        Assets.sounds["noiseLoop4"].fade(0,1,1000).loop(true).play();
         return this.showDisplay();
       }).then(() => {
         Assets.sounds["noiseLoop4"].stop();
