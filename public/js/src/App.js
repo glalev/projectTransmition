@@ -96,6 +96,26 @@ class App {
 
     });
 
+    this.comunicator.on('gameOver', (data) => {
+      this.game.gameOver();
+    });
+
+    this.comunicator.on('pause0', (data) => {
+      this.game.pause();
+    });
+
+    this.comunicator.on('pause1', (data) => {
+      this.game.pause();
+    });
+
+    this.comunicator.on('pause2', (data) => {
+      this.game.pause();
+    });
+
+    this.comunicator.on('pause3', (data) => {
+      this.game.pause();
+    });
+
     this.comunicator.on('playSound', (data) => {
       this.game.removeBlockOther(data.source, data.instrumentId, data.str);
     });

@@ -21,9 +21,7 @@ class Characters extends PIXI.Container {
       this.characters[3]
     );
 
-    this.characters.forEach((char, index)=>{
-      this.playIdle(index);
-    })
+    this.playIdleAll();
 
   }
 
@@ -48,6 +46,12 @@ class Characters extends PIXI.Container {
       character.pivot.x = 412;
       character.pivot.y = 420;
       return character;
+  }
+
+  playIdleAll(){
+    this.characters.forEach((char, index)=>{
+      this.playIdle(index);
+    })
   }
 
   playIdle(index){

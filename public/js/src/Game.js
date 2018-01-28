@@ -87,6 +87,33 @@ class Game extends PIXI.Container {
       Assets.sounds[id].volume(level).play();
   }
 
+  gameOver(){
+    this._characters.playTiredAll();
+    let timeline = new TimelineMax();
+    timeline.addCallback(()=>{
+      this.showDisplay();
+    },1);
+    timeline.play();
+  }
+
+  pause(){
+    this._characters.playTiredAll();
+    let timeline = new TimelineMax();
+    timeline.addCallback(()=>{
+      this.showDisplay();
+    },1);
+    timeline.addCallback(()=>{
+      
+    },4);
+    timeline.addCallback(()=>{
+      this.returnFromDisplay();
+    },7);
+    timeline.addCallback(()=>{
+      this.returnFromDisplay();
+    },10);
+    timeline.play();
+  }
+
   removeBlockOther(source, instrumentId, level){
       this._fields[source].checkInstrumentId(instrumentId)
         .then(result => {
@@ -103,6 +130,15 @@ class Game extends PIXI.Container {
 
       TweenLite.to(this, 3, { y: 230, ease: Power2.easeInOut });
       TweenLite.to(this.scale, 3, { x: 1.3, y: 1.3, ease: Power2.easeInOut, onComplete: resolve });
+    })
+  }
+
+  returnFromDisplay() {
+    return new Promise(resolve => {
+      this.x = this.pivot.x = this.width / 2;
+
+      TweenLite.to(this, 3, { y: 0, ease: Power2.easeInOut });
+      TweenLite.to(this.scale, 3, { x: 1, y: 1, ease: Power2.easeInOut, onComplete: resolve });
     })
   }
 }

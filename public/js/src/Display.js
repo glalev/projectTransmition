@@ -11,8 +11,23 @@ class Display extends PIXI.Container {
     this._videos = {}
     const background = new PIXI.Graphics();
     background.beginFill(0x223322);
-    background.drawRect(0, 0, width, height)
+    background.drawRect(0, 0, width, height);
+
+    this.images = [
+        Assets.images.noise50,
+        Assets.images.noiseNormal,
+        Assets.images.noise50,
+        Assets.images.noiseNormal,
+        Assets.images.noise50,
+        Assets.images.noiseNormal,
+        Assets.images.pinkGuy,
+        Assets.images.pinkGuy,
+        Assets.images.pinkGuy,
+    ];
+
     this.addChild(background);
+
+    console.log(this);
   }
 
   playVideo(video = 'endingVideo') {
@@ -24,6 +39,22 @@ class Display extends PIXI.Container {
 
     this.removeChildren();
     this.addChild(sprite);
+  }
+
+  playStatic(time){
+    let dummy = {dummy: 0}
+    const bg = new PIXI.Sprite(this.images[textureIndex]);
+    TweenMax.to(dummy, time, {dummy:100, onUpdate:()=>{
+        const textureIndex = Math.round(Math.random() * (this.images.length-1));
+        const sprite = new PIXI.Sprite(this.images[textureIndex]);
+        sprite.width = this.w;
+        sprite.height = this.h;
+
+        this.removeChildren();
+        this.addChild(sprite);
+    }, onComplete:()=>{
+        this.removeChildren();
+    }});
   }
 }
 
