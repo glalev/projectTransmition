@@ -90,17 +90,19 @@ class Game extends PIXI.Container {
 
   gameOver(){
     this.characters.playTiredAll();
-    let timeline = new TimelineMax();
-    timeline.addCallback(()=>{
-      this.showDisplay();
-    },1);
-    timeline.play();
+    this.showDisplay()
+      .then(() => this._display.playVideo())
+      .then(() => {
+        this.returnFromDisplay();
+        TweenMax.to(this, 4, { alpha: 0, ease: Power2.easeOut })
+      });
   }
 
   pause(){
     this.characters.playTiredAll();
     let timeline = new TimelineMax();
     timeline.addCallback(()=>{
+      Assets.sounds.bgLoop.fade(1, 0, 1000);
       this._video.fade(0, 1, 1).play('skit1');
     },1);
     timeline.addCallback(()=>{
@@ -110,9 +112,13 @@ class Game extends PIXI.Container {
       this.showDisplay();
     },5);
     timeline.addCallback(()=>{
+      this._display.playStatic(Math.random() * 3 + 2);
+    },8);
+    timeline.addCallback(()=>{
       this.returnFromDisplay();
-      this._characters.playIdleAll();
-    }, 10);
+      Assets.sounds.bgLoop.fade(0, 1, 1000);
+      this.characters.playIdleAll();
+    }, 12);
     timeline.play();
   }
 

@@ -26,14 +26,20 @@ class Display extends PIXI.Container {
   }
 
   playVideo(video = 'endingVideo') {
-    const texture = PIXI.Texture.fromVideo(Assets.videos[video]);
-    const sprite = new PIXI.Sprite(texture);
+    return new Promise(resolve => {
+      const texture = PIXI.Texture.fromVideo(Assets.videos[video]);
+      const sprite = new PIXI.Sprite(texture);
 
-    sprite.width = this.w;
-    sprite.height = this.h
+      sprite.width = this.w;
+      sprite.height = this.h
 
-    this.removeChildren();
-    this.addChild(sprite);
+      this.removeChildren();
+      this.addChild(sprite);
+      texture.baseTexture.source.onended = () => {
+        this.removeChild(sprite);
+        resolve();
+      }
+    });
   }
 
   playStatic(time){
@@ -52,6 +58,10 @@ class Display extends PIXI.Container {
     top.height = this.h;
 
     TweenMax.to(dummy, time, {dummy:100, onUpdate:()=>{
+        Assets.sounds.noiseLoop1.loop(true);
+        Assets.sounds.noiseLoop1.play();
+        Assets.sounds.noiseLoop2.loop(true);
+        Assets.sounds.noiseLoop2.play();
         top.x = (Math.random() - 0.5) * 15;
         top.y = (Math.random() - 0.5) * 15;
 
@@ -63,6 +73,8 @@ class Display extends PIXI.Container {
         middle.texture = this.images[Math.floor(Math.random()*this.images.length)];
         middle.visible = Math.random()>0.95;
     }, onComplete:()=>{
+        Assets.sounds.noiseLoop1.stop();
+        Assets.sounds.noiseLoop2.stop();
         this.removeChildren();
     }});
 

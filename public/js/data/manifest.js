@@ -20,6 +20,8 @@ module.exports = {
     { id: 'transition', name: 'transition', src: './assets/sounds/transition.ogg' },
     { id: 'progressBarFx', name: 'progressBarFx', src: './assets/sounds/progressBarFx.ogg' },
     { id: 'playButton', name: 'playButton', src: './assets/sounds/playButton.ogg' },
+    { id: 'noiseLoop1', name: 'noiseLoop1', src: './assets/sounds/noiseLoop1.ogg' },
+    { id: 'noiseLoop2', name: 'noiseLoop2', src: './assets/sounds/noiseLoop2.ogg' },
   ],
   images: [
     { id: 'fgImg', name: 'foreground', src: './assets/Images/scene.png' },
