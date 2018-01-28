@@ -31,6 +31,8 @@ class Game extends PIXI.Container {
 
     this._characters = new Characters();
 
+    this._fields = [];
+
     window.Assets = Assets;
     this._display = new Display({ x: 280, y: -160 });
     this._input = new InputManager();
@@ -60,10 +62,11 @@ class Game extends PIXI.Container {
 
   initFields(fieldsData, mainField) {
     this.localPlayerId = mainField;
-    
-    fieldsData.map(data => {
+
+    fieldsData.forEach(data => {
       let field = new Field(data);
-      let index = this.children.length - 2;
+      let index = 2;
+      this._fields.push(field);
       this.addChildAt(field, index);
     });
 
@@ -101,10 +104,6 @@ class Game extends PIXI.Container {
       TweenLite.to(this, 3, { y: 230, ease: Power2.easeInOut });
       TweenLite.to(this.scale, 3, { x: 1.3, y: 1.3, ease: Power2.easeInOut, onComplete: resolve });
     })
-  }
-
-  get _fields () {
-    return this.children.filter(child => child instanceof Field);
   }
 }
 
