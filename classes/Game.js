@@ -20,7 +20,7 @@ module.exports = class Game extends EventEmitter{
 			[12,13,14,15]
 		];
 
-		this.levels = [5,10,15,100];
+		this.levels = [5,10,15,30,100];
 		this.level = 0;
 		this.perfectCount = 0;
 		this.counter = 0;
@@ -155,7 +155,10 @@ module.exports = class Game extends EventEmitter{
 		_.each(this.players, (player)=>{
 			if(!player) return;
 			_.each(player.instruments, (instrumentId)=>{
-				if(!this.loops[instrumentId]) this._getFirstInstrumentLoop(instrumentId);
+				if(!this.loops[instrumentId]) {
+					this._getFirstInstrumentLoop(instrumentId);
+					this.loops[instrumentId].shift();
+				}
 				else if (this.loops[instrumentId].length == 1) this._getNewInstrumentLoop(instrumentId);
 				else this.loops[instrumentId].shift();
 			});
@@ -179,6 +182,7 @@ module.exports = class Game extends EventEmitter{
 				}
 			});
 		});
+		console.log(beats);
 		return beats;
 	}
 
