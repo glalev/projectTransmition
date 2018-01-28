@@ -91,12 +91,14 @@ class Game extends PIXI.Container {
 
   gameOver(){
     this.characters.playTiredAll();
+    Assets.sounds['bgLoop'].fade(1, 0, 2000);
     this.showDisplay()
       .then(() => this._display.playVideo())
       .then(() => {
         this.returnFromDisplay();
         TweenMax.to(this, 4, { alpha: 0, ease: Power2.easeOut })
       });
+
   }
 
   pause(id){
