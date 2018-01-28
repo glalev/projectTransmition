@@ -72,6 +72,7 @@ class Game extends PIXI.Container {
       this.addChildAt(field, index);
     });
     this.characters.showCharacter(mainField);
+    this.characters.characters[mainField].alpha = 1;
     this._playerField = this._fields[mainField];
     this._playerField.playReady();
   }
@@ -96,7 +97,7 @@ class Game extends PIXI.Container {
       .then(() => this._display.playVideo())
       .then(() => {
         this.returnFromDisplay();
-        Assets.sounds["gameOverLoop"].play().loop(true).fade(0, 1, 4000);
+        Assets.sounds["gameOverLoop"].loop(true).fade(0, 1, 4000).play();
         Assets.sounds["win"].play();
         TweenMax.to(this, 4, { alpha: 0, ease: Power2.easeOut })
       });

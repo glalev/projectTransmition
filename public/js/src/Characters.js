@@ -47,6 +47,8 @@ class Characters extends PIXI.Container {
       character.transform.scale.y = 0.57;
       character.pivot.x = 412;
       character.pivot.y = 420;
+      character.alpha = 0.5;
+      
       return character;
   }
 
