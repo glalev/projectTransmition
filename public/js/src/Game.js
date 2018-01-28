@@ -22,7 +22,7 @@ class Game extends PIXI.Container {
     this._characters = new Characters();
 
     window.Assets = Assets;
-    this._display = new Display();
+    this._display = new Display({ x: 280, y: -160 });
     this._input = new InputManager();
     this._input.on('keydown', ({ keyCode, symbol }) => {
       this._playerField.checkInput(keyCode, symbol)
@@ -39,7 +39,7 @@ class Game extends PIXI.Container {
     Assets.sounds['idleLoop'].loop(true).play();
 
     this.centerBar = new CenterBar();
-    this.addChild(this._displays, this._foreground, this._characters, this.centerBar);
+    this.addChild(this._display, this._foreground, this._characters, this.centerBar);
   }
 
   update() {
