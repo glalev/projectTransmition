@@ -28,9 +28,10 @@ class App {
       })
       .then(() => {
         this.stage.removeChild(this.splash)
-        this.intro = new Video();
+        return;
+        /*this.intro = new Video();
         this.stage.addChild(this.intro);
-        return this.intro.play('intro');
+        return this.intro.play('intro');*/
       })
       .then(() => this.stage.removeChild(this.intro))
       .then(() => this.comunicator.connect())
@@ -52,7 +53,7 @@ class App {
       const loader = new PIXI.loaders.Loader();
 
       manifest.images.forEach( image  => loader.add(image.id, image.src));
-      //manifest.video.forEach( image  => loader.add(image.id, image.src));
+      manifest.video.forEach( image  => loader.add(image.id, image.src));
       //Assets.images[image.id] =
 
       loader.load((loader, resources) => {
@@ -61,10 +62,10 @@ class App {
 							Assets.images[image.id] = resources[image.id].texture;
 		      });
 
-          //manifest.video.forEach(video => {
+          manifest.video.forEach(video => {
 							//Assets.videos[video.id] = PIXI.Texture.fromVideo(resources[video.id].url);
-            	//Assets.videos[video.id] = resources[video.id].url;
-		      //});
+            	Assets.videos[video.id] = resources[video.id].url;
+		      });
 
           console.log('loading complete');
 
@@ -96,26 +97,6 @@ class App {
 
     });
 
-    this.comunicator.on('gameOver', (data) => {
-      this.game.gameOver();
-    });
-
-    this.comunicator.on('pause0', (data) => {
-      this.game.pause();
-    });
-
-    this.comunicator.on('pause1', (data) => {
-      this.game.pause();
-    });
-
-    this.comunicator.on('pause2', (data) => {
-      this.game.pause();
-    });
-
-    this.comunicator.on('pause3', (data) => {
-      this.game.pause();
-    });
-
     this.comunicator.on('playSound', (data) => {
       this.game.removeBlockOther(data.source, data.instrumentId, data.str);
     });
@@ -145,7 +126,45 @@ class App {
         case 'perfectMatch':
           this.game.centerBar.playCheer();
           this.game.sceneLights.flash();
+          this.game.rumble();
           break;
+
+        case 'pause0':
+          this.game.pause();
+          break;
+        case 'pause1':
+          this.game.pause();
+          break;
+        case 'gameOver':
+          this.game.gameOver();
+          break;
+
+        case 'connect0':
+          this.game.characters.showCharacter(0);
+          break;
+        case 'connect1':
+          this.game.characters.showCharacter(1);
+          break;
+        case 'connect2':
+          this.game.characters.showCharacter(2);
+          break;
+        case 'connect3':
+          this.game.characters.showCharacter(3);
+          break;
+
+        case 'disconnect0':
+          this.game.characters.hideCharacter(0);
+          break;
+        case 'disconnect1':
+          this.game.characters.hideCharacter(1);
+          break;
+        case 'disconnect2':
+          this.game.characters.hideCharacter(2);
+          break;
+        case 'disconnect3':
+          this.game.characters.hideCharacter(3);
+          break;
+
         default:
 
       }

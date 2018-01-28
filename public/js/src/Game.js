@@ -30,7 +30,7 @@ class Game extends PIXI.Container {
 
     this.sceneLights = new FlashingThing(Assets.images.sceneLights, 0);
 
-    this._characters = new Characters();
+    this.characters = new Characters();
 
     this._fields = [];
 
@@ -41,7 +41,7 @@ class Game extends PIXI.Container {
     this._input.on('keydown', ({ keyCode, symbol }) => {
       this._playerField.checkInput(keyCode, symbol)
         .then(result => {
-          this._characters.playButton(this.localPlayerId);
+          this.characters.playButton(this.localPlayerId);
           this._buttonLights.flash();
           if(!result) return;
 
@@ -54,13 +54,12 @@ class Game extends PIXI.Container {
     Assets.sounds['idleLoop'].loop(true).play();
 
     this.centerBar = new CenterBar();
-    this.addChild(this._displays, this._display, this._foreground, this._buttons, this._buttonLights, this._characters, this.centerBar, this.sceneLights, this._video);
+    this.addChild(this._displays, this._display, this._foreground, this._buttons, this._buttonLights, this.characters, this.centerBar, this.sceneLights, this._video);
   }
 
   update() {
     this.children.forEach(child => child.update && child.update());
   }
-
 
   initFields(fieldsData, mainField) {
     this.localPlayerId = mainField;
@@ -71,7 +70,7 @@ class Game extends PIXI.Container {
       this._fields.push(field);
       this.addChildAt(field, index);
     });
-
+    this.characters.showCharacter(mainField);
     this._playerField = this._fields[mainField];
     this._playerField.playReady();
   }
@@ -90,7 +89,7 @@ class Game extends PIXI.Container {
   }
 
   gameOver(){
-    this._characters.playTiredAll();
+    this.characters.playTiredAll();
     let timeline = new TimelineMax();
     timeline.addCallback(()=>{
       this.showDisplay();
@@ -99,7 +98,7 @@ class Game extends PIXI.Container {
   }
 
   pause(){
-    this._characters.playTiredAll();
+    this.characters.playTiredAll();
     let timeline = new TimelineMax();
     timeline.addCallback(()=>{
       this._video.fade(0, 1, 1).play('skit1');
@@ -120,7 +119,7 @@ class Game extends PIXI.Container {
   removeBlockOther(source, instrumentId, level){
       this._fields[source].checkInstrumentId(instrumentId)
         .then(result => {
-          this._characters.playButton(source);
+          this.characters.playButton(source);
           this._buttonLights.flash();
           if(!result) return;
          this.playSound(instrumentId, level)
@@ -146,9 +145,9 @@ class Game extends PIXI.Container {
   rumble(){
     let dummy = {val:100};
     TweenMax.to(dummy, 0.5, {dummy: 0, onUpdate: ()=>{
-      this.x = Math.random() * 10 * dummy.val;
-      this.y = Math.random() * 10 * dummy.val;
-    }})
+      //this.x = Math.random() * 10 * (dummy.val/100);
+      this.y = Math.random() * 4 * (dummy.val/100);
+    }});
   }
 }
 

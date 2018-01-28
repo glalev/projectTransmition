@@ -40,12 +40,24 @@ class Characters extends PIXI.Container {
       character.isFlipped = flip;
       character.lastDir = false;
       character.x = x;
-      character.y = y;
+      character.y = y+500;
+      character.orgX = x;
+      character.orgY = y;
       character.transform.scale.x = flip ? -0.57 : 0.57;
       character.transform.scale.y = 0.57;
       character.pivot.x = 412;
       character.pivot.y = 420;
       return character;
+  }
+
+  showCharacter(index){
+    let character = this.characters[index];
+    TweenMax.to(character, 0.5, {y: character.orgY});
+  }
+
+  hideCharacter(index){
+    let character = this.characters[index];
+    TweenMax.to(character, 0.5, {y: character.orgY+500});
   }
 
   playIdleAll(){

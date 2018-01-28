@@ -2,7 +2,7 @@ const _ = require('underscore');
 const EventEmitter = require('eventemitter3');
 const GamePlayer = require('./GamePlayer.js');
 const Instruments = require('./Instruments.js');
-const Video = require('./Video.js');
+//const Video = require('./Video.js');
 
 module.exports = class Game extends EventEmitter{
 	constructor () {
@@ -74,6 +74,8 @@ module.exports = class Game extends EventEmitter{
 			playerSlot++;
 		}
 
+		this.sendMessageToPlayers("connect"+playerSlot);
+
 		this.players[playerSlot] = newPlayer;
 
 		newPlayer.id = playerSlot;
@@ -87,6 +89,11 @@ module.exports = class Game extends EventEmitter{
 			levels: this.levels,
 		});
 
+		_.each(this.players, (player, index)=>{
+			if(!player) return;
+			this.sendMessage(player, "connect"+index);
+		});
+
 		this.initializePlayerListeners(newPlayer);
 	}
 
@@ -95,8 +102,9 @@ module.exports = class Game extends EventEmitter{
 			if(this.loops[instrumentId]) this.loops[instrumentId] = null;
 		});
 
-
 		this.players[gamePlayer.id] = null;
+
+		this.sendMessageToPlayers("disconnect"+gamePlayer.id);
 
 		console.log("Player removed from game,");
 
