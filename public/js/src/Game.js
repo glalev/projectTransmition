@@ -2,7 +2,7 @@ const PIXI = require('pixi.js');
 const InputManager = require('./InputManager.js');
 const Field = require('./Field.js');
 const CenterBar = require('./CenterBar.js');
-const Background = require('./Background.js');
+const Characters = require('./Characters.js');
 const Assets = require('./Assets.js');
 
 class Game extends PIXI.Container {
@@ -10,17 +10,21 @@ class Game extends PIXI.Container {
   constructor() {
     super();
     //this._background = new Background();
+    this.localPlayerId = 0;
     this._displays = new PIXI.Sprite(Assets.images.displays);
     this._displays.y = 302;
     this._displays.x = 8;
     this._foreground = new PIXI.Sprite(Assets.images.fgImg);
     this._foreground.y = -180;
 
+    this._characters = new Characters();
+
     window.Assets = Assets;
     this._input = new InputManager();
     this._input.on('keydown', ({ keyCode, symbol }) => {
       this._playerField.checkInput(keyCode, symbol)
         .then(result => {
+          this._characters.playButton(this.localPlayerId);
           if(!result) return;
 
           this.playSound(result.instrumentId, result.level)
@@ -32,7 +36,7 @@ class Game extends PIXI.Container {
     Assets.sounds['idleLoop'].loop(true).play();
 
     this.centerBar = new CenterBar();
-    this.addChild(this._displays, this._foreground, this.centerBar);
+    this.addChild(this._displays, this._foreground, this._characters, this.centerBar);
   }
 
   update() {
@@ -41,6 +45,7 @@ class Game extends PIXI.Container {
 
 
   initFields(fieldsData, mainField) {
+    this.localPlayerId = mainField;
     fieldsData.map(data => {
       let field = new Field(data);
       let index = this.children.length - 2;
@@ -66,6 +71,7 @@ class Game extends PIXI.Container {
   removeBlockOther(source, instrumentId, level){
       this._fields[source].checkInstrumentId(instrumentId)
         .then(result => {
+          this._characters.playButton(source);
           if(!result) return;
          this.playSound(instrumentId, level)
       });
