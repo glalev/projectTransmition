@@ -89,18 +89,39 @@ class Field extends PIXI.Container {
   }
 
   get _blocks() {
-    return this.children.filter(child => child instanceof Block)
+    return this.children.filter(child => {return (child instanceof Block) && (child.isAlive)})
   }
 
   _killBlock(block, silent){
     return new Promise(resolve => {
-      this.removeChild(block);
+      block.isAlive = false;
       if(silent) return resolve(false);
       const isInTheZone = this._isInTheZone(block);
       console.log(isInTheZone);
+      if(isInTheZone.isPerfect) {
+        this._winBlockAnim(block);
+      } else {
+        this._failBlockAnim(block);
+      }
       resolve(isInTheZone)
     });
   }
+
+  _winBlockAnim(block){
+    block.background.blendMode = PIXI.BLEND_MODES.ADD;
+    block.tween.kill()
+    TweenMax.to(block.scale, 0.5, {x:2, y:2});
+
+    TweenMax.to(block, 0.5, {y: "-="+100, x: "-="+100, alpha:0, onComplete:()=>{
+      this.removeChild(block);
+    }})
+  };
+
+  _failBlockAnim(block){
+    TweenMax.to(block, 0.5, {alpha:0, rotation: Math.PI * (Math.random()>0.5 ? -0.5 : 0.5), onComplete:()=>{
+      this.removeChild(block);
+    }}) 
+  };
 
   _isInTheZone(block) {
     const blockTop = block.y + block.top;
