@@ -11,7 +11,7 @@ class CenterBar extends PIXI.Container {
     this.cheeringIsPlaying = false;
 
     this._loadingBar = new PIXI.Graphics();
-    this._loadingBar.beginFill(0x55555);
+    this._loadingBar.beginFill(0x32a83e);
     this._loadingBar.drawRect(0, 0,
       this.size[2],
       this.size[3]);
