@@ -96,7 +96,8 @@ class Game extends PIXI.Container {
       .then(() => this._display.playVideo())
       .then(() => {
         this.returnFromDisplay();
-        Assets.sounds["gameOverLoop"].play().loop(true).fade(0, 1, 4000);
+        Assets.sounds["gameOverLoop"].play();
+        Assets.sounds["gameOverLoop"].loop(true).fade(0, 1, 4000);
 		let sprite = new PIXI.Sprite(Assets.images.credits);
         sprite.alpha = 0;
         this.addChild(sprite);
