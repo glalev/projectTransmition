@@ -91,7 +91,7 @@ module.exports = class Game extends EventEmitter{
 
 		_.each(this.players, (player, index)=>{
 			if(!player) return;
-			this.sendMessage(player, "connect"+index);
+			this.sendMessage(newPlayer, "connect"+index);
 		});
 
 		this.initializePlayerListeners(newPlayer);
