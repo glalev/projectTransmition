@@ -6,9 +6,6 @@ class FlashingThing extends PIXI.Container {
     super();
     let sprite = new PIXI.Sprite(asset);
 
-    this.endAlpha = endAlpha;
-    this.alpha = endAlpha;
-
     this.addChild(sprite);
   }
 

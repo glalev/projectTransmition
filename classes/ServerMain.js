@@ -8,12 +8,11 @@ let io = null;
 const GameLoop = require('node-gameloop');
 const Player = require("./NetworkPlayer.js");
 const Game = require("./Game.js");
-const fps = (400/60); //100 BPM
+const fps = 24;
 
 global._ = _;
 global.playerList = [];
 global.gameList = [];
-global.minBeat = 32;
 
 init();
 function init(){
@@ -39,6 +38,7 @@ io.on('connection', function(socket){
     console.log(Date.now()+': User is connecting...');
     socket.on('loginData', (data)=>{
         console.log(Date.now()+': '+data.username+' has connected');
+        socket.emit("connected");
         initializeUser(data.username, socket);
     });
 });

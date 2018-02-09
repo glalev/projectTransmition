@@ -1,4 +1,4 @@
 @echo off
 echo Starting server...
-node ./classes/ServerMain.js
+node --experimental-modules ./classes/ServerMain.js  
 pause

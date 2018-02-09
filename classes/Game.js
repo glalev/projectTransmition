@@ -1,8 +1,7 @@
 const _ = require('underscore');
 const EventEmitter = require('eventemitter3');
 const GamePlayer = require('./GamePlayer.js');
-const Instruments = require('./Instruments.js');
-//const Video = require('./Video.js');
+const Collisions = require('./collisions/Collisions.js');
 
 module.exports = class Game extends EventEmitter{
 	constructor () {
@@ -11,27 +10,12 @@ module.exports = class Game extends EventEmitter{
 		this.uniqueId = _.uniqueId();
 
 		this.players = [];
-		this.instruments = Instruments;
-		this.loops = {};
-
-		this.playerInstruments = [
-			[0,1,2,3],
-			[4,5,6,7],
-			[8,9,10,11],
-			[12,13,14,15]
-		];
-
-		this.levels = [40,100,180,240,400];
-		this.level = 0;
-		this.perfectCount = 0;
-		this.counter = 0;
-		this.unpauseCount = 0;
-
-		this.loopCounter = 0;
+		this.objects = [];
 
 		this.hasStarted = false;
 		this.isOver = false;
-		this.isPaused = false;
+
+		this.collisions = new Collisions();
 
 		this.init();
 	}
@@ -41,59 +25,38 @@ module.exports = class Game extends EventEmitter{
 
 	update(_delta){
 		if(this._areWeEmpty()) return this.destroy();
-		//if(this.players.length < 4) return;
-		this.counter++;
 
-		this.loopCounter = this.counter % global.minBeat;
-
-		if(!(this.loopCounter)) this.sendStartRhythmToPlayers();
-
-		if(this.isPaused) {
-			if(this.unpauseCount == this.counter) {
-				this.isPaused = false;
-				this.sendMessageToPlayers("unpause");
-			}
-			else return;
-		}
-
-		let delta = _delta/1000;
-		let data = this.getBeatData();
-
-		this.advanceBeats();
-		if(!Object.keys(data).length) return;
-
+		this.updateObjects();
+		var data = this.getObjectData();
 		this.sendUpdateToPlayers(data);
+	}
+
+	updateObjects(){
+		_.each(this.objects, (object)=>{
+			object.update();
+		});
+	}
+
+	getObjectData(){
+		let data = {};
+		_.each(this.objects, (object)=>{
+			if(!object.modified) return;
+			data.id = object.getModifications();
+		});
+		return data;
 	}
 
 	joinPlayer(networkPlayer){
 		console.log(Date.now()+': '+networkPlayer.name+' joined a game...');
 
-		let newPlayer = new GamePlayer(networkPlayer, this);
+		let newPlayer = new GamePlayer(this, networkPlayer);
 
-		let playerSlot = 0;
-		while(this.players[playerSlot]){
-			playerSlot++;
-		}
-
-		this.sendMessageToPlayers("connect"+playerSlot);
-
-		this.players[playerSlot] = newPlayer;
-
-		newPlayer.id = playerSlot;
-
-		let newInstruments = this.playerInstruments[newPlayer.id];
-		newPlayer.instruments = newInstruments;
-
+		newPlayer.id = this.players.push(newPlayer) - 1;
 		newPlayer.sendSettings({
-			id: newPlayer.id,
-			instruments: this.playerInstruments,
-			levels: this.levels,
+			id: newPlayer.id
 		});
 
-		_.each(this.players, (player, index)=>{
-			if(!player) return;
-			this.sendMessage(newPlayer, "connect"+index);
-		});
+		this.sendMessageToPlayers("connect");
 
 		this.initializePlayerListeners(newPlayer);
 	}
@@ -103,11 +66,14 @@ module.exports = class Game extends EventEmitter{
 			if(this.loops[instrumentId]) this.loops[instrumentId] = null;
 		});
 
-		this.players[gamePlayer.id] = null;
+		this.players.splice(gamePlayer.id, 1);
+        for(let i = gamePlayer.id; i < 	this.players.length; i++){
+        	this.players[i].id--;
+        };
 
 		this.sendMessageToPlayers("disconnect"+gamePlayer.id);
 
-		console.log("Player removed from game,");
+		console.log("Player removed from game");
 
 		if(this._areWeEmpty()) return this.destroy();
 	}
@@ -134,26 +100,6 @@ module.exports = class Game extends EventEmitter{
 		player.sendUpdate(data);
 	}
 
-	sendSoundToPlayers (sourcePlayer, instrumentId, soundId, strength){
-		_.each(this.players, (player)=>{
-			if(!player) return;
-			if(player.uniqueId != sourcePlayer.uniqueId) this.sendSound(player, sourcePlayer.id, instrumentId, soundId, strength);
-		});
-	}
-
-	sendSound (player, source, instrumentId, soundId, strength){
-		player.sendSound(source, instrumentId, soundId, strength);
-	}
-
-	sendStartRhythmToPlayers (data){
-		_.each(this.players, (player)=>{
-			if(!player) return;
-			if(player.isInRhythm) return;
-			player.isInRhythm = true;
-			this.sendMessage(player, "startBackground");
-		});
-	}
-
 	sendMessageToPlayers (data){
 		_.each(this.players, (player)=>{
 			if(!player) return;
@@ -163,41 +109,6 @@ module.exports = class Game extends EventEmitter{
 
 	sendMessage (player, data){
 		player.sendMessage(data);
-	}
-
-	advanceBeats(){
-		_.each(this.players, (player)=>{
-			if(!player) return;
-			_.each(player.instruments, (instrumentId)=>{
-				if(!this.loops[instrumentId] || !this.loopCounter) this._getNewInstrumentLoop(instrumentId);
-			});
-		});
-	}
-
-	getBeatData(){
-		let beats = {};
-		_.each(this.players, (player)=>{
-			if(!player) return;
-			if(!player.isInRhythm) return;
-			_.each(player.instruments, (instrumentId)=>{
-				if(!this.loops[instrumentId]) return;
-
-				let beat = this.loops[instrumentId][this.loopCounter];
-				if(beat) {
-					let playerOwner = _.findIndex(this.playerInstruments, (data)=>{ //TODO: better method!!!
-						return _.contains(data, instrumentId);
-					});
-					beat = [beat, playerOwner];
-					beats[instrumentId] = beat;
-				}
-			});
-		});
-		return beats;
-	}
-
-	pauseGame(length){
-		this.isPaused = true;
-		this.unpauseCount = this.counter + length;
 	}
 
 	initializePlayerListeners (gamePlayer) {
@@ -215,48 +126,10 @@ module.exports = class Game extends EventEmitter{
 	}
 
 	_areWeEmpty(){
-		return this.players.every(function(v) { return v === null; });
-	}
-
-	_getFirstInstrumentLoop(instrumentId){
-		if(!(this.counter % global.minBeat)) return
-		this._getNewInstrumentLoop(instrumentId);
-	}
-
-	_getNewInstrumentLoop(instrumentId){
-		let loops = this.instruments[this.level][instrumentId];
-		let loop = loops[_.random(0,loops.length-1)];
-		this.loops[instrumentId] = _.clone(loop);
+		return !this.players.length;
 	}
 
 	_sendUpdateToPlayer(player, data){
 		player.networkPlayer.sendGameData(data);
 	}
-
-	_onPerfectMatch(){
-		this.perfectCount++;
-		this.sendMessageToPlayers("perfectMatch");
-
-		this.sendProgressToPlayers({level: this.level, prfCount: this.perfectCount})
-
-		if(this.perfectCount > this.levels[4] && !this.isOver) { //Endgame
-			this.pauseGame(-1);
-			this.isOver = true;
-			this.sendMessageToPlayers("gameOver");
-		} else if(this.perfectCount > this.levels[3] && this.level < 4) { //Level4
-			this.sendMessageToPlayers("pause1");
-			this.level = 4;
-			this.pauseGame(90);
-		} else if(this.perfectCount > this.levels[2] && this.level < 3) { //Level3
-			this.level = 3;
-		} else if(this.perfectCount > this.levels[1] && this.level < 2) { //Level2
-			this.sendMessageToPlayers("pause0");
-			this.level = 2;
-			this.pauseGame(90);
-		} else if(this.perfectCount > this.levels[0] && this.level < 1) { //Level1
-			this.level = 1;
-		}
-
-	}
 }
-

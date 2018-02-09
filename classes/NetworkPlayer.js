@@ -14,22 +14,14 @@ module.exports = class NetworkPlayer extends EventEmitter{
 		this.init();
 	}
 
-	init () {   
+	init () {
 		this.initializeSocketListeners();
 		this.socket.emit('ready');
 		this.emit('ready');
 	}
 
-	sendSoundData (sourceId, instrumentId, soundId, strength){
-		this.socket.emit("playSound", {source: sourceId, instrumentId: instrumentId, soundId: soundId, str: strength});
-	}
-
 	sendSettings (data){
 		this.socket.emit("settings", data);
-	}
-
-	sendProgress (data){
-		this.socket.emit("progressUpdate", data);
 	}
 
 	sendGameData (data){
@@ -53,6 +45,10 @@ module.exports = class NetworkPlayer extends EventEmitter{
 			this.emit('keyDown', data);
 	    });
 
+		this.socket.on('keyUp', (data) => {
+			this.emit('keyUp', data);
+	    });
+
 	    this.socket.on('disconnect', () => {
 			this.emit("disconnect");
 	    });
@@ -60,6 +56,5 @@ module.exports = class NetworkPlayer extends EventEmitter{
 		this.socket.on('reconnect', () => {
 			this.emit("disconnect");
 		});
-
 	}
 }

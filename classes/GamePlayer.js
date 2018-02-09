@@ -1,35 +1,18 @@
 const _ = require('underscore');
 const EventEmitter = require('eventemitter3');
+const GameObject = require('./GameObject.js');
 
-module.exports = class GamePlayer extends EventEmitter{
-	constructor (networkPlayer, game) {
-		super();
-		this.id = -1;
-		this.uniqueId = _.uniqueId();
+module.exports = class GamePlayer extends GameObject{
+	constructor (game, networkPlayer) {
+		super([arguments]);
 		this.networkPlayer = networkPlayer;
 		this.networkPlayer.currentGame = game;
 
-		this.instruments = [];
-		this.loopIndex = 0;
-		this.isInRhythm = false;
-
-		this.init();
-	}
-
-	init () {
 		this.initializeGameListeners();
-	}
-
-	sendSound(sourceId, instrumentId, soundId, strength){
-		this.networkPlayer.sendSoundData(sourceId, instrumentId, soundId, strength);
 	}
 
 	sendSettings(data){
 		this.networkPlayer.sendSettings(data);
-	}
-
-	sendProgress(data){
-		this.networkPlayer.sendProgress(data);
 	}
 
 	sendUpdate(data){
@@ -45,25 +28,20 @@ module.exports = class GamePlayer extends EventEmitter{
 			this.emit("disconnect");
 	    });
 
-		this.networkPlayer.on('keyDown', (data) => {
-
-			//FORMAT: {int id, float [0-1] str, bool prf};
-			//console.log('down', key);
+		this.networkPlayer.on('keyDown', (key) => {
 			this._onKeyDown(data);
 		});
 
 		this.networkPlayer.on('keyUp', (key) => {
-			//console.log('up', key);
 			this._onKeyUp(key);
 		});
-
 	}
 
-	_onKeyDown(data){
-		this.emit("playerSound", {instrumentId: data.iId, soundId: data.sId, strength: data.str, perfect: data.prf});
+	_onKeyDown(key){
+		this.emit("keyDown", key);
 	}
 
 	_onKeyUp(key){
-		return;
+		this.emit("keyUp", key);
 	}
 }

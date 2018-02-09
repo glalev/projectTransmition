@@ -6,7 +6,6 @@ class ServerCommunicator extends EventEmitter {
         super();
         this.socket = undefined;
         this.latency = 0;
-        this.isConnecting = false;
         this.isConnected = false;
     }
 
@@ -14,17 +13,18 @@ class ServerCommunicator extends EventEmitter {
       return new Promise(resolve => {
         console.info('Attempting to connect to server...')
 
-        //this.isConnecting = true;
         this.socket = io(location.host);
         this.socket.once('connect', ()=>{
             console.log('Connected to server...');
-            //this.isConnecting = false;
-            this.isConnected = true;
+
+            this.socket.once('connected', ()=>{
+                this.isConnected = true;
+                resolve();
+            },this);
 
             this.createServerListeners();
             this.getLatency();
             this.sendLoginData();
-            resolve();
         });
       });
     }
@@ -36,6 +36,10 @@ class ServerCommunicator extends EventEmitter {
 
     sendKeyDown (data) {
         this.socket.emit('keyDown', data);
+    }
+
+    sendKeyUp (data) {
+        this.socket.emit('keyUp', data);
     }
 
     getLatency () {
@@ -58,19 +62,9 @@ class ServerCommunicator extends EventEmitter {
             this.emit('ready');
         });
 
-        this.socket.on('progressUpdate', (data) => {
-            this.emit('progressUpdate', data);
-        });
-
         this.socket.on('settings', (data) => this.emit('settings', data));
 
-        this.socket.on('playSound', (data) => {
-            this.emit('playSound', data);
-        });
-
-        this.socket.on('message', (data) => {
-            this.emit('message', data);
-        });
+        this.socket.on('message', (data) => this.emit('message', data));
 
         this.socket.on('gameUpdate', (data) => this.emit('gameUpdate', data));
 
