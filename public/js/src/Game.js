@@ -6,14 +6,15 @@ const { Power2, TweenMax } = require('gsap').TweenMax;
 
 class Game extends PIXI.Container {
 
-  constructor() {
+  constructor(communicator) {
     super();
+    window.Assets = Assets;
+
     this.localPlayerId = 0;
     this._bg = new PIXI.Sprite(Assets.images.bg1);
-
-    window.Assets = Assets;
     this._input = new InputManager();
-    //this._input.on('keydown', ({ keyCode, symbol }) => { });
+    this._communicator = communicator;
+    this._addServerListeners();
 
     this.addChild(this._bg);
   }
@@ -22,17 +23,43 @@ class Game extends PIXI.Container {
     this.children.forEach(child => child.update && child.update());
   }
 
-  gameOver(){
-
-  }
-
-  rumble(strength, duration){
-    let dummy = {val:100};
-    TweenMax.to(dummy, duration, {dummy: 0, onUpdate: ()=>{
-      this.x = Math.random() * strength * (dummy.val/100);
-      this.y = Math.random() * strength * (dummy.val/100);
+  rumble(strength, duration, ease){
+    let dummy = {val:1};
+    TweenMax.to(dummy, duration, {val: 0, ease: ease || Power0.easeNone, onUpdate: ()=>{
+      this.x = Math.random() * strength * dummy.val;
+      this.y = Math.random() * strength * dummy.val;
     }});
   }
+
+  _addServerListeners() {
+    this._communicator.on('settings', (data) => {
+
+    });
+
+    this._communicator.on('gameUpdate', (data) => {
+
+    });
+
+    this._communicator.on('message', (data) => {
+      console.log("Message received:", data);
+      this._onServerMessageReceived(data);
+    });
+
+    this.game.on('keyDown', (data) => {
+        this._communicator.socket.emit('keyDown', data);
+    });
+
+    this.game.on('keyUp', (data) => {
+        this._communicator.socket.emit('keyUp', data);
+    });
+  }
+
+  _onServerMessageReceived(message){
+    switch (message) {
+          case 'test':
+          break;
+      }
+    }
 }
 
 module.exports = Game;

@@ -35,12 +35,11 @@ class App {
       })
       .then(()=> {
         this.stage.removeChild(this.splash);
-        this.game = new Game();
+        this.game = new Game(this.comunicator);
         this.stage.addChild(this.game);
         this._addServerListeners();
     });
   }
-
 
   load() {
     return new Promise(resolve => {
@@ -53,7 +52,6 @@ class App {
 
       manifest.images.forEach( image  => loader.add(image.id, image.src));
       loader.load((loader, resources) => {
-          console.warn(resources);
       	manifest.images.forEach(image => {
 			Assets.images[image.id] = resources[image.id].texture;
 		});
@@ -66,29 +64,6 @@ class App {
   update() {
     this.renderer.render(this.stage);
     this.stage.children.forEach(child => child.update && child.update());
-  }
-
-  _addServerListeners() {
-    this.comunicator.on('settings', ({id, instruments}) => {
-
-    });
-
-    this.comunicator.on('gameUpdate', (data) => {
-
-    });
-
-    this.comunicator.on('message', (data) => {
-      console.log("Message received:", data);
-      this._onServerMessageReceived(data);
-    });
-
-    this.game.on('keyDown', (data) => {
-        this.comunicator.socket.emit('keyDown', data);
-    });
-
-    this.game.on('keyUp', (data) => {
-        this.comunicator.socket.emit('keyUp', data);
-    });
   }
 
   _onServerMessageReceived(message){
