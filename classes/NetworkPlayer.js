@@ -57,6 +57,10 @@ module.exports = class NetworkPlayer extends EventEmitter{
 			this.emit('keyUp', data);
 	    });
 
+		this.socket.on('changeRot', (data) => {
+			this.emit('changeRot', data);
+	    });
+
 	    this.socket.on('disconnect', () => {
 			this.emit("disconnect");
 	    });

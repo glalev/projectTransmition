@@ -28,7 +28,7 @@ module.exports = class Game extends EventEmitter{
 
 		this.updateObjects();
 		var data = this.getObjectData();
-		this.sendUpdateToPlayers(data);
+		if(Object.keys(data).length) this.sendUpdateToPlayers(data);
 	}
 
 	updateObjects(){
@@ -40,8 +40,8 @@ module.exports = class Game extends EventEmitter{
 	getObjectData(){
 		let data = {};
 		_.each(this.objects, (object)=>{
-			if(!object.modified) return;
-			data.id = object.getModifications();
+			if(!object.modifications.length) return;
+			data[object.uniqueId] = object.getModifications();
 		});
 		return data;
 	}
@@ -51,20 +51,22 @@ module.exports = class Game extends EventEmitter{
 
 		let newPlayer = new GamePlayer(this, networkPlayer);
 
-		newPlayer.id = this.players.push(newPlayer) - 1;
+		newPlayer.id = this.objects.push(newPlayer) - 1;
+		newPlayer.playerId = this.players.push(newPlayer) - 1;
+
 		newPlayer.sendSettings({
+			playerId: newPlayer.playerId,
 			id: newPlayer.id
 		});
-
 		this.sendMessageToPlayers("connect");
 
 		let playerData = newPlayer.getSpawnData();
-		let spawnData = _.each(this.objects, (object)=>{
+		let spawnData = _.map(this.objects, (object)=>{
 			return object.getSpawnData();
 		});
 
 		_.each(this.players, (player)=>{
-			if(player.id == newPlayer.id) this.sendSpawnData(player, spawnData);
+			if(player.playerId == newPlayer.playerId) this.sendSpawnData(player, spawnData);
 			else this.sendSpawnData(player, [playerData]);
 		});
 
@@ -74,12 +76,18 @@ module.exports = class Game extends EventEmitter{
 	onPlayerDisconnect(gamePlayer){
 		console.log(gamePlayer.networkPlayer.name+" removed from game");
 
-		this.players.splice(gamePlayer.id, 1);
-        for(let i = gamePlayer.id; i < 	this.players.length; i++){
-        	this.players[i].id--;
+
+		this.players.splice(gamePlayer.playerId, 1);
+        for(let i = gamePlayer.playerId; i < this.players.length; i++){
+        	this.players[i].playerId--;
         };
 
-		this.sendMessageToPlayers("disconnect"+gamePlayer.id);
+		this.objects.splice(gamePlayer.id, 1);
+        for(let i = gamePlayer.id; i < this.objects.length; i++){
+        	this.objects[i].id--;
+        };
+
+		this.sendMessageToPlayers("disconnect"+gamePlayer.playerId);
 
 		let playerData = gamePlayer.getSpawnData();
 		_.each(this.players, (player)=>{
@@ -87,17 +95,6 @@ module.exports = class Game extends EventEmitter{
 		});
 
 		if(this._areWeEmpty()) return this.destroy();
-	}
-
-	sendProgressToPlayers (data){
-		_.each(this.players, (player)=>{
-			if(!player) return;
-			this.sendProgress(player, data);
-		});
-	}
-
-	sendProgress (player, data){
-		player.sendProgress(data);
 	}
 
 	sendUpdateToPlayers (data){

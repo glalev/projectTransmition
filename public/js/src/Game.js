@@ -15,6 +15,7 @@ class Game extends PIXI.Container {
     this._input = new InputManager();
     this._communicator = communicator;
     this._addServerListeners();
+    this._communicator.sendLoginData();
 
     this.addChild(this._bg);
   }
@@ -37,7 +38,15 @@ class Game extends PIXI.Container {
     });
 
     this._communicator.on('gameUpdate', (data) => {
+        console.log("gameupdate:", data);
+    });
 
+    this._communicator.on('spawn', (data) => {
+        console.log("spawn:", data);
+    });
+
+    this._communicator.on('destroy', (data) => {
+        console.log("destroy:", data);
     });
 
     this._communicator.on('message', (data) => {
@@ -48,6 +57,10 @@ class Game extends PIXI.Container {
     this._input.on('keyDown', (data) => {
         console.info('keyDown ',data);
         this._communicator.socket.emit('keyDown', data);
+    });
+
+    this._input.on('mouseMove', (data) => {
+        this._communicator.socket.emit('changeRot', data.rot);
     });
 
     this._input.on('keyUp', (data) => {

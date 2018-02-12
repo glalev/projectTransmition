@@ -25,9 +25,7 @@ module.exports = class GameObject extends EventEmitter{
 		this.init();
 	}
 
-	init () {
-
-	}
+	init () { }
 
 	getSpawnData () {
 		var data = {
@@ -46,7 +44,7 @@ module.exports = class GameObject extends EventEmitter{
 	}
 
 	get angle (){
-		return this._rotation;
+		return this._angle;
 	}
 
 	get x (){
@@ -76,7 +74,8 @@ module.exports = class GameObject extends EventEmitter{
 		var data = {};
 		_.each(this.modifications, (modification) => {
 			data[modification] = this[modification];
-		})
+		});
+		this.modifications = [];
 		return data;
 	}
 }

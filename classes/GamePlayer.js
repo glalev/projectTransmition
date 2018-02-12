@@ -5,6 +5,7 @@ const GameObject = require('./GameObject.js');
 module.exports = class GamePlayer extends GameObject{
 	constructor (game, networkPlayer) {
 		super(game, 1);
+		this.playerId = -1;
 		this.networkPlayer = networkPlayer;
 		this.networkPlayer.currentGame = game;
 
@@ -43,6 +44,10 @@ module.exports = class GamePlayer extends GameObject{
 		this.networkPlayer.on('keyUp', (key) => {
 			this._onKeyUp(key);
 		});
+
+		this.networkPlayer.on('changeRot', (data) => {
+			this._onChangeRot(data);
+		});
 	}
 
 	_onKeyDown(key){
@@ -51,5 +56,9 @@ module.exports = class GamePlayer extends GameObject{
 
 	_onKeyUp(key){
 		this.emit("keyUp", key);
+	}
+
+	_onChangeRot(data){
+		this.angle = Math.round(data);
 	}
 }

@@ -16,15 +16,10 @@ class ServerCommunicator extends EventEmitter {
         this.socket = io(location.host);
         this.socket.once('connect', ()=>{
             console.log('Connected to server...');
-
-            this.socket.once('connected', ()=>{
-                this.isConnected = true;
-                resolve();
-            },this);
-
+            
             this.createServerListeners();
             this.getLatency();
-            this.sendLoginData();
+            resolve();
         });
       });
     }
@@ -57,6 +52,7 @@ class ServerCommunicator extends EventEmitter {
     createServerListeners () {
         console.log('added listeners');
 
+
         this.socket.on('ready', (data) => {
             console.log('Login Succesful');
             this.emit('ready');
@@ -67,6 +63,10 @@ class ServerCommunicator extends EventEmitter {
         this.socket.on('message', (data) => this.emit('message', data));
 
         this.socket.on('gameUpdate', (data) => this.emit('gameUpdate', data));
+
+        this.socket.on('spawn', (data) => this.emit('spawn', data));
+
+        this.socket.on('destroy', (data) => this.emit('destroy', data));
 
         this.socket.on('disconnect', () => {
             this.isConnected = false;

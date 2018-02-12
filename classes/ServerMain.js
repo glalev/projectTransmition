@@ -27,7 +27,6 @@ function init(){
     console.warn("#INIT END /////////////////////");
 
     global.mainLoop = GameLoop.setGameLoop(frameUpdate, 1000/fps);
-
 };
 
 /***********************************************************************************************************************
@@ -36,9 +35,9 @@ function init(){
 
 io.on('connection', function(socket){
     console.log(Date.now()+': User is connecting...');
+    socket.emit("connected");
     socket.on('loginData', (data)=>{
         console.log(Date.now()+': '+data.username+' has connected');
-        socket.emit("connected");
         initializeUser(data.username, socket);
     });
 });
