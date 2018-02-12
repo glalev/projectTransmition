@@ -9,6 +9,9 @@ module.exports = class GameObject extends EventEmitter{
 		this.game = game;
 		this.modifications = [];
 
+		this.solid = false;
+		this.networked = false; //synchronize this across the network
+
 		this.type = type;
 		//Type 1 - PLAYER
 
@@ -40,7 +43,7 @@ module.exports = class GameObject extends EventEmitter{
 	set angle (val){
 		this._angle = val % 360;
 		if(this.collider) this.collider.angle = this._angle;
-		this.modifications.push("angle");
+		if(this.networked) this.modifications.push("angle");
 	}
 
 	get angle (){
@@ -53,7 +56,7 @@ module.exports = class GameObject extends EventEmitter{
 	set x (val){
 		if(this._x == val) return;
 		this._x = val;
-		this.modifications.push("x");
+		if(this.networked) this.modifications.push("x");
 	}
 
 	get y (){
@@ -62,7 +65,7 @@ module.exports = class GameObject extends EventEmitter{
 	set y (val){
 		if(this._y == val) return;
 		this._y = val;
-		this.modifications.push("y");
+		if(this.networked) this.modifications.push("y");
 	}
 
 	update () {

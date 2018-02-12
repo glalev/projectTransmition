@@ -9,6 +9,8 @@ module.exports = class GamePlayer extends GameObject{
 		this.networkPlayer = networkPlayer;
 		this.networkPlayer.currentGame = game;
 
+		this.networked = true;
+
 		this.initializeGameListeners();
 	}
 

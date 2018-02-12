@@ -40,7 +40,7 @@ module.exports = class Game extends EventEmitter{
 	getObjectData(){
 		let data = {};
 		_.each(this.objects, (object)=>{
-			if(!object.modifications.length) return;
+			if(!object.modifications.length || !object.networked) return;
 			data[object.uniqueId] = object.getModifications();
 		});
 		return data;
@@ -58,10 +58,11 @@ module.exports = class Game extends EventEmitter{
 			playerId: newPlayer.playerId,
 			id: newPlayer.id
 		});
-		this.sendMessageToPlayers("connect");
+		this.sendMessageToPlayers({msg:"connect"});
 
 		let playerData = newPlayer.getSpawnData();
 		let spawnData = _.map(this.objects, (object)=>{
+			if(!object.networked) return;
 			return object.getSpawnData();
 		});
 
@@ -87,7 +88,7 @@ module.exports = class Game extends EventEmitter{
         	this.objects[i].id--;
         };
 
-		this.sendMessageToPlayers("disconnect"+gamePlayer.playerId);
+		this.sendMessageToPlayers({msg:"disconnect"});
 
 		let playerData = gamePlayer.getSpawnData();
 		_.each(this.players, (player)=>{
