@@ -1,10 +1,9 @@
 const EventEmitter = require('eventemitter3');
 const KEY_CODES = {
-  65: 'A',
-  83: 'S',
-  75: 'K',
-  76: 'L',
-  32: 'SPACE'
+  87: 'U',
+  83: 'D',
+  65: 'L',
+  68: 'R'
 }
 
 class InputManager extends EventEmitter {
@@ -13,12 +12,17 @@ class InputManager extends EventEmitter {
     super();
     this._listeners = {}
     document.addEventListener('keydown', (e) => this._onKeyDown(e));
+    document.addEventListener('keyup', (e) => this._onKeyUp(e));
   }
 
   _onKeyDown(e){
       if(!KEY_CODES[e.keyCode]) return;
-
-      this.emit('keydown', { keyCode: e.keyCode, symbol: KEY_CODES[e.keyCode] });
+      this.emit('keyDown', { type: KEY_CODES[e.keyCode] });
+  }
+  
+  _onKeyUp(e){
+      if(!KEY_CODES[e.keyCode]) return;
+      this.emit('keyUp', { type: KEY_CODES[e.keyCode] });
   }
 
 }

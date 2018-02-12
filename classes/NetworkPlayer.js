@@ -32,6 +32,14 @@ module.exports = class NetworkPlayer extends EventEmitter{
 		this.socket.emit("message", data);
 	}
 
+	sendSpawnData (data){
+		this.socket.emit("spawn", data);
+	}
+
+	sendDestroyData (data){
+		this.socket.emit("destroy", data);
+	}
+
 	initializeSocketListeners () {
 		this.socket.on('_ping', () => {
 	      this.socket.emit('_pong');

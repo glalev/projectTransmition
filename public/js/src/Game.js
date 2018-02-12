@@ -45,11 +45,13 @@ class Game extends PIXI.Container {
       this._onServerMessageReceived(data);
     });
 
-    this.game.on('keyDown', (data) => {
+    this._input.on('keyDown', (data) => {
+        console.info('keyDown ',data);
         this._communicator.socket.emit('keyDown', data);
     });
 
-    this.game.on('keyUp', (data) => {
+    this._input.on('keyUp', (data) => {
+        console.info('keyUp ',data);
         this._communicator.socket.emit('keyUp', data);
     });
   }

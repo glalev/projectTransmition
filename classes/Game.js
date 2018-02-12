@@ -58,13 +58,21 @@ module.exports = class Game extends EventEmitter{
 
 		this.sendMessageToPlayers("connect");
 
+		let playerData = newPlayer.getSpawnData();
+		let spawnData = _.each(this.objects, (object)=>{
+			return object.getSpawnData();
+		});
+
+		_.each(this.players, (player)=>{
+			if(player.id == newPlayer.id) this.sendSpawnData(player, spawnData);
+			else this.sendSpawnData(player, [playerData]);
+		});
+
 		this.initializePlayerListeners(newPlayer);
 	}
 
 	onPlayerDisconnect(gamePlayer){
-		_.each(gamePlayer.instruments, (instrumentId)=>{
-			if(this.loops[instrumentId]) this.loops[instrumentId] = null;
-		});
+		console.log(gamePlayer.networkPlayer.name+" removed from game");
 
 		this.players.splice(gamePlayer.id, 1);
         for(let i = gamePlayer.id; i < 	this.players.length; i++){
@@ -73,7 +81,10 @@ module.exports = class Game extends EventEmitter{
 
 		this.sendMessageToPlayers("disconnect"+gamePlayer.id);
 
-		console.log("Player removed from game");
+		let playerData = gamePlayer.getSpawnData();
+		_.each(this.players, (player)=>{
+			this.sendDestroyData(player, [playerData]);
+		});
 
 		if(this._areWeEmpty()) return this.destroy();
 	}
@@ -109,6 +120,14 @@ module.exports = class Game extends EventEmitter{
 
 	sendMessage (player, data){
 		player.sendMessage(data);
+	}
+
+	sendSpawnData(player, data){
+		player.sendSpawnData(data);
+	}
+
+	sendDestroyData(player, data){
+		player.sendDestroyData(data);
 	}
 
 	initializePlayerListeners (gamePlayer) {

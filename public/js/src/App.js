@@ -37,7 +37,6 @@ class App {
         this.stage.removeChild(this.splash);
         this.game = new Game(this.comunicator);
         this.stage.addChild(this.game);
-        this._addServerListeners();
     });
   }
 

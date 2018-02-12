@@ -4,7 +4,7 @@ const GameObject = require('./GameObject.js');
 
 module.exports = class GamePlayer extends GameObject{
 	constructor (game, networkPlayer) {
-		super([arguments]);
+		super(game, 1);
 		this.networkPlayer = networkPlayer;
 		this.networkPlayer.currentGame = game;
 
@@ -23,13 +23,21 @@ module.exports = class GamePlayer extends GameObject{
 		this.networkPlayer.sendMessage(data);
 	}
 
+	sendSpawnData(data){
+		this.networkPlayer.sendSpawnData(data);
+	}
+
+	sendDestroyData(data){
+		this.networkPlayer.sendDestroyData(data);
+	}
+
 	initializeGameListeners () {
 	    this.networkPlayer.once('disconnect', () => {
 			this.emit("disconnect");
 	    });
 
 		this.networkPlayer.on('keyDown', (key) => {
-			this._onKeyDown(data);
+			this._onKeyDown(key);
 		});
 
 		this.networkPlayer.on('keyUp', (key) => {

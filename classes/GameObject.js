@@ -2,12 +2,15 @@ const _ = require('underscore');
 const EventEmitter = require('eventemitter3');
 
 module.exports = class GameObject extends EventEmitter{
-	constructor (game) {
+	constructor (game, type) {
 		super();
 		this.id = -1;
 		this.uniqueId = _.uniqueId();
 		this.game = game;
 		this.modifications = [];
+
+		this.type = type;
+		//Type 1 - PLAYER
 
 		this.dirX = 0;
 		this.dirY = 0;
@@ -24,6 +27,16 @@ module.exports = class GameObject extends EventEmitter{
 
 	init () {
 
+	}
+
+	getSpawnData () {
+		var data = {
+			id: this.uniqueId,
+			type: this.type,
+			x: this.x, y: this.y,
+			angle: this.angle
+		};
+		return data;
 	}
 
 	set angle (val){
