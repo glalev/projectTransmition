@@ -31,6 +31,8 @@ module.exports = class Body {
 		 */
 		this.padding = padding;
 
+		this.gameObject = null;
+
 		/** @private */
 		this._circle = false;
 

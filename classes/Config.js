@@ -8,5 +8,12 @@ module.exports = {
 
     player: {
         baseSpeed: 5,
+        collider: { radius: 20 }
+    },
+
+    bullet: {
+        baseSpeed: 15,
+        collider: { radius: 3 }
     }
+
 }

@@ -27,6 +27,8 @@ module.exports = class GameObject extends EventEmitter{
 		this._y = 0;
 		this._angle = 0;
 
+		this.lastCollisionResult = this.game.collisions.createResult();
+
 		this.init();
 	}
 
@@ -40,6 +42,10 @@ module.exports = class GameObject extends EventEmitter{
 			angle: this.angle
 		};
 		return data;
+	}
+
+	destroy(){
+		if(this.collider) this.collider.remove();
 	}
 
 	set angle (val){
@@ -75,14 +81,31 @@ module.exports = class GameObject extends EventEmitter{
 	update () {
 		if(this.dirX) this.x += this.dirX;
 		if(this.dirY) this.y += this.dirY;
+		if(this.dirX || this.dirY) this.handleCollisions();
 	}
+
+	handleCollisions(){
+		if(!this.collider || !this.solid) return;
+
+		this.game.collisions.update();
+		_.each(this.collider.potentials(), (potential)=>{
+			if(!this.collider.collides(potential, this.lastCollisionResult)) return;
+
+			this.x -= this.lastCollisionResult.overlap * this.lastCollisionResult.overlap_x;
+			this.y -= this.lastCollisionResult.overlap * this.lastCollisionResult.overlap_y;
+
+			this.emit("collide", potential.gameObject);
+			potential.gameObject.emit("collided", this);
+		})
+	}
+
 
 	getModifications () {
 		var data = {};
 		_.each(this.modifications, (modification) => {
 			data[modification] = this[modification];
 		});
-		this.modifications = [];
+		this.modifications.splice(0,this.modifications.length)
 		return data;
 	}
 }

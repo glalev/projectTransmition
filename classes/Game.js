@@ -27,6 +27,9 @@ module.exports = class Game extends EventEmitter{
 		if(this._areWeEmpty()) return this.destroy();
 
 		this.updateObjects();
+		this.collisions.update();
+		//this.handleCollisions();
+
 		var data = this.getObjectData();
 		if(Object.keys(data).length) this.sendUpdateToPlayers(data);
 	}
@@ -44,6 +47,12 @@ module.exports = class Game extends EventEmitter{
 			data[object.uniqueId] = object.getModifications();
 		});
 		return data;
+	}
+
+	handleCollisions(){
+		_.each(this.objects, (object)=>{
+			object.handleCollisions();
+		});
 	}
 
 	joinPlayer(networkPlayer){

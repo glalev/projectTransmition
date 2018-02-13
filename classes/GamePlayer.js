@@ -11,8 +11,13 @@ module.exports = class GamePlayer extends GameObject{
 		this.networkPlayer.currentGame = game;
 
 		this.speed = cfg.player.baseSpeed;
+		this.collider = this.game.collisions.createCircle(
+			this.x, this.y,
+			cfg.player.collider.radius);
+		this.collider.gameObject = this;
 
 		this.networked = true;
+		this.solid = true;
 
 		this.initializeGameListeners();
 	}

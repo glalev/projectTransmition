@@ -12,8 +12,14 @@ module.exports = class GameBullet extends GameObject{
 		this.speed = speed || cfg.baseBulletSpeed;
 		this.damage = damage || cfg.baseBulletDamage;
 
+		this.collider = this.game.collisions.createCircle(
+			this.x, this.y,
+			cfg.bullet.collider.radius);
+		this.collider.gameObject = this;
+
 		this._getDir();
 		this.networked = true;
+		this.solid = true;
 	}
 
 	_getDir(){
