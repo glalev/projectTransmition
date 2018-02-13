@@ -31,7 +31,7 @@ class InputManager extends EventEmitter {
     let throttledMove = _.throttle(this._onMouseMove.bind(this), this.captureMouseTime)
 
     this._mouseManager.on("pointermove", (e)=>throttledMove(e));
-    this._mouseManager.on("click", (e)=>this._onMouseClick(e));
+    this._mouseManager.on("mousedown", (e)=>this._onMouseClick(e));
   }
 
   _onKeyDown(e){

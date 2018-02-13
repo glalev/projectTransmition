@@ -5,7 +5,6 @@ const cfg = require("./Config.js");
 module.exports = class GameObject extends EventEmitter{
 	constructor (game, type) {
 		super();
-		this.id = -1;
 		this.uniqueId = _.uniqueId();
 		this.game = game;
 		this.modifications = [];
@@ -29,6 +28,8 @@ module.exports = class GameObject extends EventEmitter{
 
 		this.lastCollisionResult = this.game.collisions.createResult();
 
+		this.id = this.game.objects.push(this) - 1;
+
 		this.init();
 	}
 
@@ -46,11 +47,17 @@ module.exports = class GameObject extends EventEmitter{
 
 	destroy(){
 		if(this.collider) this.collider.remove();
+		this.game.sendDestroyDataToPlayers({id: this.uniqueId});
+
+		this.game.objects.splice(this.id, 1);
+		for(let i = this.id; i < this.game.objects.length; i++){
+			this.game.objects[i].id--;
+		};
 	}
 
 	set angle (val){
 		this._angle = val;
-		if(this.collider) this.collider.angle = this._angle/cfg.radPrecision;
+		if(this.collider) this.collider.angle = this._angle;
 		if(this.networked) this.modifications.push("angle");
 	}
 
@@ -90,15 +97,17 @@ module.exports = class GameObject extends EventEmitter{
 		this.game.collisions.update();
 		_.each(this.collider.potentials(), (potential)=>{
 			if(!this.collider.collides(potential, this.lastCollisionResult)) return;
-
-			this.x -= this.lastCollisionResult.overlap * this.lastCollisionResult.overlap_x;
-			this.y -= this.lastCollisionResult.overlap * this.lastCollisionResult.overlap_y;
-
-			this.emit("collide", potential.gameObject);
-			potential.gameObject.emit("collided", this);
+			processCollision(potential)
 		})
 	}
 
+	processCollision(collider){
+		this.x -= this.lastCollisionResult.overlap * this.lastCollisionResult.overlap_x;
+		this.y -= this.lastCollisionResult.overlap * this.lastCollisionResult.overlap_y;
+
+		this.emit("collide", collider.gameObject);
+		collider.gameObject.emit("collided", this);
+	}
 
 	getModifications () {
 		var data = {};

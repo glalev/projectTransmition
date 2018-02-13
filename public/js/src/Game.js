@@ -62,7 +62,7 @@ class Game extends PIXI.Container {
         _.each(data, (updateData, id)=>{
             if(!this.gameObjects[id]) return console.error("Trying to update non-existing gameobject,", id, updateData);
             var tweenCfg = {ease: Power0.easeNone};
-            if(updateData.angle) tweenCfg.directionalRotation = {angle: (updateData.angle/cfg.radPrecision)+"_short", useRadians:true};
+            if(updateData.angle) tweenCfg.directionalRotation = {angle: (updateData.angle)+"_short", useRadians:true};
             if(updateData.x) tweenCfg.x = updateData.x;
             if(updateData.y) tweenCfg.y = updateData.y;
 
@@ -94,11 +94,12 @@ class Game extends PIXI.Container {
     });
 
     this._input.on('click', (data) => {
-        this._communicator.socket.emit('keyDown', "F"); //Fire
+        console.warn("Click");
+        this._communicator.socket.emit('keyDown', {type:"F"}); //Fire
     });
 
     this._input.on('mouseMove', (data) => {
-        this._communicator.socket.emit('changeRot', data.rot * cfg.radPrecision);
+        this._communicator.socket.emit('changeRot', data.rot);
     });
 
     this._input.on('keyUp', (data) => {

@@ -15,7 +15,7 @@ class Spawner {
             newObject = new Player(spawnData.id);
           break;
           case 2: //Bullet
-            newObject = new Bullet(bullet.id);
+            newObject = new Bullet(spawnData.id);
           break;
       }
 

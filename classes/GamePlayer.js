@@ -1,12 +1,13 @@
 const _ = require('underscore');
 const EventEmitter = require('eventemitter3');
 const GameObject = require('./GameObject.js');
+const GameBullet = require('./GameBullet.js');
 const cfg = require("./Config.js");
 
 module.exports = class GamePlayer extends GameObject{
 	constructor (game, networkPlayer) {
 		super(game, 1);
-		this.playerId = -1;
+		this.playerId = this.game.players.push(this) - 1;
 		this.networkPlayer = networkPlayer;
 		this.networkPlayer.currentGame = game;
 
@@ -20,6 +21,8 @@ module.exports = class GamePlayer extends GameObject{
 		this.solid = true;
 
 		this.initializeGameListeners();
+
+		this.game.sendSpawnDataToPlayers([this.getSpawnData()]);
 	}
 
 	sendSettings(data){
@@ -76,6 +79,13 @@ module.exports = class GamePlayer extends GameObject{
 			break;
 			case "F":
 			this.emit("fire");
+			let bullet = new GameBullet(
+				this.game,
+				this.uniqueId,
+				this.x, this.y,
+				this.angle
+			);
+
 			break;
 		}
 
@@ -102,6 +112,6 @@ module.exports = class GamePlayer extends GameObject{
 	}
 
 	_onChangeRot(data){
-		this.angle = Math.round(data);
+		this.angle = data;
 	}
 }

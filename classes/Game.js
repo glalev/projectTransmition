@@ -58,22 +58,13 @@ module.exports = class Game extends EventEmitter{
 	joinPlayer(networkPlayer){
 		console.log(Date.now()+': '+networkPlayer.name+' joined a game...');
 
-		let newPlayer = new GamePlayer(this, networkPlayer);
-
-		newPlayer.id = this.objects.push(newPlayer) - 1;
-		newPlayer.playerId = this.players.push(newPlayer) - 1;
-
-
-		let playerData = newPlayer.getSpawnData();
 		let spawnData = _.map(this.objects, (object)=>{
 			if(!object.networked) return;
 			return object.getSpawnData();
 		});
 
-		_.each(this.players, (player)=>{
-			if(player.playerId == newPlayer.playerId) this.sendSpawnData(player, spawnData);
-			else this.sendSpawnData(player, [playerData]);
-		});
+		let newPlayer = new GamePlayer(this, networkPlayer);
+		this.sendSpawnData(newPlayer, spawnData);
 
 		newPlayer.sendSettings({
 			playerId: newPlayer.playerId,
@@ -92,24 +83,15 @@ module.exports = class Game extends EventEmitter{
         	this.players[i].playerId--;
         };
 
-		this.objects.splice(gamePlayer.id, 1);
-        for(let i = gamePlayer.id; i < this.objects.length; i++){
-        	this.objects[i].id--;
-        };
-
 		this.sendMessageToPlayers({msg:"disconnect"});
 
-		let playerData = gamePlayer.getSpawnData();
-		_.each(this.players, (player)=>{
-			this.sendDestroyData(player, [playerData]);
-		});
+		gamePlayer.destroy();
 
 		if(this._areWeEmpty()) return this.destroy();
 	}
 
 	sendUpdateToPlayers (data){
 		_.each(this.players, (player)=>{
-			if(!player) return;
 			this.sendUpdate(player, data);
 		});
 	}
@@ -120,7 +102,6 @@ module.exports = class Game extends EventEmitter{
 
 	sendMessageToPlayers (data){
 		_.each(this.players, (player)=>{
-			if(!player) return;
 			this.sendMessage(player, data);
 		});
 	}
@@ -129,12 +110,20 @@ module.exports = class Game extends EventEmitter{
 		player.sendMessage(data);
 	}
 
+	sendSpawnDataToPlayers(data){
+		_.each(this.players, (player)=>{
+			this.sendSpawnData(player, data);
+		});
+	}
+
 	sendSpawnData(player, data){
 		player.sendSpawnData(data);
 	}
 
-	sendDestroyData(player, data){
-		player.sendDestroyData(data);
+	sendDestroyDataToPlayers(data){
+		_.each(this.players, (player)=>{
+			player.sendDestroyData(data);
+		});
 	}
 
 	initializePlayerListeners (gamePlayer) {
