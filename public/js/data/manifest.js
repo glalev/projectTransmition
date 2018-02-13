@@ -8,6 +8,7 @@ module.exports = {
   images: [
       { id: 'StartButton', name: 'StartButton', src: './assets/Images/StartButton.png' },
       { id: 'bg1', name: 'bg1', src: './assets/Images/bg1.jpg' },
+      { id: 'Ply', name: 'Ply', src: './assets/Images/Ply.png' },
     //{ id: 'fgImg', name: 'foreground', src: './assets/Images/scene.png' },
   ]
 }

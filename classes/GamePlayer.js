@@ -53,10 +53,36 @@ module.exports = class GamePlayer extends GameObject{
 	}
 
 	_onKeyDown(key){
+		switch(key){
+			case "U":
+			break;
+			case "D":
+			break;
+			case "L":
+			break;
+			case "R":
+			break;
+			case "F":
+			break;
+		}
+
 		this.emit("keyDown", key);
 	}
 
 	_onKeyUp(key){
+		switch(key){
+			case "U":
+			break;
+			case "D":
+			break;
+			case "L":
+			break;
+			case "R":
+			break;
+			case "F":
+			break;
+		}
+
 		this.emit("keyUp", key);
 	}
 

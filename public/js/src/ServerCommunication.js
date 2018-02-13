@@ -16,7 +16,7 @@ class ServerCommunicator extends EventEmitter {
         this.socket = io(location.host);
         this.socket.once('connect', ()=>{
             console.log('Connected to server...');
-            
+
             this.createServerListeners();
             this.getLatency();
             resolve();
@@ -32,7 +32,7 @@ class ServerCommunicator extends EventEmitter {
     sendKeyDown (data) {
         this.socket.emit('keyDown', data);
     }
-
+    
     sendKeyUp (data) {
         this.socket.emit('keyUp', data);
     }

@@ -54,11 +54,6 @@ module.exports = class Game extends EventEmitter{
 		newPlayer.id = this.objects.push(newPlayer) - 1;
 		newPlayer.playerId = this.players.push(newPlayer) - 1;
 
-		newPlayer.sendSettings({
-			playerId: newPlayer.playerId,
-			id: newPlayer.id
-		});
-		this.sendMessageToPlayers({msg:"connect"});
 
 		let playerData = newPlayer.getSpawnData();
 		let spawnData = _.map(this.objects, (object)=>{
@@ -70,6 +65,12 @@ module.exports = class Game extends EventEmitter{
 			if(player.playerId == newPlayer.playerId) this.sendSpawnData(player, spawnData);
 			else this.sendSpawnData(player, [playerData]);
 		});
+		
+		newPlayer.sendSettings({
+			playerId: newPlayer.playerId,
+			uniqueId: newPlayer.uniqueId
+		});
+		this.sendMessageToPlayers({msg:"connect"});
 
 		this.initializePlayerListeners(newPlayer);
 	}

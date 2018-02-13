@@ -1,4 +1,6 @@
 const EventEmitter = require('eventemitter3');
+const _ = require('underscore');
+
 const KEY_CODES = {
   87: 'U',
   83: 'D',
@@ -13,7 +15,7 @@ class InputManager extends EventEmitter {
     this.captureMouse = true;
     this.captureMouseTime = 1000/24; //24 times per second
     this.screenMiddle = {x: app.renderer.screen.width/2, y: app.renderer.screen.height/2};
-    this._lastCaptureMouse = 0;
+
 
     document.addEventListener('keydown', (e) => this._onKeyDown(e));
     document.addEventListener('keyup', (e) => this._onKeyUp(e));
@@ -24,7 +26,10 @@ class InputManager extends EventEmitter {
             autoPreventDefault: true
         }
     );
-    this._mouseManager.on("pointermove", (e)=>this._onMouseMove(e));
+    let throttledMove = _.throttle(this._onMouseMove.bind(this), this.captureMouseTime)
+
+    this._mouseManager.on("pointermove", (e)=>throttledMove(e));
+    this._mouseManager.on("click", (e)=>this._onMouseClick(e));
   }
 
   _onKeyDown(e){
@@ -40,16 +45,17 @@ class InputManager extends EventEmitter {
   _onMouseMove(e){
       if(!this.captureMouse) return;
 
-      let now = Date.now();
-      if((now - this._lastCaptureMouse) < this.captureMouseTime) return;
-      this._lastCaptureMouse = now;
-
       let pos = e.data.global,
       dx = pos.x-this.screenMiddle.x,
       dy = pos.y-this.screenMiddle.y,
-      rot = Math.atan2(dy, dx) * 180 / Math.PI;
-      
+      rot = Math.atan2(dy, dx);
+      console.warn(rot);
+
       this.emit('mouseMove', { pos: pos, rot: rot });
+  }
+
+  _onMouseClick(e){
+      this.emit('click');
   }
 }
 

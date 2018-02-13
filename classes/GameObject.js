@@ -1,6 +1,6 @@
 const _ = require('underscore');
 const EventEmitter = require('eventemitter3');
-
+const radPrecision = 10000;
 module.exports = class GameObject extends EventEmitter{
 	constructor (game, type) {
 		super();
@@ -14,6 +14,7 @@ module.exports = class GameObject extends EventEmitter{
 
 		this.type = type;
 		//Type 1 - PLAYER
+		//Type 2 - BULLET
 
 		this.dirX = 0;
 		this.dirY = 0;
@@ -41,8 +42,8 @@ module.exports = class GameObject extends EventEmitter{
 	}
 
 	set angle (val){
-		this._angle = val % 360;
-		if(this.collider) this.collider.angle = this._angle;
+		this._angle = val;
+		if(this.collider) this.collider.angle = this._angle/radPrecision;
 		if(this.networked) this.modifications.push("angle");
 	}
 
@@ -56,6 +57,7 @@ module.exports = class GameObject extends EventEmitter{
 	set x (val){
 		if(this._x == val) return;
 		this._x = val;
+		if(this.collider) this.collider.x = this._x;
 		if(this.networked) this.modifications.push("x");
 	}
 
@@ -65,6 +67,7 @@ module.exports = class GameObject extends EventEmitter{
 	set y (val){
 		if(this._y == val) return;
 		this._y = val;
+		if(this.collider) this.collider.y = this._y;
 		if(this.networked) this.modifications.push("y");
 	}
 

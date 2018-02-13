@@ -1,3 +1,4 @@
+const Misc = require('./Misc.js');
 const Game = require('./Game');
 const PIXI = require('pixi.js');
 const Assets = require('./Assets');
@@ -9,8 +10,10 @@ const { TweenMax, Power0 } = require('gsap');
 
 class App {
   constructor(view) {
+    this.WIDTH = 1280;
+    this.HEIGHT = 720;
     this.stage = new PIXI.Container();
-    this.renderer = PIXI.autoDetectRenderer( { width: 1280, height: 720 } );
+    this.renderer = PIXI.autoDetectRenderer( { width: this.WIDTH, height: this.HEIGHT } );
     this.view = view;
 
     this.view.appendChild(this.renderer.view);
@@ -60,16 +63,9 @@ class App {
      });
   }
 
-  update() {
+  update(e) {
     this.renderer.render(this.stage);
     this.stage.children.forEach(child => child.update && child.update());
-  }
-
-  _onServerMessageReceived(message){
-      switch (message) {
-        case 'test':
-        break;
-      }
   }
 }
 
