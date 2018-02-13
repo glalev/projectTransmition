@@ -36,6 +36,7 @@ module.exports = class Game extends EventEmitter{
 
 	updateObjects(){
 		_.each(this.objects, (object)=>{
+			if(!object) return; //In case they get destroyed while parsing
 			object.update();
 		});
 	}

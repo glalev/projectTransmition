@@ -9,8 +9,8 @@ module.exports = class GameBullet extends GameObject{
 		this.x = x;
 		this.y = y;
 		this.angle = angle;
-		this.speed = speed || cfg.baseBulletSpeed;
-		this.damage = damage || cfg.baseBulletDamage;
+		this.speed = speed || cfg.bullet.baseSpeed;
+		this.damage = damage || cfg.bullet.baseDamage;
 		this.ownerId = ownerId;
 
 		this.collider = this.game.collisions.createCircle(
@@ -22,25 +22,29 @@ module.exports = class GameBullet extends GameObject{
 		this.networked = true;
 		this.solid = true;
 
+		this._counter = 0;
+		this._counterDeath = cfg.bullet.deathTime;
+
 		this.game.sendSpawnDataToPlayers([this.getSpawnData()]);
+
+		this._addListeners();
+	}
+
+	_addListeners(){
+		this.once("collide", ()=>{
+			this.destroy();
+		});
+
+		this.on("update", ()=>{
+			this._counter++;
+			if(this._counter>this._counterDeath) this.destroy();
+		});
 	}
 
 	_getDir(){
 		let rad = this.angle;
-		console.warn(rad);
 		this.dirX = Math.cos(rad) * this.speed;
 		this.dirY = Math.sin(rad) * this.speed;
-	}
-
-	handleCollisions(){
-		if(!this.collider || !this.solid) return;
-
-		this.game.collisions.update();
-		_.each(this.collider.potentials(), (potential)=>{
-			if(potential.gameObject.uniqueId == this.ownerId) return;
-			if(!this.collider.collides(potential, this.lastCollisionResult)) return;
-			processCollision(potential)
-		})
 	}
 
 	_addCollider(){

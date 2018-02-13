@@ -12,6 +12,8 @@ module.exports = class GameObject extends EventEmitter{
 		this.solid = false;
 		this.networked = false; //synchronize this across the network
 
+		this.ownerId = null;
+
 		this.type = type;
 		//Type 1 - PLAYER
 		//Type 2 - BULLET
@@ -89,6 +91,7 @@ module.exports = class GameObject extends EventEmitter{
 		if(this.dirX) this.x += this.dirX;
 		if(this.dirY) this.y += this.dirY;
 		if(this.dirX || this.dirY) this.handleCollisions();
+		this.emit("update");
 	}
 
 	handleCollisions(){
@@ -96,8 +99,10 @@ module.exports = class GameObject extends EventEmitter{
 
 		this.game.collisions.update();
 		_.each(this.collider.potentials(), (potential)=>{
+			if(potential.gameObject.uniqueId == this.ownerId) return;
+			if(potential.gameObject.ownerId == this.uniqueId) return;
 			if(!this.collider.collides(potential, this.lastCollisionResult)) return;
-			processCollision(potential)
+			this.processCollision(potential)
 		})
 	}
 

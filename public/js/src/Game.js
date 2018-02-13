@@ -81,6 +81,8 @@ class Game extends PIXI.Container {
 
     this._communicator.on('destroy', (data) => {
         console.log("destroy:", data);
+        this._gameObjectsContainer.removeChild(this.gameObjects[data.id]);
+        delete this.gameObjects[data.id];
     });
 
     this._communicator.on('message', (data) => {

@@ -3,9 +3,6 @@ module.exports = {
     maxPlayersPerGame: 6,
     radPrecision: 1,
 
-    baseBulletSpeed: 20,
-    baseBulletDamage: 20,
-
     player: {
         baseSpeed: 5,
         collider: { radius: 20 }
@@ -13,7 +10,9 @@ module.exports = {
 
     bullet: {
         baseSpeed: 15,
-        collider: { radius: 3 }
+        baseDamage: 10,
+        collider: { radius: 3 },
+        deathTime: 24 //at 24 fps
     }
 
 }
