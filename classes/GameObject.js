@@ -1,6 +1,7 @@
 const _ = require('underscore');
 const EventEmitter = require('eventemitter3');
-const radPrecision = 10000;
+const cfg = require("./Config.js");
+
 module.exports = class GameObject extends EventEmitter{
 	constructor (game, type) {
 		super();
@@ -43,7 +44,7 @@ module.exports = class GameObject extends EventEmitter{
 
 	set angle (val){
 		this._angle = val;
-		if(this.collider) this.collider.angle = this._angle/radPrecision;
+		if(this.collider) this.collider.angle = this._angle/cfg.radPrecision;
 		if(this.networked) this.modifications.push("angle");
 	}
 

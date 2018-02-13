@@ -1,6 +1,7 @@
 const _ = require('underscore');
 const EventEmitter = require('eventemitter3');
 const GameObject = require('./GameObject.js');
+const cfg = require("./Config.js");
 
 module.exports = class GamePlayer extends GameObject{
 	constructor (game, networkPlayer) {
@@ -8,6 +9,8 @@ module.exports = class GamePlayer extends GameObject{
 		this.playerId = -1;
 		this.networkPlayer = networkPlayer;
 		this.networkPlayer.currentGame = game;
+
+		this.speed = cfg.player.baseSpeed;
 
 		this.networked = true;
 
@@ -53,16 +56,21 @@ module.exports = class GamePlayer extends GameObject{
 	}
 
 	_onKeyDown(key){
-		switch(key){
+		switch(key.type){
 			case "U":
+			this.dirY -= this.speed;
 			break;
 			case "D":
+			this.dirY += this.speed;
 			break;
 			case "L":
+			this.dirX -= this.speed;
 			break;
 			case "R":
+			this.dirX += this.speed;
 			break;
 			case "F":
+			this.emit("fire");
 			break;
 		}
 
@@ -70,16 +78,18 @@ module.exports = class GamePlayer extends GameObject{
 	}
 
 	_onKeyUp(key){
-		switch(key){
+		switch(key.type){
 			case "U":
+			this.dirY += this.speed;
 			break;
 			case "D":
+			this.dirY -= this.speed;
 			break;
 			case "L":
+			this.dirX += this.speed;
 			break;
 			case "R":
-			break;
-			case "F":
+			this.dirX -= this.speed;
 			break;
 		}
 

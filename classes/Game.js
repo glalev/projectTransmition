@@ -65,7 +65,7 @@ module.exports = class Game extends EventEmitter{
 			if(player.playerId == newPlayer.playerId) this.sendSpawnData(player, spawnData);
 			else this.sendSpawnData(player, [playerData]);
 		});
-		
+
 		newPlayer.sendSettings({
 			playerId: newPlayer.playerId,
 			uniqueId: newPlayer.uniqueId
@@ -77,7 +77,6 @@ module.exports = class Game extends EventEmitter{
 
 	onPlayerDisconnect(gamePlayer){
 		console.log(gamePlayer.networkPlayer.name+" removed from game");
-
 
 		this.players.splice(gamePlayer.playerId, 1);
         for(let i = gamePlayer.playerId; i < this.players.length; i++){

@@ -1,6 +1,7 @@
 const _ = require('underscore');
 const EventEmitter = require('eventemitter3');
 const GameObject = require('./GameObject.js');
+const cfg = require("./Config.js");
 
 module.exports = class GameBullet extends GameObject{
 	constructor (game, x, y, angle, speed, damage) {
@@ -8,8 +9,8 @@ module.exports = class GameBullet extends GameObject{
 		this.x = x;
 		this.y = y;
 		this.angle = angle;
-		this.speed = speed;
-		this.damage = damage;
+		this.speed = speed || cfg.baseBulletSpeed;
+		this.damage = damage || cfg.baseBulletDamage;
 
 		this._getDir();
 		this.networked = true;

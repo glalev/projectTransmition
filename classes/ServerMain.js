@@ -8,7 +8,7 @@ let io = null;
 const GameLoop = require('node-gameloop');
 const Player = require("./NetworkPlayer.js");
 const Game = require("./Game.js");
-const fps = 24;
+const cfg = require("./Config.js");
 
 global._ = _;
 global.playerList = [];
@@ -26,7 +26,7 @@ function init(){
 
     console.warn("#INIT END /////////////////////");
 
-    global.mainLoop = GameLoop.setGameLoop(frameUpdate, 1000/fps);
+    global.mainLoop = GameLoop.setGameLoop(frameUpdate, 1000/cfg.fps);
 };
 
 /***********************************************************************************************************************
@@ -78,7 +78,7 @@ function initializeGame(){
 function findGameForPlayer(player){
     let foundGame = false;
     _.each(global.gameList, (game)=>{
-        if(game.isOver || game.hasStarted || game.players.length >= 4 || foundGame) return;
+        if(game.isOver || game.hasStarted || game.players.length >= cfg.maxPlayersPerGame || foundGame) return;
         foundGame = true;
         game.joinPlayer(player);
     });

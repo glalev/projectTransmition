@@ -4,8 +4,8 @@ const Assets = require('./Assets.js');
 const Spawner = require('./Spawner.js');
 const Viewport = require('./Viewport.js');
 const _ = require('underscore');
-const { Power2, TweenMax } = require('gsap').TweenMax;
-const radPrecision = 10000;
+const { Power0, Power2, TweenMax } = require('gsap').TweenMax;
+const cfg = require("./Config.js");
 
 class Game extends PIXI.Container {
 
@@ -61,9 +61,12 @@ class Game extends PIXI.Container {
         console.log("gameupdate:", data);
         _.each(data, (updateData, id)=>{
             if(!this.gameObjects[id]) return console.error("Trying to update non-existing gameobject,", id, updateData);
-            if(updateData.angle) this.gameObjects[id].angle = updateData.angle/radPrecision;
-            if(updateData.x) this.gameObjects[id].x = updateData.x;
-            if(updateData.y) this.gameObjects[id].y = updateData.y;
+            var tweenCfg = {ease: Power0.easeNone};
+            if(updateData.angle) tweenCfg.directionalRotation = {angle: (updateData.angle/cfg.radPrecision)+"_short", useRadians:true};
+            if(updateData.x) tweenCfg.x = updateData.x;
+            if(updateData.y) tweenCfg.y = updateData.y;
+
+            TweenMax.to(this.gameObjects[id], 1/cfg.serverFps, tweenCfg);
         })
     });
 
@@ -95,7 +98,7 @@ class Game extends PIXI.Container {
     });
 
     this._input.on('mouseMove', (data) => {
-        this._communicator.socket.emit('changeRot', data.rot * radPrecision);
+        this._communicator.socket.emit('changeRot', data.rot * cfg.radPrecision);
     });
 
     this._input.on('keyUp', (data) => {
