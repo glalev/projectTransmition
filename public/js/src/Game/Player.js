@@ -2,18 +2,21 @@ const PIXI = require('pixi.js');
 const _ = require('underscore');
 const Assets = require('../Assets.js');
 const RotatingSprite = require('../RotatingSprite.js');
+const LegSystem = require('../LegSystem.js');
 const GameObject = require('./GameObject.js');
+
 
 class Player extends GameObject {
     constructor(uniqueId) {
         super(uniqueId);
 
-        let config = {
-            startDir: 4
+        /*let config = {
+            startDir: 3
         };
 
         this.sprite = new RotatingSprite(Assets.spriteSheets.vehicles1.slice(8, 16), config);
-        this.sprite.anchor.set(0.5,0.5);
+        this.sprite.anchor.set(0.5,0.5);*/
+        this.sprite = new LegSystem();
         this.addChild(this.sprite);
     }
 

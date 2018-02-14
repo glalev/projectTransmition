@@ -28,7 +28,7 @@ class Game extends PIXI.Container {
 
     this.gameObjects = {};
 
-    this.addChild(this._bg, this._gameObjectsContainer);
+    this.addChild( this._gameObjectsContainer);
   }
 
   update() {
