@@ -28,12 +28,14 @@ class Game extends PIXI.Container {
 
     this.gameObjects = {};
 
-    this.addChild( this._gameObjectsContainer);
+    this.addChild(this._bg, this._gameObjectsContainer);
   }
 
   update() {
     let delta = PIXI.ticker.shared.deltaTime/1000;
     this.children.forEach(child => child.update && child.update());
+
+    this._gameObjectsContainer.children.forEach(child => child.update && child.update());
 
     if(this.localPlayerGameObject) {
         let x = Math.lerp(this.viewport.x, this.localPlayerGameObject.x, 0.1);
