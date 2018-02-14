@@ -1,12 +1,13 @@
 const Misc = require('./Misc.js');
-const Game = require('./Game');
 const PIXI = require('pixi.js');
+const _ = require('underscore');
+const { Howl } = require('howler');
+const { TweenMax } = require('gsap');
+const Game = require('./Game');
 const Assets = require('./Assets');
 const ServerCommunication = require('./ServerCommunication');
 const Splash = require('./Splash');
 const manifest = require('../data/manifest');
-const { Howl } = require('howler');
-const { TweenMax, Power0 } = require('gsap');
 
 class App {
   constructor(view) {
@@ -57,10 +58,31 @@ class App {
       	manifest.images.forEach(image => {
 			Assets.images[image.id] = resources[image.id].texture;
 		});
+
+        manifest.spriteSheets.forEach(spriteSheet => {
+            this.extractSpriteSheetFrames(Assets.images[spriteSheet.id], spriteSheet);
+        });
         console.log('loading complete');
         resolve();
       });
      });
+  }
+
+  extractSpriteSheetFrames(image, data){
+      let imgArray = [];
+      _.times(data.rowCount, (y)=>{
+          _.times(data.columnCount, (x)=>{
+              imgArray.push(new PIXI.Texture(image,
+                  new PIXI.Rectangle(
+                      (data.cellX*x)+data.paddingX,
+                      (data.cellY*y)+data.paddingY,
+                      data.cellX, data.cellY)
+                  )
+              );
+          });
+      });
+
+      Assets.spriteSheets[data.id] = imgArray;
   }
 
   update(e) {

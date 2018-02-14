@@ -4,7 +4,12 @@ const GameObject = require('./GameObject.js');
 
 class Bullet extends GameObject {
   constructor(uniqueId) {
-    super(uniqueId, Assets.images.Ply);
+    super(uniqueId);
+
+    this.sprite = new PIXI.Sprite(Assets.images.Ply);
+
+    this.sprite.anchor.set(0.5,0.5);
+    this.addChild(this.sprite);
   }
 }
 module.exports = Bullet;

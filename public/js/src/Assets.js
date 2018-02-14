@@ -1,5 +1,5 @@
 module.exports = {
   images: {},
   sounds: {},
-  videos: {}
+  spriteSheets: {}
 }
