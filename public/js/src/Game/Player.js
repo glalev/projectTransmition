@@ -20,7 +20,7 @@ class Player extends GameObject {
         this.legs = new LegSystem();
         this.legs.on("STEP", ()=>{
             rumble(0,1,1);
-            Assets.sounds.step0.volume(0.05).play();
+            Assets.sounds.heavystep1.volume(0.5).play();
         });
 
         this.addChild(this.legs, this.body);
