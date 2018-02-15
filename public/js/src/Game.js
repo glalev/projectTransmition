@@ -60,7 +60,7 @@ class Game extends PIXI.Container {
     });
 
     this._communicator.on('gameUpdate', (data) => {
-        console.log("gameupdate:", data);
+        //console.log("gameupdate:", data);
         _.each(data, (updateData, id)=>{
             if(!this.gameObjects[id]) return console.error("Trying to update non-existing gameobject,", id, updateData);
             var tweenCfg = {ease: Power0.easeNone};

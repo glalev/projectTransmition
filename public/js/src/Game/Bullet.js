@@ -8,6 +8,8 @@ class Bullet extends GameObject {
 
     this.sprite = new PIXI.Sprite(Assets.images.Ply);
 
+    Assets.sounds.exp0.volume(0.5).play()
+
     this.sprite.anchor.set(0.5,0.5);
     this.addChild(this.sprite);
   }

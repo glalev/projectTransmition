@@ -5,39 +5,55 @@ const RotatingSprite = require('../RotatingSprite.js');
 const LegSystem = require('../LegSystem.js');
 const GameObject = require('./GameObject.js');
 
-
 class Player extends GameObject {
     constructor(uniqueId) {
         super(uniqueId);
 
-        /*let config = {
+        let config = {
             startDir: 3
         };
 
-        this.sprite = new RotatingSprite(Assets.spriteSheets.vehicles1.slice(8, 16), config);
-        this.sprite.anchor.set(0.5,0.5);*/
-        this.sprite = new LegSystem();
-        this.addChild(this.sprite);
+        this.body = new RotatingSprite(Assets.spriteSheets.vehicles1.slice(16, 24), config);
+        this.body.anchor.set(0.5,0.5);
+        this.body.y -= 25;
+
+        this.legs = new LegSystem();
+        this.legs.on("STEP", ()=>{
+            Assets.sounds.step0.volume(0.5).play();
+        });
+
+        this.addChild(this.legs, this.body);
+
 
         this.posUpdated = false;
+        this._prevPos = {x: this.x, y: this.y};
+        this._angle = 0;
     }
 
     update(){
-        if(!this.posUpdated) this.sprite.stopWalking();
-        if(this.posUpdated) this.posUpdated = false;
+        if(!this.posUpdated && this.legs.walking) this.legs.stopWalking();
+        if(this.posUpdated) {
+            let deltaX = this.x - this._prevPos.x;
+            let deltaY = this.y - this._prevPos.y;
+            let angle = -Math.atan2(deltaY, deltaX);
+            this.legs.angle = angle;
+            this.legs.startWalking();
+            this.posUpdated = false;
+
+            this._prevPos.x = this.x;
+            this._prevPos.y = this.y;
+        }
     }
 
     set x (val){
         this.position.x = val;
 
         this.posUpdated = true;
-        this.sprite.startWalking();
     }
     set y (val){
         this.position.y = val;
 
         this.posUpdated = true;
-        this.sprite.startWalking();
     }
 
     get x (){
@@ -49,11 +65,13 @@ class Player extends GameObject {
     }
 
     set angle (val){
-        this.sprite.angle = val;
+        this._angle = val;
+        this.body.angle = this._angle;
+        //this.legs.rotation = this._angle;
     }
 
     get angle (){
-        return this.sprite.angle;
+        return this._angle;
     }
 }
 module.exports = Player;

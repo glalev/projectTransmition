@@ -4,7 +4,7 @@ module.exports = {
     radPrecision: 1,
 
     player: {
-        baseSpeed: 5,
+        baseSpeed: 1.25,
         collider: { radius: 20 }
     },
 

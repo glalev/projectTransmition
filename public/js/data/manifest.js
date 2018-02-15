@@ -3,6 +3,8 @@ module.exports = {
     { id: 'loadingBar', name: 'loadingBar', src: './assets/Images/loadingBar.png' },
   ],
   sounds: [
+      { id: 'step0', name: 'step0', src: './assets/sounds/step0.wav' },
+      { id: 'exp0', name: 'exp0', src: './assets/sounds/exp0.wav' },
     //{ id: 'bgLoop', name: 'backgroundLoop', src: './assets/sounds/bgLoop.ogg' },
   ],
   images: [
