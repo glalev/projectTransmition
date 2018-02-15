@@ -36,7 +36,7 @@ class Leg extends RotatingSprite {
 		this._front = !!(this.id%2 == 0);
 
 		this._rot = null;
-		this.anchor.set(0.5,1);
+		this.anchor.set(0.5,0.5);
 	}
 
 	startWalking(){

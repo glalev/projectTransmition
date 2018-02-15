@@ -29,6 +29,8 @@ class Game extends PIXI.Container {
     this.gameObjects = {};
 
     this.addChild(this._bg, this._gameObjectsContainer);
+
+    window.rumble = this.rumble.bind(this);
   }
 
   update() {
@@ -44,11 +46,11 @@ class Game extends PIXI.Container {
     }
   }
 
-  rumble(strength, duration, ease){
+  rumble(strengthX, strengthY, duration, ease){
     let dummy = {val:1};
     TweenMax.to(dummy, duration, {val: 0, ease: ease || Power0.easeNone, onUpdate: ()=>{
-      this.x = Math.random() * strength * dummy.val;
-      this.y = Math.random() * strength * dummy.val;
+      this.x = Math.random() * strengthX * dummy.val;
+      this.y = Math.random() * strengthY * dummy.val;
     }});
   }
 
@@ -121,3 +123,4 @@ class Game extends PIXI.Container {
 }
 
 module.exports = Game;
+

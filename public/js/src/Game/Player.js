@@ -10,16 +10,17 @@ class Player extends GameObject {
         super(uniqueId);
 
         let config = {
-            startDir: 3
+            startDir: 18
         };
 
-        this.body = new RotatingSprite(Assets.spriteSheets.vehicles1.slice(16, 24), config);
+        this.body = new RotatingSprite(Assets.spritesheets.top1.array, config);
         this.body.anchor.set(0.5,0.5);
-        this.body.y -= 25;
+        this.body.y -= 20;
 
         this.legs = new LegSystem();
         this.legs.on("STEP", ()=>{
-            Assets.sounds.step0.volume(0.5).play();
+            rumble(0,1,1);
+            Assets.sounds.step0.volume(0.05).play();
         });
 
         this.addChild(this.legs, this.body);

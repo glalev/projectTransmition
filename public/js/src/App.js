@@ -54,14 +54,18 @@ class App {
       const loader = new PIXI.loaders.Loader();
 
       manifest.images.forEach( image  => loader.add(image.id, image.src));
+      manifest.spritesheets.forEach( spritesheet  => loader.add(spritesheet.id, spritesheet.src));
       loader.load((loader, resources) => {
-      	manifest.images.forEach(image => {
-			Assets.images[image.id] = resources[image.id].texture;
-		});
+        manifest.images.forEach(image => {
+    			Assets.images[image.id] = resources[image.id].texture;
+    		});
 
-        manifest.spriteSheets.forEach(spriteSheet => {
-            this.extractSpriteSheetFrames(Assets.images[spriteSheet.id], spriteSheet);
+        manifest.spritesheets.forEach(spritesheet => {
+          console.warn(resources[spritesheet.id]);
+          resources[spritesheet.id].array = _.map(resources[spritesheet.id].textures, (texture)=>{return texture}) 
+          Assets.spritesheets[spritesheet.id] = resources[spritesheet.id];
         });
+
         console.log('loading complete');
         resolve();
       });

@@ -10,17 +10,19 @@ class LegSystem extends PIXI.Container {
     this.config = [{
         startDir: 3,
         id:0,
-        walkDuration: 1,
+        walkDuration: 0.5,
         walkHeight: 6,
         walkDistance: 15,
+        images: Assets.spritesheets.legL1.array,
         offset: {x:10, y: 0},
         linkedLegs:[1]
     },{
         startDir: 3,
         id:1,
-        walkDuration: 1,
+        walkDuration: 0.5,
         walkHeight: 6,
         walkDistance: 15,
+        images: Assets.spritesheets.legR1.array,
         offset: {x:-10, y: 0},
         linkedLegs:[0]
     }];
@@ -31,7 +33,7 @@ class LegSystem extends PIXI.Container {
     this.legs = [];
 
     _.each(this.config, (legConfig)=>{
-        let leg = new Leg(Assets.spriteSheets.vehicles1.slice(0, 8), legConfig);
+        let leg = new Leg(legConfig.images, legConfig);
 
         leg.on("MOVETOFRONT_END", ()=>{
             this.emit("STEP");
@@ -43,8 +45,8 @@ class LegSystem extends PIXI.Container {
 
     this.lastLegId = 0;
 
-    this.centerPiece = new RotatingSprite(Assets.spriteSheets.vehicles1.slice(0, 8), {startDir: 3});
-    this.centerPiece.y = -20;
+    this.centerPiece = new RotatingSprite(Assets.spritesheets.bottom1.array, {startDir: 11});
+    this.centerPiece.y = -15;
     this.centerPiece.anchor.set(0.5,0.5);
     this.addChild(this.centerPiece);
 

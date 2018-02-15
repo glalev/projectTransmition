@@ -14,8 +14,11 @@ module.exports = {
       { id: 'vehicles1', name: 'vehicles1', src: './assets/Images/vehicles1.png'},
     //{ id: 'fgImg', name: 'foreground', src: './assets/Images/scene.png' },
     ],
-    spriteSheets: [
-        { id: 'vehicles1', cellX: 32, cellY: 32, paddingX: 0, paddingY: 0, rowCount: 8, columnCount:8},
+  spritesheets: [
+        { id: 'top1', name: 'top1', src: './assets/spritesheets/top1.json'},
+        { id: 'bottom1', name: 'bottom1', src: './assets/spritesheets/bottom1.json'},
+        { id: 'legR1', name: 'legR1', src: './assets/spritesheets/legR1.json'},
+        { id: 'legL1', name: 'legL1', src: './assets/spritesheets/legL1.json'},
     ]
 
 }
