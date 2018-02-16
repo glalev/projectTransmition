@@ -1,18 +1,20 @@
 const _ = require('underscore');
 const EventEmitter = require('eventemitter3');
+const cfg = require("./Config.js");
 
 const app = require('express')();
 const serveStatic = require('serve-static');
 let io = null;
 
 const GameLoop = require('node-gameloop');
+const AWSManager = require("./AWSManager.js");
 const Player = require("./NetworkPlayer.js");
 const Game = require("./Game.js");
-const cfg = require("./Config.js");
 
 global._ = _;
 global.playerList = [];
 global.gameList = [];
+global.awsMan = new AWSManager();
 
 init();
 function init(){
@@ -35,10 +37,23 @@ function init(){
 
 io.on('connection', function(socket){
     console.log(Date.now()+': User is connecting...');
-    socket.emit("connected");
+
     socket.on('loginData', (data)=>{
         console.log(Date.now()+': '+data.username+' has connected');
-        initializeUser(data.username, socket);
+        global.awsMan.login(data.username, data.password).then((loginSuccesfull)=>{
+            if(!loginSuccesfull) return socket.emit("loginFail");
+            socket.emit("loginSuccess");
+            initializeUser(data.username, socket);
+        });
+    });
+
+    socket.on('registerData', (data)=>{
+        console.log(Date.now()+': '+data.username+' has registered');
+        global.awsMan.login(data.username, data.password, data.email).then((registerData)=>{
+            if(registerData.ERROR) return socket.emit("registerFail", registerData);
+            socket.emit("registerSuccess");
+            global.awsMan.createUser(data.username, data.password, data.email);
+        });
     });
 });
 
@@ -56,6 +71,7 @@ function initializePlayerListeners(player, socket){
         for(let i = player.id; i < global.playerList.length; i++){
             global.playerList[i].id--;
         };
+        global.awsMan.logout(player.name);
     });
 };
 

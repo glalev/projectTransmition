@@ -1,15 +1,25 @@
-body {
-    background-color: black;
+html,body {
+    background-color: grey;
+    overflow: hidden;
 }
 
-#container{
-  width: 1280px;
-  height: 720px;
-  position: absolute;
-  margin: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+.main{
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin:auto;
+    width: 80%;
+    height: 80%;
+    max-width: 1280px;
+    max-height: 720px
+}
 
+.gameCanvas{
+    position: relative;
+    margin:auto;
+    object-fit: contain;
+    width:100%;
+    height:100%;
 }

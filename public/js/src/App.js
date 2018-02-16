@@ -1,4 +1,5 @@
 const Misc = require('./Misc.js');
+const cfg = require('./Config.js');
 const PIXI = require('pixi.js');
 const _ = require('underscore');
 const { Howl } = require('howler');
@@ -11,16 +12,19 @@ const manifest = require('../data/manifest');
 
 class App {
   constructor(view) {
-    this.WIDTH = 1280;
-    this.HEIGHT = 720;
+    this.WIDTH = cfg.gameSize.width;
+    this.HEIGHT = cfg.gameSize.height;
     this.stage = new PIXI.Container();
     this.renderer = PIXI.autoDetectRenderer( { width: this.WIDTH, height: this.HEIGHT } );
+    this.renderer.view.classList.add("gameCanvas");
     this.view = view;
+
+    window.onresize = this.onResize.bind(this);
 
     this.view.appendChild(this.renderer.view);
     PIXI.ticker.shared.add(this.update, this);
 
-    this.comunicator = new ServerCommunication();
+    this.communicator = new ServerCommunication();
     let loading = PIXI.Sprite.fromImage('./assets/Images/loadingBar.png');
     loading.pivot.x = 130;
     loading.pivot.y = 130;
@@ -30,7 +34,7 @@ class App {
     this.stage.addChild(loading);
 
     this.load()
-      .then(() => this.comunicator.connect())
+      .then(() => this.communicator.connect())
       .then(() => {
         this.stage.removeChildren();
         this.splash = new Splash();
@@ -39,7 +43,7 @@ class App {
       })
       .then(()=> {
         this.stage.removeChild(this.splash);
-        this.game = new Game(this.comunicator);
+        this.game = new Game(this.communicator);
         this.stage.addChild(this.game);
     });
   }
@@ -57,12 +61,11 @@ class App {
       manifest.spritesheets.forEach( spritesheet  => loader.add(spritesheet.id, spritesheet.src));
       loader.load((loader, resources) => {
         manifest.images.forEach(image => {
-    			Assets.images[image.id] = resources[image.id].texture;
-    		});
+    		Assets.images[image.id] = resources[image.id].texture;
+    	});
 
         manifest.spritesheets.forEach(spritesheet => {
-          console.warn(resources[spritesheet.id]);
-          resources[spritesheet.id].array = _.map(resources[spritesheet.id].textures, (texture)=>{return texture}) 
+          resources[spritesheet.id].array = _.map(resources[spritesheet.id].textures, (texture)=>{return texture})
           Assets.spritesheets[spritesheet.id] = resources[spritesheet.id];
         });
 
@@ -72,21 +75,8 @@ class App {
      });
   }
 
-  extractSpriteSheetFrames(image, data){
-      let imgArray = [];
-      _.times(data.rowCount, (y)=>{
-          _.times(data.columnCount, (x)=>{
-              imgArray.push(new PIXI.Texture(image,
-                  new PIXI.Rectangle(
-                      (data.cellX*x)+data.paddingX,
-                      (data.cellY*y)+data.paddingY,
-                      data.cellX, data.cellY)
-                  )
-              );
-          });
-      });
-
-      Assets.spriteSheets[data.id] = imgArray;
+  onResize(e){
+      return; //Do nothing.
   }
 
   update(e) {
